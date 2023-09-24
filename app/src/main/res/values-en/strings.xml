@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Playlist Maker</string>
+    <string name="main_search_btn">Search</string>
+    <string name="main_media_library_btn">Media library</string>
+    <string name="main_settings_btn">Settings</string>
+</resources>
