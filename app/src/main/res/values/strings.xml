@@ -3,4 +3,8 @@
     <string name="main_search_btn">Поиск</string>
     <string name="main_media_library_btn">Медиатека</string>
     <string name="main_settings_btn">Настройки</string>
+    <string name="settings_theme_text">Темная тема</string>
+    <string name="settings_share_app_text">Поделиться приложением</string>
+    <string name="settings_write_to_support_text">Написать в поддержку</string>
+    <string name="settings_terms_of_use_text">Пользовательское соглашение</string>
 </resources>

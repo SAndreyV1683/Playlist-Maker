@@ -4,4 +4,8 @@
     <string name="main_search_btn">Search</string>
     <string name="main_media_library_btn">Media library</string>
     <string name="main_settings_btn">Settings</string>
+    <string name="settings_theme_text">Dark theme</string>
+    <string name="settings_share_app_text">Share app</string>
+    <string name="settings_write_to_support_text">Write to support</string>
+    <string name="settings_terms_of_use_text">Terms of use</string>
 </resources>
