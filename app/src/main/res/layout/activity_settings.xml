@@ -25,6 +25,7 @@
             android:layout_marginBottom="@dimen/medium_padding"
             android:text="@string/main_settings_btn"
             android:textSize="@dimen/large_text_size"
+            android:textColor="@color/YP_Black"
             android:textStyle="normal"/>
     </LinearLayout>
 
@@ -44,6 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="@string/settings_theme_text"
+                android:textColor="@color/YP_Black"
                 android:textSize="@dimen/small_text_size"/>
 
             <androidx.appcompat.widget.SwitchCompat
@@ -66,6 +68,7 @@
                 android:layout_marginTop="@dimen/large_padding"
                 android:layout_marginBottom="@dimen/large_padding"
                 android:text="@string/settings_share_app_text"
+                android:textColor="@color/YP_Black"
                 android:textSize="@dimen/small_text_size"
                 android:layout_gravity="center_vertical"/>
 
@@ -88,6 +91,7 @@
                 android:layout_marginTop="@dimen/large_padding"
                 android:layout_marginBottom="@dimen/large_padding"
                 android:text="@string/settings_write_to_support_text"
+                android:textColor="@color/YP_Black"
                 android:textSize="@dimen/small_text_size"
                 android:layout_gravity="center_vertical"/>
 
@@ -110,6 +114,7 @@
                 android:layout_marginTop="@dimen/large_padding"
                 android:layout_marginBottom="@dimen/large_padding"
                 android:text="@string/settings_terms_of_use_text"
+                android:textColor="@color/YP_Black"
                 android:textSize="@dimen/small_text_size"
                 android:layout_gravity="center_vertical"/>
 
