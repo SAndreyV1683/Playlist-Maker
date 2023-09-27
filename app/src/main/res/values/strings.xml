@@ -7,4 +7,7 @@
     <string name="settings_share_app_text">Поделиться приложением</string>
     <string name="settings_write_to_support_text">Написать в поддержку</string>
     <string name="settings_terms_of_use_text">Пользовательское соглашение</string>
+    <string name="main_search_btn_toast_text">Нажата кнопка поиска</string>
+    <string name="main_library_btn_toast_text">Нажата кнопка библиотеки</string>
+    <string name="main_settings_btn_toast_text">scdcd</string>
 </resources>

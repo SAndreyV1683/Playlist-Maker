@@ -8,4 +8,7 @@
     <string name="settings_share_app_text">Share app</string>
     <string name="settings_write_to_support_text">Write to support</string>
     <string name="settings_terms_of_use_text">Terms of use</string>
+    <string name="main_search_btn_toast_text">Search button clicked</string>
+    <string name="main_library_btn_toast_text">Library button clicked</string>
+    <string name="main_settings_btn_toast_text">Settings button clicked</string>
 </resources>

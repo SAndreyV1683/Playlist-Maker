@@ -34,6 +34,7 @@
         android:orientation="vertical">
 
         <Button
+            android:id="@+id/search_btn"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -42,6 +43,7 @@
             android:text="@string/main_search_btn"
             android:textColor="@color/YP_Black"
             android:textSize="@dimen/large_text_size"
+            android:foreground="?attr/selectableItemBackground"
             app:cornerRadius="@dimen/medium_padding"
             app:icon="@drawable/ic_search"
             app:iconGravity="textStart"
@@ -49,6 +51,7 @@
             app:iconTint="@color/YP_Black"/>
 
         <Button
+            android:id="@+id/library_btn"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -64,6 +67,7 @@
             app:iconTint="@color/YP_Black"/>
 
         <Button
+            android:id="@+id/settings_btn"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
