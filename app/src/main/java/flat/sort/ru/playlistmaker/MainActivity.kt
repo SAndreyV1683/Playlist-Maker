@@ -15,21 +15,20 @@ class MainActivity : AppCompatActivity() {
         val settingButton = findViewById<Button>(R.id.settings_btn)
         val searchBtnClickListener = object : View.OnClickListener {
             override fun onClick(v: View?) {
-                //Toast.makeText(this@MainActivity, getString(R.string.main_search_btn_toast_text), Toast.LENGTH_SHORT).show()
                 val searchIntent = Intent(this@MainActivity, SearchActivity::class.java)
                 startActivity(searchIntent)
             }
         }
         searchButton.setOnClickListener(searchBtnClickListener)
         libraryButton.setOnClickListener {
-            //Toast.makeText(this@MainActivity, getString(R.string.main_library_btn_toast_text), Toast.LENGTH_SHORT).show()
             val libraryIntent = Intent(this@MainActivity, LibraryActivity::class.java)
             startActivity(libraryIntent)
         }
         settingButton.setOnClickListener {
-            //Toast.makeText(this@MainActivity, getString(R.string.main_settings_btn_toast_text), Toast.LENGTH_SHORT).show()
             val settingsIntent = Intent(this@MainActivity, SettingsActivity::class.java)
             startActivity(settingsIntent)
         }
     }
+
+
 }

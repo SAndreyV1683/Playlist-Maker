@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/YP_White"
+    android:background="@color/white"
     tools:context=".SettingsActivity">
 
     <LinearLayout
@@ -28,7 +28,7 @@
             android:layout_marginBottom="@dimen/medium_padding"
             android:text="@string/main_settings_btn"
             android:textSize="@dimen/large_text_size"
-            android:textColor="@color/YP_Black"
+            android:textColor="@color/black"
             android:textStyle="normal"/>
     </LinearLayout>
 
@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="@string/settings_theme_text"
-                android:textColor="@color/YP_Black"
+                android:textColor="@color/black"
                 android:textSize="@dimen/small_text_size"/>
 
             <androidx.appcompat.widget.SwitchCompat
@@ -57,8 +57,8 @@
                 android:layout_marginBottom="11dp"
                 android:layout_marginTop="11dp"
                 android:layout_gravity="end"
-                app:trackTint="@color/YP_Light_Gray"
-                app:thumbTint="@color/YP_Text_Gray"/>
+                app:trackTint="@color/light_gray"
+                app:thumbTint="@color/text_gray"/>
         </FrameLayout>
 
         <FrameLayout
@@ -71,7 +71,7 @@
                 android:layout_marginTop="@dimen/large_padding"
                 android:layout_marginBottom="@dimen/large_padding"
                 android:text="@string/settings_share_app_text"
-                android:textColor="@color/YP_Black"
+                android:textColor="@color/black"
                 android:textSize="@dimen/small_text_size"
                 android:layout_gravity="center_vertical"/>
 
@@ -94,7 +94,7 @@
                 android:layout_marginTop="@dimen/large_padding"
                 android:layout_marginBottom="@dimen/large_padding"
                 android:text="@string/settings_write_to_support_text"
-                android:textColor="@color/YP_Black"
+                android:textColor="@color/black"
                 android:textSize="@dimen/small_text_size"
                 android:layout_gravity="center_vertical"/>
 
@@ -117,7 +117,7 @@
                 android:layout_marginTop="@dimen/large_padding"
                 android:layout_marginBottom="@dimen/large_padding"
                 android:text="@string/settings_terms_of_use_text"
-                android:textColor="@color/YP_Black"
+                android:textColor="@color/black"
                 android:textSize="@dimen/small_text_size"
                 android:layout_gravity="center_vertical"/>
 
