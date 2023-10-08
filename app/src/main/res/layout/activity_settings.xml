@@ -5,31 +5,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/white"
-    tools:context=".SettingsActivity">
+    tools:context=".SettingsActivity"
+    style="@style/SettingsScreenBackgroundStyle">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginVertical="4dp"
         android:orientation="horizontal">
 
-        <ImageView
+        <ImageView style="@style/SettingsScreenBackgroundStyle"
             android:id="@+id/arrow_back"
             android:layout_width="@dimen/icon_size"
             android:layout_height="@dimen/icon_size"
-            android:layout_margin="@dimen/medium_padding"
+            android:layout_margin="@dimen/small_padding"
             android:src="@drawable/ic_arrow_back"/>
 
-        <TextView
+        <TextView style="@style/SettingsScreenTitleTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginStart="@dimen/medium_padding"
             android:layout_marginBottom="@dimen/medium_padding"
-            android:text="@string/main_settings_btn"
-            android:textSize="@dimen/large_text_size"
-            android:textColor="@color/black"
-            android:textStyle="normal"/>
+            android:text="@string/main_settings_btn" />
     </LinearLayout>
 
     <LinearLayout
@@ -43,91 +42,49 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="@string/settings_theme_text"
-                android:textColor="@color/black"
-                android:textSize="@dimen/small_text_size"/>
+            <TextView style="@style/SettingsScreenMenuTextStyle"
+                android:text="@string/settings_theme_text"/>
 
-            <androidx.appcompat.widget.SwitchCompat
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="11dp"
-                android:layout_marginTop="11dp"
-                android:layout_gravity="end"
-                app:trackTint="@color/light_gray"
-                app:thumbTint="@color/text_gray"/>
+            <androidx.appcompat.widget.SwitchCompat style="@style/SettingsScreenSwitchStyle"
+                android:layout_marginVertical="11dp"
+                android:layout_gravity="end"/>
+
         </FrameLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/large_padding"
-                android:layout_marginBottom="@dimen/large_padding"
-                android:text="@string/settings_share_app_text"
-                android:textColor="@color/black"
-                android:textSize="@dimen/small_text_size"
-                android:layout_gravity="center_vertical"/>
+            <TextView style="@style/SettingsScreenMenuTextStyle"
+                android:text="@string/settings_share_app_text"/>
 
-            <ImageView
-                android:layout_width="@dimen/icon_size"
-                android:layout_height="@dimen/icon_size"
-                android:layout_marginTop="@dimen/large_padding"
-                android:layout_marginBottom="@dimen/large_padding"
-                android:layout_gravity="end"
+            <ImageView style="@style/SettingsScreenMenuIconsStyle"
                 android:src="@drawable/ic_share"/>
+
         </FrameLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/large_padding"
-                android:layout_marginBottom="@dimen/large_padding"
-                android:text="@string/settings_write_to_support_text"
-                android:textColor="@color/black"
-                android:textSize="@dimen/small_text_size"
-                android:layout_gravity="center_vertical"/>
+            <TextView style="@style/SettingsScreenMenuTextStyle"
+                android:text="@string/settings_write_to_support_text"/>
 
-            <ImageView
-                android:layout_width="@dimen/icon_size"
-                android:layout_height="@dimen/icon_size"
-                android:layout_marginTop="@dimen/large_padding"
-                android:layout_marginBottom="@dimen/large_padding"
-                android:layout_gravity="end"
+            <ImageView style="@style/SettingsScreenMenuIconsStyle"
                 android:src="@drawable/ic_support_light"/>
+
         </FrameLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/large_padding"
-                android:layout_marginBottom="@dimen/large_padding"
-                android:text="@string/settings_terms_of_use_text"
-                android:textColor="@color/black"
-                android:textSize="@dimen/small_text_size"
-                android:layout_gravity="center_vertical"/>
+            <TextView style="@style/SettingsScreenMenuTextStyle"
+                android:text="@string/settings_terms_of_use_text"/>
 
-            <ImageView
-                android:layout_width="@dimen/icon_size"
-                android:layout_height="@dimen/icon_size"
-                android:layout_marginTop="@dimen/large_padding"
-                android:layout_marginBottom="@dimen/large_padding"
-                android:layout_gravity="end"
+            <ImageView style="@style/SettingsScreenMenuIconsStyle"
                 android:src="@drawable/ic_arrow_forward"/>
+
         </FrameLayout>
 
 
