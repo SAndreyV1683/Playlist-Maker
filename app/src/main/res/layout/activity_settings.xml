@@ -52,6 +52,7 @@
         </FrameLayout>
 
         <FrameLayout
+            android:id="@+id/share_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -64,6 +65,7 @@
         </FrameLayout>
 
         <FrameLayout
+            android:id="@+id/write_to_support_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -76,6 +78,7 @@
         </FrameLayout>
 
         <FrameLayout
+            android:id="@+id/terms_of_use_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

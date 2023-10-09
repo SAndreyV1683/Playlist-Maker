@@ -10,4 +10,9 @@
     <string name="main_search_btn_toast_text">Нажата кнопка поиска</string>
     <string name="main_library_btn_toast_text">Нажата кнопка библиотеки</string>
     <string name="main_settings_btn_toast_text">scdcd</string>
+    <string name="extra_text_for_send" translatable="false">https://practicum.yandex.ru/profile/android-developer/</string>
+    <string name="extra_mail" translatable="false">ya.sboevandrey@yandex.ru</string>
+    <string name="extra_subject" translatable="false">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
+    <string name="extra_text" translatable="false">Спасибо разработчикам и разработчицам за крутое приложение!</string>
+    <string name="practicum_offer_uri" translatable="false">https://yandex.ru/legal/practicum_offer/</string>
 </resources>
