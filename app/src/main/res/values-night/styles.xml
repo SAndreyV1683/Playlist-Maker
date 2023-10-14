@@ -45,6 +45,15 @@
         <item name="tint">@color/white</item>
     </style>
 
+    <style name="SearchScreenSearchEditTextStyle">
+        <item name="android:background">@color/white</item>
+        <item name="android:textColorHint">@color/black</item>
+    </style>
+
+    <style name="SearchScreenClearIconStyle">
+        <item name="android:tint">@color/black</item>
+    </style>
+
 
 
 </resources>

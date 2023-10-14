@@ -31,14 +31,14 @@
     </LinearLayout>
 
 
-    <LinearLayout
+    <LinearLayout style="@style/SearchScreenSearchEditTextStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginVertical="@dimen/icon_padding"
         android:layout_marginHorizontal="@dimen/medium_padding">
 
-        <EditText
+        <EditText style="@style/SearchScreenSearchEditTextStyle"
             android:id="@+id/search_edit_text"
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -47,7 +47,7 @@
             android:inputType="text"
             android:hint="@string/main_search_btn"/>
 
-        <ImageView
+        <ImageView style="@style/SearchScreenClearIconStyle"
             android:id="@+id/clear_text_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
