@@ -10,8 +10,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginVertical="4dp"
+        android:layout_marginStart="@dimen/four_dp"
+        android:layout_marginVertical="@dimen/four_dp"
         android:orientation="horizontal">
 
         <ImageView style="@style/SettingsScreenBackgroundStyle"
@@ -45,6 +45,12 @@
             android:layout_height="52dp"
             android:maxLines="1"
             android:inputType="text"
+            android:drawableStart="@drawable/ic_search"
+            android:paddingStart="14dp"
+            android:paddingEnd="@dimen/four_dp"
+            android:drawablePadding="@dimen/four_dp"
+            android:textCursorDrawable="@drawable/cursor_drawable"
+            android:textSize="16sp"
             android:hint="@string/main_search_btn"/>
 
         <ImageView style="@style/SearchScreenClearIconStyle"
@@ -52,6 +58,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:paddingEnd="@dimen/four_dp"
+            android:paddingStart="@dimen/four_dp"
             android:src="@drawable/ic_close"/>
     </LinearLayout>
 

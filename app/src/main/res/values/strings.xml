@@ -15,4 +15,5 @@
     <string name="extra_subject" translatable="false">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
     <string name="extra_text" translatable="false">Спасибо разработчикам и разработчицам за крутое приложение!</string>
     <string name="practicum_offer_uri" translatable="false">https://yandex.ru/legal/practicum_offer/</string>
+    <string name="edittext_hint"><font size="15" weight="400">Поиск</font></string>
 </resources>

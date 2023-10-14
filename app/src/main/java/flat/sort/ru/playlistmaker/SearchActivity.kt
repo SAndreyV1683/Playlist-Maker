@@ -1,6 +1,7 @@
 package flat.sort.ru.playlistmaker
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -9,6 +10,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
+import androidx.appcompat.content.res.AppCompatResources
 
 class SearchActivity : AppCompatActivity() {
 
@@ -37,6 +39,11 @@ class SearchActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 clearButton.visibility = clearButtonVisibility(s)
                 editTextStr = s.toString()
+                val mDrawable: Drawable = AppCompatResources.getDrawable(this@SearchActivity, R.drawable.ic_search)!!
+                if (s.isNullOrEmpty())
+                    searchEditText?.setCompoundDrawablesWithIntrinsicBounds(mDrawable, null, null, null)
+                else
+                    searchEditText?.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
             }
 
             override fun afterTextChanged(s: Editable?) {

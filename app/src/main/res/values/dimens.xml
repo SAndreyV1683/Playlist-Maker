@@ -7,5 +7,5 @@
     <dimen name="icon_size">24dp</dimen>
     <dimen name="large_text_size">22sp</dimen>
     <dimen name="small_text_size">16sp</dimen>
-
+    <dimen name="four_dp">4dp</dimen>
 </resources>
