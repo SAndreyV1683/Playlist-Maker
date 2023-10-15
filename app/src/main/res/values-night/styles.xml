@@ -54,6 +54,8 @@
 
     <style name="SearchScreenClearIconStyle">
         <item name="android:tint">@color/black</item>
+        <item name="android:paddingVertical">@dimen/ten_dp</item>
+        <item name="android:paddingHorizontal">@dimen/small_padding</item>
     </style>
 
 

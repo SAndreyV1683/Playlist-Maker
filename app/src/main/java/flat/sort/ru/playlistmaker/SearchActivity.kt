@@ -39,11 +39,6 @@ class SearchActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 clearButton.visibility = clearButtonVisibility(s)
                 editTextStr = s.toString()
-                val mDrawable: Drawable = AppCompatResources.getDrawable(this@SearchActivity, R.drawable.ic_search)!!
-                if (s.isNullOrEmpty())
-                    searchEditText?.setCompoundDrawablesWithIntrinsicBounds(mDrawable, null, null, null)
-                else
-                    searchEditText?.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
             }
 
             override fun afterTextChanged(s: Editable?) {
