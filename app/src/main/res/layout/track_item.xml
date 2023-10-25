@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    style="@style/SettingsScreenBackgroundStyle">
+
+    <ImageView
+        android:layout_width="@dimen/_45dp"
+        android:layout_height="@dimen/_45dp"
+        android:src="@drawable/ic_placeholder"
+        android:layout_marginStart="@dimen/_13dp"
+        android:layout_marginEnd="@dimen/icon_padding"
+        android:layout_marginVertical="@dimen/icon_padding"
+        android:scaleType="centerCrop"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/track_name"
+            tools:text="Smells Like Teen Spirit"
+            style="@style/track_item_track_text_style" />
+
+        <TextView
+            android:id="@+id/singer_name"
+            tools:text="Nirvana"
+            style="@style/track_item_singer_text_style"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:src="@drawable/ic_arrow_forward"
+        style="@style/item_forward_image_style" />
+
+
+</LinearLayout>
