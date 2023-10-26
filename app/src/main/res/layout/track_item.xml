@@ -6,7 +6,10 @@
     android:layout_height="wrap_content"
     style="@style/SettingsScreenBackgroundStyle">
 
+
+
     <ImageView
+        android:id="@+id/album_image"
         android:layout_width="@dimen/_45dp"
         android:layout_height="@dimen/_45dp"
         android:src="@drawable/ic_placeholder"
@@ -26,17 +29,33 @@
             android:id="@+id/track_name"
             tools:text="Smells Like Teen Spirit"
             style="@style/track_item_track_text_style" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/singer_name"
-            tools:text="Nirvana"
-            style="@style/track_item_singer_text_style"/>
+            <TextView
+                android:id="@+id/singer_name"
+                tools:text="Nirvana"
+                style="@style/track_item_singer_text_style"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_deliver"
+                style="@style/track_item_ic_deliver_style"/>
+
+            <TextView
+                android:id="@+id/track_duration"
+                tools:text="4:10"
+                style="@style/track_item_singer_text_style"/>
+        </LinearLayout>
 
     </LinearLayout>
 
     <ImageView
         android:src="@drawable/ic_arrow_forward"
-        style="@style/item_forward_image_style" />
+        style="@style/track_item_forward_image_style" />
 
 
 </LinearLayout>
