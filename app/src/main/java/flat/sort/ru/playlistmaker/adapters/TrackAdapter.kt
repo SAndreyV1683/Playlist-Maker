@@ -12,9 +12,7 @@ class TrackAdapter(private val tracks: ArrayList<Track>): RecyclerView.Adapter<T
         return TracksViewHolder(view)
     }
 
-    override fun getItemCount(): Int {
-        return tracks.size
-    }
+    override fun getItemCount(): Int = tracks.size
 
     override fun onBindViewHolder(holder: TracksViewHolder, position: Int) {
         holder.bind(tracks[position])

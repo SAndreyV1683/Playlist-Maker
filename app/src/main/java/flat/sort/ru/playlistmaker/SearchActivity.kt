@@ -17,8 +17,7 @@ import flat.sort.ru.playlistmaker.models.Track
 class SearchActivity : AppCompatActivity() {
 
     companion object {
-        const val SAVED_STRING_KEY = "SAVED_STRING_KEY"
-        const val DEF_STRING = ""
+        private const val SAVED_STRING_KEY = "SAVED_STRING_KEY"
     }
 
     private var editTextStr = ""
@@ -86,7 +85,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        editTextStr = savedInstanceState.getString(SAVED_STRING_KEY, DEF_STRING)
+        editTextStr = savedInstanceState.getString(SAVED_STRING_KEY, "")
         searchEditText?.setText(editTextStr)
         super.onRestoreInstanceState(savedInstanceState)
     }
