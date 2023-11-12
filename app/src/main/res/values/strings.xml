@@ -16,4 +16,7 @@
     <string name="extra_text" translatable="false">Спасибо разработчикам и разработчицам за крутое приложение!</string>
     <string name="practicum_offer_uri" translatable="false">https://yandex.ru/legal/practicum_offer/</string>
     <string name="edittext_hint"><font size="15" weight="400">Поиск</font></string>
+    <string name="refresh_button_text">Обновить</string>
+    <string name="nothing_found_text">Ничего не нашлось</string>
+    <string name="communication_problems">Проблемы со связью\n\nЗагрузка не удалась. Проверьте\nподключение к интернету</string>
 </resources>

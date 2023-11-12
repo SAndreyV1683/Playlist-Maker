@@ -11,4 +11,8 @@
     <string name="main_search_btn_toast_text">Search button clicked</string>
     <string name="main_library_btn_toast_text">Library button clicked</string>
     <string name="main_settings_btn_toast_text">Settings button clicked</string>
+    <string name="edittext_hint"><font size="15" weight="400">Поиск</font></string>
+    <string name="refresh_button_text">Refresh</string>
+    <string name="nothing_found_text">Nothing found</string>
+    <string name="communication_problems">Communication problems\n\nDownload failed. Check\n your internet connection</string>
 </resources>
