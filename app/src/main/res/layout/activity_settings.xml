@@ -45,7 +45,8 @@
             <TextView style="@style/SettingsScreenMenuTextStyle"
                 android:text="@string/settings_theme_text"/>
 
-            <androidx.appcompat.widget.SwitchCompat style="@style/SettingsScreenSwitchStyle"
+            <com.google.android.material.switchmaterial.SwitchMaterial style="@style/SettingsScreenSwitchStyle"
+                android:id="@+id/themeSwitcher"
                 android:layout_marginVertical="11dp"
                 android:layout_gravity="end"/>
 
