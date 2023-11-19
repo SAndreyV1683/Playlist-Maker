@@ -38,15 +38,33 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var searchEditText: EditText
     private val iTunesService: ITunesApiService = ITunesApi.retrofitService
     private val populateList = mutableListOf<Track>()
-    private val adapter = TrackAdapter()
+    private val searchHistoryList = mutableListOf<Track>()
+    private lateinit var searchHistory: SearchHistory
+    private val onClick: TrackAdapter.OnItemClickListener = TrackAdapter.OnItemClickListener { track ->
+        if (searchHistoryList.contains(track)) {
+            searchHistoryList.remove(track)
+            searchHistoryList.add(0, track)
+        } else if (searchHistoryList.size == 10) {
+            searchHistoryList.removeAt(searchHistoryList.lastIndex)
+            searchHistoryList.add(0, track)
+        } else {
+            searchHistoryList.add(0, track)
+        }
+        searchHistory.write(searchHistoryList)
+    }
+    private val adapter = TrackAdapter(onClick)
     private lateinit var errorImage: ImageView
     private lateinit var errorText: TextView
     private lateinit var refreshButton: Button
     private lateinit var errorLayout: LinearLayout
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
         Log.d(SearchActivity::class.simpleName, "theme is night ${isNightMode(this)}")
+        searchHistory = SearchHistory((application as App).sharedPreferences)
+        searchHistoryList.addAll(searchHistory.read())
+
         errorImage = findViewById(R.id.error_image)
         errorText = findViewById(R.id.error_text)
         refreshButton = findViewById(R.id.refresh_button)

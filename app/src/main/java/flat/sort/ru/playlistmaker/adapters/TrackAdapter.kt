@@ -6,7 +6,14 @@ import androidx.recyclerview.widget.RecyclerView
 import flat.sort.ru.playlistmaker.R
 import flat.sort.ru.playlistmaker.models.Track
 
-class TrackAdapter: RecyclerView.Adapter<TracksViewHolder>()  {
+class TrackAdapter(
+    private val onItemClickListener: OnItemClickListener
+): RecyclerView.Adapter<TracksViewHolder>()  {
+
+
+    fun interface OnItemClickListener {
+        fun onClick(track: Track)
+    }
 
     var tracks = mutableListOf<Track>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TracksViewHolder {
@@ -22,5 +29,6 @@ class TrackAdapter: RecyclerView.Adapter<TracksViewHolder>()  {
 
     override fun onBindViewHolder(holder: TracksViewHolder, position: Int) {
         holder.bind(tracks[position])
+        onItemClickListener.onClick(tracks[position])
     }
 }

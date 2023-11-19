@@ -1,6 +1,7 @@
 package flat.sort.ru.playlistmaker.models
 
 data class Track(
+    val trackId: Long,
     val trackName: String,
     val artistName: String,
     val trackTimeMillis: Long,

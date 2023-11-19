@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
 class App: Application() {
 
     var darkTheme = false
-    private  lateinit var sharedPreferences: SharedPreferences
+    lateinit var sharedPreferences: SharedPreferences
     override fun onCreate() {
         super.onCreate()
         sharedPreferences = getSharedPreferences(PLAY_LIST_MAKER_SHARED_PREFS, MODE_PRIVATE)
