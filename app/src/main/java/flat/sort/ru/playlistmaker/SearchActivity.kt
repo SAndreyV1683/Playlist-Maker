@@ -31,6 +31,7 @@ class SearchActivity : AppCompatActivity() {
 
     companion object {
         private const val SAVED_STRING_KEY = "SAVED_STRING_KEY"
+        private val TAG = SearchActivity::class.simpleName
     }
 
     private lateinit var recyclerView: RecyclerView
@@ -39,7 +40,8 @@ class SearchActivity : AppCompatActivity() {
     private val iTunesService: ITunesApiService = ITunesApi.retrofitService
     private val populateList = mutableListOf<Track>()
     private val searchHistoryList = mutableListOf<Track>()
-    private lateinit var searchHistory: SearchHistory
+    private val sharedPreferences = App.INSTANCE.sharedPreferences
+    private var searchHistory: SearchHistory = SearchHistory(sharedPreferences)
     private val onClick: TrackAdapter.OnItemClickListener = TrackAdapter.OnItemClickListener { track ->
         if (searchHistoryList.contains(track)) {
             searchHistoryList.remove(track)
@@ -51,24 +53,32 @@ class SearchActivity : AppCompatActivity() {
             searchHistoryList.add(0, track)
         }
         searchHistory.write(searchHistoryList)
+        Log.d(TAG, "searchHistoryList size ${searchHistoryList.size}")
     }
     private val adapter = TrackAdapter(onClick)
     private lateinit var errorImage: ImageView
     private lateinit var errorText: TextView
     private lateinit var refreshButton: Button
     private lateinit var errorLayout: LinearLayout
+    private lateinit var searchHistoryTitle: TextView
+    private lateinit var clearSearchHistoryBtn: Button
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
-        Log.d(SearchActivity::class.simpleName, "theme is night ${isNightMode(this)}")
-        searchHistory = SearchHistory((application as App).sharedPreferences)
-        searchHistoryList.addAll(searchHistory.read())
+        Log.d(TAG, "theme is night ${isNightMode(this)}")
+        sharedPreferences.registerOnSharedPreferenceChangeListener { _, _ ->
 
+        }
+
+        searchHistoryList.addAll(searchHistory.read())
         errorImage = findViewById(R.id.error_image)
         errorText = findViewById(R.id.error_text)
         refreshButton = findViewById(R.id.refresh_button)
         errorLayout = findViewById(R.id.error_layout)
+        searchHistoryTitle = findViewById(R.id.search_history_title)
+        clearSearchHistoryBtn = findViewById(R.id.clear_search_history_btn)
         val backButton = findViewById<ImageView>(R.id.arrow_back)
         backButton.setOnClickListener {
             super.onBackPressed()
@@ -87,6 +97,12 @@ class SearchActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 clearButton.visibility = clearButtonVisibility(s)
                 editTextStr = s.toString()
+                if (searchEditText.hasFocus() && editTextStr.isEmpty()) {
+                    adapter.tracks = searchHistoryList
+                    adapter.refresh()
+                    searchHistoryTitle.visibility = View.VISIBLE
+                    clearSearchHistoryBtn.visibility = View.VISIBLE
+                }
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -96,7 +112,14 @@ class SearchActivity : AppCompatActivity() {
 
         searchEditText = findViewById(R.id.search_edit_text)
         searchEditText.addTextChangedListener(textWatcher)
-
+        searchEditText.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus && editTextStr.isBlank()) {
+                adapter.tracks = searchHistoryList
+                adapter.refresh()
+                searchHistoryTitle.visibility = View.VISIBLE
+                clearSearchHistoryBtn.visibility = View.VISIBLE
+            }
+        }
         searchEditText.setText("")
         clearButton.setOnClickListener {
             searchEditText.setText("")
@@ -120,6 +143,8 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
+
+
     private fun clearButtonVisibility(s: CharSequence?): Int {
         return if (s.isNullOrEmpty()) {
             View.GONE
@@ -142,6 +167,8 @@ class SearchActivity : AppCompatActivity() {
     fun showErrorPlaceHolder(isError: Boolean) {
         recyclerView.visibility = View.GONE
         errorLayout.visibility = View.VISIBLE
+        searchHistoryTitle.visibility = View.GONE
+        clearSearchHistoryBtn.visibility = View.GONE
         if (isError) {
             if (isNightMode(this))
                 errorImage.setImageResource(R.drawable.ic_conn_error_dark_mode)
@@ -172,7 +199,10 @@ class SearchActivity : AppCompatActivity() {
                             errorLayout.visibility = View.GONE
                             populateList.clear()
                             populateList.addAll(response.body()?.results!!)
+                            adapter.tracks = populateList
                             adapter.refresh()
+                            searchHistoryTitle.visibility = View.GONE
+                            clearSearchHistoryBtn.visibility = View.GONE
                         } else {
                             showErrorPlaceHolder(false)
                         }

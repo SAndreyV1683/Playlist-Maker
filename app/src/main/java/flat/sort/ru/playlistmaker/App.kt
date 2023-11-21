@@ -8,6 +8,11 @@ import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
 
 class App: Application() {
 
+    companion object {
+        lateinit var INSTANCE: App
+        private val TAG = App::class.simpleName
+    }
+
     var darkTheme = false
     lateinit var sharedPreferences: SharedPreferences
     override fun onCreate() {
@@ -20,6 +25,7 @@ class App: Application() {
             darkTheme = sharedPreferences.getBoolean("isDarkTheme", darkTheme)
             switchTheme(darkTheme)
         }
+        INSTANCE = this
     }
 
     fun switchTheme(darkThemeEnabled: Boolean) {

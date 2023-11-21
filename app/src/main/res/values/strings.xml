@@ -19,4 +19,6 @@
     <string name="refresh_button_text">Обновить</string>
     <string name="nothing_found_text">Ничего не нашлось</string>
     <string name="communication_problems">Проблемы со связью\n\nЗагрузка не удалась. Проверьте\nподключение к интернету</string>
+    <string name="search_history_title">Вы искали</string>
+    <string name="clear_history_button_text">Очистить историю</string>
 </resources>
