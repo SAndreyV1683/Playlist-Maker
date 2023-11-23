@@ -29,10 +29,6 @@ import retrofit2.Response
 
 class SearchActivity : AppCompatActivity() {
 
-    companion object {
-        private const val SAVED_STRING_KEY = "SAVED_STRING_KEY"
-        private val TAG = SearchActivity::class.simpleName
-    }
 
     private lateinit var recyclerView: RecyclerView
     private var editTextStr = ""
@@ -42,44 +38,60 @@ class SearchActivity : AppCompatActivity() {
     private val searchHistoryList = mutableListOf<Track>()
     private val sharedPreferences = App.INSTANCE.sharedPreferences
     private var searchHistory: SearchHistory = SearchHistory(sharedPreferences)
-    private val onClick: TrackAdapter.OnItemClickListener = TrackAdapter.OnItemClickListener { track ->
-        if (searchHistoryList.contains(track)) {
-            searchHistoryList.remove(track)
-            searchHistoryList.add(0, track)
-        } else if (searchHistoryList.size == 10) {
-            searchHistoryList.removeAt(searchHistoryList.lastIndex)
-            searchHistoryList.add(0, track)
-        } else {
-            searchHistoryList.add(0, track)
-        }
-        searchHistory.write(searchHistoryList)
-        Log.d(TAG, "searchHistoryList size ${searchHistoryList.size}")
-    }
-    private val adapter = TrackAdapter(onClick)
+    private lateinit var onClick: TrackAdapter.OnItemClickListener
+    private lateinit var adapter: TrackAdapter
     private lateinit var errorImage: ImageView
     private lateinit var errorText: TextView
     private lateinit var refreshButton: Button
     private lateinit var errorLayout: LinearLayout
     private lateinit var searchHistoryTitle: TextView
     private lateinit var clearSearchHistoryBtn: Button
+    private lateinit var backButton: ImageView
+    private lateinit var clearButton: ImageView
+    private lateinit var textWatcher: TextWatcher
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
         Log.d(TAG, "theme is night ${isNightMode(this)}")
-        sharedPreferences.registerOnSharedPreferenceChangeListener { _, _ ->
-
-        }
-
+        initViews()
+        initListeners()
         searchHistoryList.addAll(searchHistory.read())
+        searchEditText.setText("")
+        adapter = TrackAdapter(onClick)
+        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        adapter.tracks = populateList
+        recyclerView.adapter = adapter
+    }
+
+    private fun initViews() {
         errorImage = findViewById(R.id.error_image)
         errorText = findViewById(R.id.error_text)
         refreshButton = findViewById(R.id.refresh_button)
         errorLayout = findViewById(R.id.error_layout)
         searchHistoryTitle = findViewById(R.id.search_history_title)
         clearSearchHistoryBtn = findViewById(R.id.clear_search_history_btn)
-        val backButton = findViewById<ImageView>(R.id.arrow_back)
+        searchEditText = findViewById(R.id.search_edit_text)
+        recyclerView = findViewById(R.id.search_rv)
+        backButton = findViewById(R.id.arrow_back)
+        clearButton = findViewById(R.id.clear_text_btn)
+    }
+
+    private fun initListeners() {
+        onClick = TrackAdapter.OnItemClickListener { track ->
+            if (searchHistoryList.contains(track)) {
+                searchHistoryList.remove(track)
+                searchHistoryList.add(0, track)
+            } else if (searchHistoryList.size == 10) {
+                searchHistoryList.removeAt(searchHistoryList.lastIndex)
+                searchHistoryList.add(0, track)
+            } else {
+                searchHistoryList.add(0, track)
+            }
+            searchHistory.write(searchHistoryList)
+            Log.d(TAG, "searchHistoryList size ${searchHistoryList.size}")
+        }
         backButton.setOnClickListener {
             super.onBackPressed()
         }
@@ -88,39 +100,27 @@ class SearchActivity : AppCompatActivity() {
             errorLayout.visibility = View.GONE
         }
 
-        val clearButton = findViewById<ImageView>(R.id.clear_text_btn)
-        val textWatcher = object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-            }
+        textWatcher = object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 clearButton.visibility = clearButtonVisibility(s)
                 editTextStr = s.toString()
-                if (searchEditText.hasFocus() && editTextStr.isEmpty()) {
-                    adapter.tracks = searchHistoryList
-                    adapter.refresh()
-                    searchHistoryTitle.visibility = View.VISIBLE
-                    clearSearchHistoryBtn.visibility = View.VISIBLE
+                if (searchEditText.hasFocus() && editTextStr.isEmpty() && searchHistoryList.isNotEmpty()) {
+                    showSearchHistory()
                 }
             }
 
-            override fun afterTextChanged(s: Editable?) {
-
-            }
+            override fun afterTextChanged(s: Editable?) { }
         }
 
-        searchEditText = findViewById(R.id.search_edit_text)
         searchEditText.addTextChangedListener(textWatcher)
         searchEditText.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus && editTextStr.isBlank()) {
-                adapter.tracks = searchHistoryList
-                adapter.refresh()
-                searchHistoryTitle.visibility = View.VISIBLE
-                clearSearchHistoryBtn.visibility = View.VISIBLE
+            if (hasFocus && editTextStr.isBlank() && searchHistoryList.isNotEmpty()) {
+                showSearchHistory()
             }
         }
-        searchEditText.setText("")
+
         clearButton.setOnClickListener {
             searchEditText.setText("")
             val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
@@ -130,20 +130,26 @@ class SearchActivity : AppCompatActivity() {
             adapter.refresh()
         }
 
-        recyclerView = findViewById(R.id.search_rv)
-        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        adapter.tracks = populateList
-        recyclerView.adapter = adapter
-
         searchEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 makeRequest()
             }
             false
         }
+        clearSearchHistoryBtn.setOnClickListener {
+            searchHistoryList.clear()
+            adapter.refresh()
+            searchHistoryTitle.visibility = View.GONE
+            clearSearchHistoryBtn.visibility = View.GONE
+        }
     }
 
-
+    private fun showSearchHistory() {
+        adapter.tracks = searchHistoryList
+        adapter.refresh()
+        searchHistoryTitle.visibility = View.VISIBLE
+        clearSearchHistoryBtn.visibility = View.VISIBLE
+    }
 
     private fun clearButtonVisibility(s: CharSequence?): Int {
         return if (s.isNullOrEmpty()) {
@@ -217,7 +223,6 @@ class SearchActivity : AppCompatActivity() {
             override fun onFailure(call: Call<TrackResponse>, t: Throwable) {
                 showErrorPlaceHolder(true)
             }
-
         })
     }
     private fun isNightMode(context: Context): Boolean {
@@ -225,4 +230,10 @@ class SearchActivity : AppCompatActivity() {
             context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         return nightModeFlags == Configuration.UI_MODE_NIGHT_YES
     }
+
+    companion object {
+        private const val SAVED_STRING_KEY = "SAVED_STRING_KEY"
+        private val TAG = SearchActivity::class.simpleName
+    }
+
 }
