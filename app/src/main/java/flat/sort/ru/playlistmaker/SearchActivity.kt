@@ -29,7 +29,6 @@ import retrofit2.Response
 
 class SearchActivity : AppCompatActivity() {
 
-
     private lateinit var recyclerView: RecyclerView
     private var editTextStr = ""
     private lateinit var searchEditText: EditText
@@ -49,7 +48,6 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var backButton: ImageView
     private lateinit var clearButton: ImageView
     private lateinit var textWatcher: TextWatcher
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,7 +81,7 @@ class SearchActivity : AppCompatActivity() {
             if (searchHistoryList.contains(track)) {
                 searchHistoryList.remove(track)
                 searchHistoryList.add(0, track)
-            } else if (searchHistoryList.size == 10) {
+            } else if (searchHistoryList.size == SEARCH_HISTORY_LIMIT) {
                 searchHistoryList.removeAt(searchHistoryList.lastIndex)
                 searchHistoryList.add(0, track)
             } else {
@@ -141,12 +139,14 @@ class SearchActivity : AppCompatActivity() {
             adapter.refresh()
             searchHistoryTitle.visibility = View.GONE
             clearSearchHistoryBtn.visibility = View.GONE
+            searchHistory.clear()
         }
     }
 
     private fun showSearchHistory() {
         adapter.tracks = searchHistoryList
         adapter.refresh()
+        recyclerView.visibility = View.VISIBLE
         searchHistoryTitle.visibility = View.VISIBLE
         clearSearchHistoryBtn.visibility = View.VISIBLE
     }
@@ -225,6 +225,7 @@ class SearchActivity : AppCompatActivity() {
             }
         })
     }
+
     private fun isNightMode(context: Context): Boolean {
         val nightModeFlags =
             context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
@@ -233,7 +234,7 @@ class SearchActivity : AppCompatActivity() {
 
     companion object {
         private const val SAVED_STRING_KEY = "SAVED_STRING_KEY"
+        private const val SEARCH_HISTORY_LIMIT = 10
         private val TAG = SearchActivity::class.simpleName
     }
-
 }

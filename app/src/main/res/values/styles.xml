@@ -10,6 +10,10 @@
         <item name="tint">@color/black</item>
     </style>
 
+    <style name="SearchScreenBackgroundStyle">
+        <item name="android:background">@color/white</item>
+    </style>
+
     <style name="MainScreenTitleTextStyle">
         <item name="android:textAlignment">center</item>
         <item name="android:textSize">@dimen/large_text_size</item>

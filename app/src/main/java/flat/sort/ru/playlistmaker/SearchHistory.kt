@@ -19,5 +19,9 @@ class SearchHistory(
             .putString(TRACKS_KEY, json)
             .apply()
     }
+
+    fun clear() {
+        sharedPreferences.edit().remove(TRACKS_KEY).apply()
+    }
 }
 
