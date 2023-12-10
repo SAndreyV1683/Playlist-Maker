@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import flat.sort.ru.playlistmaker.databinding.ActivityAudioPlayerBinding
 import flat.sort.ru.playlistmaker.models.Track
+import flat.sort.ru.playlistmaker.utils.getDuration
 import flat.sort.ru.playlistmaker.utils.getYear
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -34,7 +35,7 @@ class AudioPlayerActivity : AppCompatActivity() {
     private fun initializeFields(track: Track?) {
         binding.trackName.text = track?.trackName
         binding.artistName.text = track?.artistName
-        binding.durationValue.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(track?.trackTimeMillis)
+        binding.durationValue.text = track?.getDuration()
         if (track?.collectionName.isNullOrEmpty()) {
             binding.collectionNameTitle.visibility = View.GONE
             binding.collectionNameValue.visibility = View.GONE
