@@ -12,4 +12,7 @@
     <dimen name="_45dp">45dp</dimen>
     <dimen name="_13dp">13dp</dimen>
     <dimen name="_24dp">24dp</dimen>
+    <dimen name="_56dp">56dp</dimen>
+    <dimen name="_12dp">12dp</dimen>
+    <dimen name="_30dp">30dp</dimen>
 </resources>

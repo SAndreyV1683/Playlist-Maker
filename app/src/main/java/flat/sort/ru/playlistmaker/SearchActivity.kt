@@ -1,6 +1,7 @@
 package flat.sort.ru.playlistmaker
 
 import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.text.Editable
@@ -17,6 +18,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import flat.sort.ru.playlistmaker.AudioPlayerActivity.Companion.BUNDLE_KEY
 import flat.sort.ru.playlistmaker.adapters.TrackAdapter
 import flat.sort.ru.playlistmaker.models.Track
 import flat.sort.ru.playlistmaker.network.ITunesApi
@@ -37,7 +39,7 @@ class SearchActivity : AppCompatActivity() {
     private val searchHistoryList = mutableListOf<Track>()
     private val sharedPreferences = App.INSTANCE.sharedPreferences
     private var searchHistory: SearchHistory = SearchHistory(sharedPreferences)
-    private lateinit var onClick: TrackAdapter.OnItemClickListener
+    private lateinit var onItemClicked: TrackAdapter.OnItemClickListener
     private lateinit var adapter: TrackAdapter
     private lateinit var errorImage: ImageView
     private lateinit var errorText: TextView
@@ -57,7 +59,7 @@ class SearchActivity : AppCompatActivity() {
         initListeners()
         searchHistoryList.addAll(searchHistory.read())
         searchEditText.setText("")
-        adapter = TrackAdapter(onClick)
+        adapter = TrackAdapter(onItemClicked)
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         adapter.tracks = populateList
         recyclerView.adapter = adapter
@@ -77,7 +79,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun initListeners() {
-        onClick = TrackAdapter.OnItemClickListener { track ->
+        onItemClicked = TrackAdapter.OnItemClickListener { track ->
             if (searchHistoryList.contains(track)) {
                 searchHistoryList.remove(track)
                 searchHistoryList.add(0, track)
@@ -88,7 +90,10 @@ class SearchActivity : AppCompatActivity() {
                 searchHistoryList.add(0, track)
             }
             searchHistory.write(searchHistoryList)
-            Log.d(TAG, "searchHistoryList size ${searchHistoryList.size}")
+
+            val intent = Intent(this, AudioPlayerActivity::class.java)
+            intent.putExtra(BUNDLE_KEY, track)
+            this.startActivity(intent)
         }
         backButton.setOnClickListener {
             super.onBackPressed()

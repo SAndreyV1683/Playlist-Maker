@@ -15,4 +15,14 @@
     <string name="refresh_button_text">Refresh</string>
     <string name="nothing_found_text">Nothing found</string>
     <string name="communication_problems">Communication problems\n\nDownload failed. Check\n your internet connection</string>
+    <string name="collection_name">Collection name</string>
+    <string name="extra_subject">Message to the developers and developers of the Playlist Maker application</string>
+    <string name="extra_text">Thanks to the developers and developers for the cool application!</string>
+    <string name="search_history_title">You were looking for</string>
+    <string name="clear_history_button_text">Clear the history</string>
+    <string name="duration">Duration</string>
+    <string name="year">Year</string>
+    <string name="genre">Genre</string>
+    <string name="country">Country</string>
+    <string name="_0_30">0:30</string>
 </resources>

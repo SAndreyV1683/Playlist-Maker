@@ -12,8 +12,8 @@
     <string name="main_settings_btn_toast_text">scdcd</string>
     <string name="extra_text_for_send" translatable="false">https://practicum.yandex.ru/profile/android-developer/</string>
     <string name="extra_mail" translatable="false">ya.sboevandrey@yandex.ru</string>
-    <string name="extra_subject" translatable="false">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
-    <string name="extra_text" translatable="false">Спасибо разработчикам и разработчицам за крутое приложение!</string>
+    <string name="extra_subject">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
+    <string name="extra_text">Спасибо разработчикам и разработчицам за крутое приложение!</string>
     <string name="practicum_offer_uri" translatable="false">https://yandex.ru/legal/practicum_offer/</string>
     <string name="edittext_hint"><font size="15" weight="400">Поиск</font></string>
     <string name="refresh_button_text">Обновить</string>
@@ -21,4 +21,10 @@
     <string name="communication_problems">Проблемы со связью\n\nЗагрузка не удалась. Проверьте\nподключение к интернету</string>
     <string name="search_history_title">Вы искали</string>
     <string name="clear_history_button_text">Очистить историю</string>
+    <string name="collection_name">Альбом</string>
+    <string name="duration">Длительность</string>
+    <string name="year">Год</string>
+    <string name="genre">Жандр</string>
+    <string name="country">Страна</string>
+    <string name="_0_30">0:30</string>
 </resources>
