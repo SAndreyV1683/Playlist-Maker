@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import flat.sort.ru.playlistmaker.R
 import flat.sort.ru.playlistmaker.models.Track
+import flat.sort.ru.playlistmaker.utils.getDuration
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -27,7 +28,7 @@ class TracksViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
             .into(image)
         trackName.text = track.trackName
         artistName.text = track.artistName
-        trackTime.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTimeMillis)
+        trackTime.text = track.getDuration()
     }
 
 }

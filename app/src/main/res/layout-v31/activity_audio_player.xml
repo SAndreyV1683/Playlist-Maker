@@ -37,6 +37,7 @@
         android:layout_height="0dp"
         android:scaleType="centerCrop"
         android:background="@drawable/round_outline"
+        android:clipToOutline="true"
         app:layout_constraintEnd_toStartOf="@id/rightBorder"
         app:layout_constraintVertical_chainStyle="spread_inside"
         app:layout_constraintStart_toEndOf="@id/leftBorder"

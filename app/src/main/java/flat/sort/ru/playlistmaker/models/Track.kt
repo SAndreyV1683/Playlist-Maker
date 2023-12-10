@@ -3,6 +3,7 @@ package flat.sort.ru.playlistmaker.models
 import android.os.Parcel
 import android.os.Parcelable
 
+
 data class Track(
     val trackId: Long,
     val trackName: String?,
@@ -14,6 +15,9 @@ data class Track(
     val primaryGenreName: String?,
     val country: String?
 ): Parcelable {
+
+    val artworkUrl512
+        get() = artworkUrl100?.replaceAfterLast('/', "512x512bb.jpg")
     constructor(parcel: Parcel) : this(
         parcel.readLong(),
         parcel.readString(),
@@ -52,4 +56,6 @@ data class Track(
             return arrayOfNulls(size)
         }
     }
+
+
 }
