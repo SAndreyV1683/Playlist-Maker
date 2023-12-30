@@ -4,16 +4,18 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -50,6 +52,12 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var backButton: ImageView
     private lateinit var clearButton: ImageView
     private lateinit var textWatcher: TextWatcher
+    private lateinit var progressBar: ProgressBar
+    private var isClickAllowed = true
+    private val runnable = Runnable {
+        makeRequest()
+    }
+    private val handler = Handler(Looper.getMainLooper())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,6 +73,20 @@ class SearchActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
     }
 
+    private fun searchDebounce() {
+        handler.removeCallbacks(runnable)
+        handler.postDelayed(runnable, DEBOUNCE_DELAY)
+    }
+
+    private fun clickDebounce(): Boolean {
+        val current = isClickAllowed
+        if (isClickAllowed) {
+            isClickAllowed = false
+            handler.postDelayed({ isClickAllowed = true }, DEBOUNCE_DELAY)
+        }
+        return current
+    }
+
     private fun initViews() {
         errorImage = findViewById(R.id.error_image)
         errorText = findViewById(R.id.error_text)
@@ -76,24 +98,27 @@ class SearchActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.search_rv)
         backButton = findViewById(R.id.arrow_back)
         clearButton = findViewById(R.id.clear_text_btn)
+        progressBar = findViewById(R.id.progress_bar)
     }
 
     private fun initListeners() {
         onItemClicked = TrackAdapter.OnItemClickListener { track ->
-            if (searchHistoryList.contains(track)) {
-                searchHistoryList.remove(track)
-                searchHistoryList.add(0, track)
-            } else if (searchHistoryList.size == SEARCH_HISTORY_LIMIT) {
-                searchHistoryList.removeAt(searchHistoryList.lastIndex)
-                searchHistoryList.add(0, track)
-            } else {
-                searchHistoryList.add(0, track)
-            }
-            searchHistory.write(searchHistoryList)
+            if (clickDebounce()) {
+                if (searchHistoryList.contains(track)) {
+                    searchHistoryList.remove(track)
+                    searchHistoryList.add(0, track)
+                } else if (searchHistoryList.size == SEARCH_HISTORY_LIMIT) {
+                    searchHistoryList.removeAt(searchHistoryList.lastIndex)
+                    searchHistoryList.add(0, track)
+                } else {
+                    searchHistoryList.add(0, track)
+                }
+                searchHistory.write(searchHistoryList)
 
-            val intent = Intent(this, AudioPlayerActivity::class.java)
-            intent.putExtra(BUNDLE_KEY, track)
-            this.startActivity(intent)
+                val intent = Intent(this, AudioPlayerActivity::class.java)
+                intent.putExtra(BUNDLE_KEY, track)
+                this.startActivity(intent)
+            }
         }
         backButton.setOnClickListener {
             super.onBackPressed()
@@ -111,6 +136,8 @@ class SearchActivity : AppCompatActivity() {
                 editTextStr = s.toString()
                 if (searchEditText.hasFocus() && editTextStr.isEmpty() && searchHistoryList.isNotEmpty()) {
                     showSearchHistory()
+                } else {
+                    searchDebounce()
                 }
             }
 
@@ -133,12 +160,6 @@ class SearchActivity : AppCompatActivity() {
             adapter.refresh()
         }
 
-        searchEditText.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                makeRequest()
-            }
-            false
-        }
         clearSearchHistoryBtn.setOnClickListener {
             searchHistoryList.clear()
             adapter.refresh()
@@ -198,37 +219,42 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun makeRequest() {
-        iTunesService.search(editTextStr).enqueue(object : Callback<TrackResponse> {
-            override fun onResponse(
-                call: Call<TrackResponse>,
-                response: Response<TrackResponse>
-            ) {
-                when (response.code()) {
-                    200 -> {
-                        if (response.isSuccessful && response.body()?.resultCount!! > 0) {
-                            recyclerView.visibility = View.VISIBLE
-                            errorLayout.visibility = View.GONE
-                            populateList.clear()
-                            populateList.addAll(response.body()?.results!!)
-                            adapter.tracks = populateList
-                            adapter.refresh()
-                            searchHistoryTitle.visibility = View.GONE
-                            clearSearchHistoryBtn.visibility = View.GONE
-                        } else {
-                            showErrorPlaceHolder(false)
+        if (editTextStr.isNotEmpty()) {
+            progressBar.visibility = View.VISIBLE
+            iTunesService.search(editTextStr).enqueue(object : Callback<TrackResponse> {
+                override fun onResponse(
+                    call: Call<TrackResponse>,
+                    response: Response<TrackResponse>
+                ) {
+                    progressBar.visibility = View.GONE
+                    when (response.code()) {
+                        200 -> {
+                            if (response.isSuccessful && response.body()?.resultCount!! > 0) {
+                                recyclerView.visibility = View.VISIBLE
+                                errorLayout.visibility = View.GONE
+                                populateList.clear()
+                                populateList.addAll(response.body()?.results!!)
+                                adapter.tracks = populateList
+                                adapter.refresh()
+                                searchHistoryTitle.visibility = View.GONE
+                                clearSearchHistoryBtn.visibility = View.GONE
+                            } else {
+                                showErrorPlaceHolder(false)
+                            }
+                        }
+
+                        else -> {
+                            showErrorPlaceHolder(true)
                         }
                     }
-
-                    else -> {
-                        showErrorPlaceHolder(true)
-                    }
                 }
-            }
 
-            override fun onFailure(call: Call<TrackResponse>, t: Throwable) {
-                showErrorPlaceHolder(true)
-            }
-        })
+                override fun onFailure(call: Call<TrackResponse>, t: Throwable) {
+                    progressBar.visibility = View.GONE
+                    showErrorPlaceHolder(true)
+                }
+            })
+        }
     }
 
     private fun isNightMode(context: Context): Boolean {
@@ -240,6 +266,7 @@ class SearchActivity : AppCompatActivity() {
     companion object {
         private const val SAVED_STRING_KEY = "SAVED_STRING_KEY"
         private const val SEARCH_HISTORY_LIMIT = 10
+        private const val DEBOUNCE_DELAY = 1000L
         private val TAG = SearchActivity::class.simpleName
     }
 }
