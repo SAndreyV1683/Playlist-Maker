@@ -10,6 +10,7 @@ data class Track(
     val artistName: String?,
     val trackTimeMillis: Long,
     val artworkUrl100: String?,
+    val previewUrl: String?,
     val collectionName: String?,
     val releaseDate: String?,
     val primaryGenreName: String?,
@@ -23,6 +24,7 @@ data class Track(
         parcel.readString(),
         parcel.readString(),
         parcel.readLong(),
+        parcel.readString(),
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
@@ -41,6 +43,7 @@ data class Track(
         dest.writeString(artistName)
         dest.writeLong(trackTimeMillis)
         dest.writeString(artworkUrl100)
+        dest.writeString(previewUrl)
         dest.writeString(collectionName)
         dest.writeString(releaseDate)
         dest.writeString(primaryGenreName)

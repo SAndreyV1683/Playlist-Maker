@@ -1,7 +1,10 @@
 package flat.sort.ru.playlistmaker
 
+import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -10,12 +13,25 @@ import flat.sort.ru.playlistmaker.databinding.ActivityAudioPlayerBinding
 import flat.sort.ru.playlistmaker.models.Track
 import flat.sort.ru.playlistmaker.utils.getDuration
 import flat.sort.ru.playlistmaker.utils.getYear
+import flat.sort.ru.playlistmaker.utils.isNightMode
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 class AudioPlayerActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAudioPlayerBinding
+    private var playerState = STATE_DEFAULT
+    private val mediaPlayer = MediaPlayer()
+    private val playbackRunnable = object : Runnable {
+        override fun run() {
+            if (playerState == STATE_PLAYING && mediaPlayer.currentPosition > 0) {
+                binding.playbackDuration.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(mediaPlayer.currentPosition)
+                handler.postDelayed(this, TIMER_DELAY)
+            }
+        }
+    }
+    private val handler = Handler(Looper.getMainLooper())
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +46,18 @@ class AudioPlayerActivity : AppCompatActivity() {
         }
         Log.d(TAG, track.toString())
         initializeFields(track)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        playerState = STATE_DEFAULT
+        handler.removeCallbacks(playbackRunnable)
+        mediaPlayer.release()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        pausePlayer()
     }
 
     private fun initializeFields(track: Track?) {
@@ -53,11 +81,70 @@ class AudioPlayerActivity : AppCompatActivity() {
             .placeholder(R.drawable.ic_placeholder)
             .into(binding.cover)
         binding.cover.clipToOutline = true
+        preparePlayer(track)
+    }
+
+    private fun preparePlayer(track: Track?) {
+        mediaPlayer.setDataSource(track?.previewUrl)
+        mediaPlayer.prepareAsync()
+        mediaPlayer.setOnPreparedListener {
+            binding.playButton.isEnabled = true
+            playerState = STATE_PREPARED
+        }
+        mediaPlayer.setOnCompletionListener {
+            if (isNightMode())
+                binding.playButton.setImageResource(R.drawable.ic_button_play_night)
+            else
+                binding.playButton.setImageResource(R.drawable.ic_button_play_day)
+            binding.playbackDuration.text = getString(R.string._0_00)
+            playerState = STATE_PREPARED
+            handler.removeCallbacks(playbackRunnable)
+        }
+
+        binding.playButton.setOnClickListener {
+            playbackControl()
+        }
+    }
+
+
+    private fun startPlayer() {
+        mediaPlayer.start()
+        if (isNightMode())
+            binding.playButton.setImageResource(R.drawable.ic_pause_button_night)
+        else
+            binding.playButton.setImageResource(R.drawable.ic_pause_button_day)
+        handler.postDelayed(playbackRunnable, TIMER_DELAY)
+        playerState = STATE_PLAYING
+    }
+
+    private fun pausePlayer() {
+        mediaPlayer.pause()
+        if (isNightMode())
+            binding.playButton.setImageResource(R.drawable.ic_button_play_night)
+        else
+            binding.playButton.setImageResource(R.drawable.ic_button_play_day)
+        playerState = STATE_PAUSED
+    }
+
+    private fun playbackControl() {
+        when(playerState) {
+            STATE_PLAYING -> {
+                pausePlayer()
+            }
+            STATE_PREPARED, STATE_PAUSED -> {
+                startPlayer()
+            }
+        }
     }
 
 
     companion object {
         private val TAG = AudioPlayerActivity::class.simpleName
         const val BUNDLE_KEY = "track"
+        private const val TIMER_DELAY = 500L
+        private const val STATE_DEFAULT = 0
+        private const val STATE_PREPARED = 1
+        private const val STATE_PLAYING = 2
+        private const val STATE_PAUSED = 3
     }
 }

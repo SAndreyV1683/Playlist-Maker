@@ -102,7 +102,7 @@
         style="@style/audio_player_playback_duration_text_style"
         android:id="@+id/playback_duration"
         android:layout_marginTop="@dimen/four_dp"
-        android:text="@string/_0_30"
+        android:text="@string/_0_00"
         app:layout_constraintStart_toEndOf="@id/leftBorder"
         app:layout_constraintEnd_toStartOf="@id/rightBorder"
         app:layout_constraintTop_toBottomOf="@id/play_button"/>

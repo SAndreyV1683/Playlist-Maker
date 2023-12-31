@@ -26,6 +26,7 @@ import flat.sort.ru.playlistmaker.models.Track
 import flat.sort.ru.playlistmaker.network.ITunesApi
 import flat.sort.ru.playlistmaker.network.ITunesApiService
 import flat.sort.ru.playlistmaker.network.TrackResponse
+import flat.sort.ru.playlistmaker.utils.isNightMode
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -62,7 +63,7 @@ class SearchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
-        Log.d(TAG, "theme is night ${isNightMode(this)}")
+        Log.d(TAG, "theme is night ${isNightMode()}")
         initViews()
         initListeners()
         searchHistoryList.addAll(searchHistory.read())
@@ -202,14 +203,14 @@ class SearchActivity : AppCompatActivity() {
         searchHistoryTitle.visibility = View.GONE
         clearSearchHistoryBtn.visibility = View.GONE
         if (isError) {
-            if (isNightMode(this))
+            if (isNightMode())
                 errorImage.setImageResource(R.drawable.ic_conn_error_dark_mode)
             else
                 errorImage.setImageResource(R.drawable.ic_conn_error_light_mode)
             errorText.setText(R.string.communication_problems)
             refreshButton.visibility = View.VISIBLE
         } else {
-            if (isNightMode(this))
+            if (isNightMode())
                 errorImage.setImageResource(R.drawable.ic_error_dark_mode)
             else
                 errorImage.setImageResource(R.drawable.ic_error_light_mode)
@@ -255,12 +256,6 @@ class SearchActivity : AppCompatActivity() {
                 }
             })
         }
-    }
-
-    private fun isNightMode(context: Context): Boolean {
-        val nightModeFlags =
-            context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-        return nightModeFlags == Configuration.UI_MODE_NIGHT_YES
     }
 
     companion object {
