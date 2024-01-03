@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="small_padding">12dp</dimen>
+    <dimen name="medium_padding">16dp</dimen>
+    <dimen name="large_padding">21dp</dimen>
+    <dimen name="icon_padding">8dp</dimen>
+    <dimen name="icon_size">24dp</dimen>
+    <dimen name="large_text_size">22sp</dimen>
+    <dimen name="small_text_size">16sp</dimen>
+    <dimen name="four_dp">4dp</dimen>
+    <dimen name="ten_dp">10dp</dimen>
+    <dimen name="_45dp">45dp</dimen>
+    <dimen name="_13dp">13dp</dimen>
+    <dimen name="_24dp">24dp</dimen>
+    <dimen name="_56dp">56dp</dimen>
+    <dimen name="_12dp">12dp</dimen>
+    <dimen name="_30dp">30dp</dimen>
+</resources>
