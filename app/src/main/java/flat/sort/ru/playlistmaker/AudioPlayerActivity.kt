@@ -92,10 +92,7 @@ class AudioPlayerActivity : AppCompatActivity() {
             playerState = STATE_PREPARED
         }
         mediaPlayer.setOnCompletionListener {
-            if (isNightMode())
-                binding.playButton.setImageResource(R.drawable.ic_button_play_night)
-            else
-                binding.playButton.setImageResource(R.drawable.ic_button_play_day)
+            binding.playButton.setImageResource(R.drawable.ic_button_play)
             binding.playbackDuration.text = getString(R.string._0_00)
             playerState = STATE_PREPARED
             handler.removeCallbacks(playbackRunnable)
@@ -109,20 +106,14 @@ class AudioPlayerActivity : AppCompatActivity() {
 
     private fun startPlayer() {
         mediaPlayer.start()
-        if (isNightMode())
-            binding.playButton.setImageResource(R.drawable.ic_pause_button_night)
-        else
-            binding.playButton.setImageResource(R.drawable.ic_pause_button_day)
+        binding.playButton.setImageResource(R.drawable.ic_pause_button)
         handler.postDelayed(playbackRunnable, TIMER_DELAY)
         playerState = STATE_PLAYING
     }
 
     private fun pausePlayer() {
         mediaPlayer.pause()
-        if (isNightMode())
-            binding.playButton.setImageResource(R.drawable.ic_button_play_night)
-        else
-            binding.playButton.setImageResource(R.drawable.ic_button_play_day)
+        binding.playButton.setImageResource(R.drawable.ic_button_play)
         playerState = STATE_PAUSED
     }
 
