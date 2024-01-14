@@ -1,6 +1,5 @@
-package flat.sort.ru.playlistmaker
+package flat.sort.ru.playlistmaker.audioplayer.presentation
 
-import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -9,11 +8,16 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import flat.sort.ru.playlistmaker.R
+import flat.sort.ru.playlistmaker.audioplayer.data.MyMediaPlayer
+import flat.sort.ru.playlistmaker.audioplayer.data.PlayerRepositoryImpl
+import flat.sort.ru.playlistmaker.audioplayer.domain.api.PlayerRepository
+import flat.sort.ru.playlistmaker.audioplayer.domain.impl.PlayerInterActorImpl
+import flat.sort.ru.playlistmaker.audioplayer.domain.models.TrackUrl
 import flat.sort.ru.playlistmaker.databinding.ActivityAudioPlayerBinding
 import flat.sort.ru.playlistmaker.models.Track
 import flat.sort.ru.playlistmaker.utils.getDuration
 import flat.sort.ru.playlistmaker.utils.getYear
-import flat.sort.ru.playlistmaker.utils.isNightMode
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -21,11 +25,21 @@ class AudioPlayerActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAudioPlayerBinding
     private var playerState = STATE_DEFAULT
-    private val mediaPlayer = MediaPlayer()
+    private val playerStateListener = object : PlayerRepository.StateListener {
+        override fun state(state: Int) {
+            playerState = state
+            if (playerState == STATE_PREPARED) {
+                binding.playButton.isEnabled = true
+                binding.playButton.setImageResource(R.drawable.ic_button_play)
+                binding.playbackDuration.text = getString(R.string._0_00)
+            }
+        }
+    }
+    private val playerInterActorImpl = PlayerInterActorImpl(PlayerRepositoryImpl(MyMediaPlayer(playerStateListener)))
     private val playbackRunnable = object : Runnable {
         override fun run() {
-            if (playerState == STATE_PLAYING && mediaPlayer.currentPosition > 0) {
-                binding.playbackDuration.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(mediaPlayer.currentPosition)
+            if (playerState == STATE_PLAYING && playerInterActorImpl.getTrackCurrentPosition() > 0) {
+                binding.playbackDuration.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(playerInterActorImpl.getTrackCurrentPosition())
                 handler.postDelayed(this, TIMER_DELAY)
             }
         }
@@ -52,7 +66,7 @@ class AudioPlayerActivity : AppCompatActivity() {
         super.onDestroy()
         playerState = STATE_DEFAULT
         handler.removeCallbacks(playbackRunnable)
-        mediaPlayer.release()
+        playerInterActorImpl.release()
     }
 
     override fun onPause() {
@@ -85,19 +99,10 @@ class AudioPlayerActivity : AppCompatActivity() {
     }
 
     private fun preparePlayer(track: Track?) {
-        mediaPlayer.setDataSource(track?.previewUrl)
-        mediaPlayer.prepareAsync()
-        mediaPlayer.setOnPreparedListener {
-            binding.playButton.isEnabled = true
-            playerState = STATE_PREPARED
+        val previewUrl = track?.previewUrl
+        if (previewUrl != null) {
+            playerInterActorImpl.prepare(TrackUrl(previewUrl))
         }
-        mediaPlayer.setOnCompletionListener {
-            binding.playButton.setImageResource(R.drawable.ic_button_play)
-            binding.playbackDuration.text = getString(R.string._0_00)
-            playerState = STATE_PREPARED
-            handler.removeCallbacks(playbackRunnable)
-        }
-
         binding.playButton.setOnClickListener {
             playbackControl()
         }
@@ -105,14 +110,14 @@ class AudioPlayerActivity : AppCompatActivity() {
 
 
     private fun startPlayer() {
-        mediaPlayer.start()
+        playerInterActorImpl.play()
         binding.playButton.setImageResource(R.drawable.ic_pause_button)
         handler.postDelayed(playbackRunnable, TIMER_DELAY)
         playerState = STATE_PLAYING
     }
 
     private fun pausePlayer() {
-        mediaPlayer.pause()
+        playerInterActorImpl.pause()
         binding.playButton.setImageResource(R.drawable.ic_button_play)
         playerState = STATE_PAUSED
     }

@@ -2,7 +2,6 @@ package flat.sort.ru.playlistmaker
 
 import android.content.Context
 import android.content.Intent
-import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -20,8 +19,9 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import flat.sort.ru.playlistmaker.AudioPlayerActivity.Companion.BUNDLE_KEY
+import flat.sort.ru.playlistmaker.audioplayer.presentation.AudioPlayerActivity.Companion.BUNDLE_KEY
 import flat.sort.ru.playlistmaker.adapters.TrackAdapter
+import flat.sort.ru.playlistmaker.audioplayer.presentation.AudioPlayerActivity
 import flat.sort.ru.playlistmaker.models.Track
 import flat.sort.ru.playlistmaker.network.ITunesApi
 import flat.sort.ru.playlistmaker.network.ITunesApiService
