@@ -21,6 +21,6 @@ class PlayerInterActorImpl(private val repository: PlayerRepository): PlayerInte
         repository.prepare(trackUrl)
     }
 
-    override fun getTrackCurrentPosition(): Int = repository.getPosition()
+    override fun getTrackCurrentPosition(): String = repository.getPosition()
 
 }

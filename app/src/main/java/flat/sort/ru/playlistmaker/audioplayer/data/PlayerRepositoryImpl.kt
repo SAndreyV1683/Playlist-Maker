@@ -3,6 +3,8 @@ package flat.sort.ru.playlistmaker.audioplayer.data
 import flat.sort.ru.playlistmaker.audioplayer.data.models.TrackUrlDto
 import flat.sort.ru.playlistmaker.audioplayer.domain.api.PlayerRepository
 import flat.sort.ru.playlistmaker.audioplayer.domain.models.TrackUrl
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class PlayerRepositoryImpl(private val player: Player): PlayerRepository {
     override fun start() {
@@ -22,7 +24,7 @@ class PlayerRepositoryImpl(private val player: Player): PlayerRepository {
         player.release()
     }
 
-    override fun getPosition(): Int = player.getPosition()
-
-
+    override fun getPosition(): String {
+        return SimpleDateFormat("mm:ss", Locale.getDefault()).format(player.getPosition())
+    }
 }

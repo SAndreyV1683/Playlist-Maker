@@ -18,8 +18,6 @@ import flat.sort.ru.playlistmaker.databinding.ActivityAudioPlayerBinding
 import flat.sort.ru.playlistmaker.models.Track
 import flat.sort.ru.playlistmaker.utils.getDuration
 import flat.sort.ru.playlistmaker.utils.getYear
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 class AudioPlayerActivity : AppCompatActivity() {
 
@@ -38,8 +36,8 @@ class AudioPlayerActivity : AppCompatActivity() {
     private val playerInterActorImpl = PlayerInterActorImpl(PlayerRepositoryImpl(MyMediaPlayer(playerStateListener)))
     private val playbackRunnable = object : Runnable {
         override fun run() {
-            if (playerState == STATE_PLAYING && playerInterActorImpl.getTrackCurrentPosition() > 0) {
-                binding.playbackDuration.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(playerInterActorImpl.getTrackCurrentPosition())
+            if (playerState == STATE_PLAYING) {
+                binding.playbackDuration.text = playerInterActorImpl.getTrackCurrentPosition()
                 handler.postDelayed(this, TIMER_DELAY)
             }
         }

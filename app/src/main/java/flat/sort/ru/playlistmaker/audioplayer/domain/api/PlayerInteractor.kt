@@ -7,5 +7,5 @@ interface PlayerInterActor {
     fun pause()
     fun release()
     fun prepare(trackUrl: TrackUrl)
-    fun getTrackCurrentPosition(): Int
+    fun getTrackCurrentPosition(): String
 }

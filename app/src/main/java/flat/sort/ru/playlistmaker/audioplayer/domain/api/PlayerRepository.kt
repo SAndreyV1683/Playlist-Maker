@@ -7,7 +7,7 @@ interface PlayerRepository {
     fun pause()
     fun prepare(trackUrl: TrackUrl)
     fun release()
-    fun getPosition():Int
+    fun getPosition(): String
     interface StateListener {
         fun state(state: Int)
     }

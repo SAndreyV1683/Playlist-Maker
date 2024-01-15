@@ -7,6 +7,5 @@ interface Player {
     fun startPlayer()
     fun pausePlayer()
     fun release()
-
     fun getPosition(): Int
 }
