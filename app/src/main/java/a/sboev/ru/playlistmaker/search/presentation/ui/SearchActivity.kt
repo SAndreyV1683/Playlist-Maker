@@ -1,5 +1,7 @@
-package a.sboev.ru.playlistmaker
+package a.sboev.ru.playlistmaker.search.presentation.ui
 
+import a.sboev.ru.playlistmaker.App
+import a.sboev.ru.playlistmaker.R
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -19,13 +21,14 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import a.sboev.ru.playlistmaker.audioplayer.presentation.AudioPlayerActivity.Companion.BUNDLE_KEY
-import a.sboev.ru.playlistmaker.adapters.TrackAdapter
-import a.sboev.ru.playlistmaker.audioplayer.presentation.AudioPlayerActivity
-import a.sboev.ru.playlistmaker.models.Track
-import a.sboev.ru.playlistmaker.network.ITunesApi
-import a.sboev.ru.playlistmaker.network.ITunesApiService
-import a.sboev.ru.playlistmaker.network.TrackResponse
+import a.sboev.ru.playlistmaker.audioplayer.presentation.ui.AudioPlayerActivity.Companion.BUNDLE_KEY
+import a.sboev.ru.playlistmaker.search.presentation.ui.adapters.TrackAdapter
+import a.sboev.ru.playlistmaker.audioplayer.presentation.ui.AudioPlayerActivity
+import a.sboev.ru.playlistmaker.search.data.local.SearchHistory
+import a.sboev.ru.playlistmaker.search.domain.models.Track
+import a.sboev.ru.playlistmaker.search.data.network.ITunesApi
+import a.sboev.ru.playlistmaker.search.data.network.ITunesApiService
+import a.sboev.ru.playlistmaker.search.data.dto.TrackResponse
 import a.sboev.ru.playlistmaker.utils.isNightMode
 import retrofit2.Call
 import retrofit2.Callback

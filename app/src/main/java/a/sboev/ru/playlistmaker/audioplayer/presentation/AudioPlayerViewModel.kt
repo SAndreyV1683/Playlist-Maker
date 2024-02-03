@@ -4,7 +4,7 @@ import a.sboev.ru.playlistmaker.audioplayer.data.MyMediaPlayer
 import a.sboev.ru.playlistmaker.audioplayer.domain.api.PlayerRepository
 import a.sboev.ru.playlistmaker.audioplayer.domain.models.TrackUrl
 import a.sboev.ru.playlistmaker.creators.PlayerInteractorCreator
-import a.sboev.ru.playlistmaker.models.Track
+import a.sboev.ru.playlistmaker.search.domain.models.Track
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel

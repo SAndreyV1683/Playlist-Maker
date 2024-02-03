@@ -1,10 +1,10 @@
-package a.sboev.ru.playlistmaker.adapters
+package a.sboev.ru.playlistmaker.search.presentation.ui.adapters
 
 import a.sboev.ru.playlistmaker.R
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import a.sboev.ru.playlistmaker.models.Track
+import a.sboev.ru.playlistmaker.search.domain.models.Track
 
 
 class TrackAdapter(

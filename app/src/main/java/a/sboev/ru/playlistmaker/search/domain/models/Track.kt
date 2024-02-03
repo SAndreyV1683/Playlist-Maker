@@ -1,4 +1,4 @@
-package a.sboev.ru.playlistmaker.models
+package a.sboev.ru.playlistmaker.search.domain.models
 
 import android.os.Parcel
 import android.os.Parcelable

@@ -1,8 +1,8 @@
-package a.sboev.ru.playlistmaker
+package a.sboev.ru.playlistmaker.search.data.local
 
 import android.content.SharedPreferences
 import com.google.gson.Gson
-import a.sboev.ru.playlistmaker.models.Track
+import a.sboev.ru.playlistmaker.search.domain.models.Track
 
 const val TRACKS_KEY = "tracks_key"
 class SearchHistory(

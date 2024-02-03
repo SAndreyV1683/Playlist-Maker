@@ -1,8 +1,10 @@
-package a.sboev.ru.playlistmaker.audioplayer.presentation
+package a.sboev.ru.playlistmaker.audioplayer.presentation.ui
 
 import a.sboev.ru.playlistmaker.R
+import a.sboev.ru.playlistmaker.audioplayer.presentation.AudioPlayerViewModel
+import a.sboev.ru.playlistmaker.audioplayer.presentation.PlayerState
 import a.sboev.ru.playlistmaker.databinding.ActivityAudioPlayerBinding
-import a.sboev.ru.playlistmaker.models.Track
+import a.sboev.ru.playlistmaker.search.domain.models.Track
 import a.sboev.ru.playlistmaker.utils.getDuration
 import a.sboev.ru.playlistmaker.utils.getYear
 import android.os.Build
@@ -49,7 +51,9 @@ class AudioPlayerActivity : AppCompatActivity() {
             intent?.getParcelableExtra(BUNDLE_KEY)
         }
         Log.d(TAG, track.toString())
-        viewModel = ViewModelProvider(this, AudioPlayerViewModel.getViewModelProviderFactory(track))[AudioPlayerViewModel::class.java]
+        viewModel = ViewModelProvider(this,
+            AudioPlayerViewModel.getViewModelProviderFactory(track)
+        )[AudioPlayerViewModel::class.java]
         observe()
         initializeFields(track)
     }

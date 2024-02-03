@@ -1,6 +1,6 @@
 package a.sboev.ru.playlistmaker.utils
 
-import a.sboev.ru.playlistmaker.models.Track
+import a.sboev.ru.playlistmaker.search.domain.models.Track
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.GregorianCalendar

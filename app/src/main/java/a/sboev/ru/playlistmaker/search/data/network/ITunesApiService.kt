@@ -1,5 +1,6 @@
-package a.sboev.ru.playlistmaker.network
+package a.sboev.ru.playlistmaker.search.data.network
 
+import a.sboev.ru.playlistmaker.search.data.dto.TrackResponse
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
