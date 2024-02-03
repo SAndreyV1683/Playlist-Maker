@@ -3,35 +3,36 @@ package a.sboev.ru.playlistmaker.audioplayer.data
 import android.media.MediaPlayer
 import a.sboev.ru.playlistmaker.audioplayer.data.models.TrackUrlDto
 import a.sboev.ru.playlistmaker.audioplayer.domain.api.PlayerRepository
+import a.sboev.ru.playlistmaker.audioplayer.presentation.PlayerState
 
 class MyMediaPlayer(
     private val stateListener: PlayerRepository.StateListener
 ): Player {
 
     private val mediaPlayer = MediaPlayer()
-    private var state = STATE_DEFAULT
+    private var state: PlayerState = PlayerState.Default
     override fun preparePlayer(trackUrl: TrackUrlDto) {
         mediaPlayer.setDataSource(trackUrl.url)
         mediaPlayer.prepareAsync()
         mediaPlayer.setOnPreparedListener {
-            state = STATE_PREPARED
+            state = PlayerState.Prepared
             stateListener.state(state)
         }
         mediaPlayer.setOnCompletionListener {
-            state = STATE_PREPARED
+            state = PlayerState.Prepared
             stateListener.state(state)
         }
     }
 
     override fun startPlayer() {
         mediaPlayer.start()
-        state = STATE_PLAYING
+        state = PlayerState.Playing
         stateListener.state(state)
     }
 
     override fun pausePlayer() {
         mediaPlayer.pause()
-        state = STATE_PAUSED
+        state = PlayerState.Paused
         stateListener.state(state)
     }
 
@@ -41,11 +42,4 @@ class MyMediaPlayer(
 
     override fun getPosition(): Int = mediaPlayer.currentPosition
 
-
-    companion object {
-        private const val STATE_DEFAULT = 0
-        private const val STATE_PREPARED = 1
-        private const val STATE_PLAYING = 2
-        private const val STATE_PAUSED = 3
-    }
 }

@@ -27,7 +27,6 @@ import a.sboev.ru.playlistmaker.network.ITunesApi
 import a.sboev.ru.playlistmaker.network.ITunesApiService
 import a.sboev.ru.playlistmaker.network.TrackResponse
 import a.sboev.ru.playlistmaker.utils.isNightMode
-import flat.sort.ru.playlistmaker.R
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

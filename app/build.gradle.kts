@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "flat.sort.ru.playlistmaker"
+    namespace = "a.sboev.ru.playlistmaker"
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "flat.sort.ru.playlistmaker"
+        applicationId = "a.sboev.ru.playlistmaker"
         minSdk = 29
         targetSdk = 33
         versionCode = 1

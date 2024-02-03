@@ -1,6 +1,7 @@
 package a.sboev.ru.playlistmaker.audioplayer.domain.api
 
 import a.sboev.ru.playlistmaker.audioplayer.domain.models.TrackUrl
+import a.sboev.ru.playlistmaker.audioplayer.presentation.PlayerState
 
 interface PlayerRepository {
     fun start()
@@ -9,6 +10,6 @@ interface PlayerRepository {
     fun release()
     fun getPosition(): String
     interface StateListener {
-        fun state(state: Int)
+        fun state(state: PlayerState)
     }
 }

@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import flat.sort.ru.playlistmaker.R
+
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -14,11 +14,9 @@ class MainActivity : AppCompatActivity() {
         val searchButton = findViewById<Button>(R.id.search_btn)
         val libraryButton = findViewById<Button>(R.id.library_btn)
         val settingButton = findViewById<Button>(R.id.settings_btn)
-        val searchBtnClickListener = object : View.OnClickListener {
-            override fun onClick(v: View?) {
-                val searchIntent = Intent(this@MainActivity, SearchActivity::class.java)
-                startActivity(searchIntent)
-            }
+        val searchBtnClickListener = View.OnClickListener {
+            val searchIntent = Intent(this@MainActivity, SearchActivity::class.java)
+            startActivity(searchIntent)
         }
         searchButton.setOnClickListener(searchBtnClickListener)
         libraryButton.setOnClickListener {
@@ -30,6 +28,4 @@ class MainActivity : AppCompatActivity() {
             startActivity(settingsIntent)
         }
     }
-
-
 }

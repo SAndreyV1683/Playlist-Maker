@@ -1,10 +1,11 @@
 package a.sboev.ru.playlistmaker.adapters
 
+import a.sboev.ru.playlistmaker.R
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import a.sboev.ru.playlistmaker.models.Track
-import flat.sort.ru.playlistmaker.R
+
 
 class TrackAdapter(
     private val onItemClickListener: OnItemClickListener

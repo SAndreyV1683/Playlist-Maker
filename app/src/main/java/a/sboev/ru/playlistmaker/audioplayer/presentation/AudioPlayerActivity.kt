@@ -1,5 +1,10 @@
 package a.sboev.ru.playlistmaker.audioplayer.presentation
 
+import a.sboev.ru.playlistmaker.R
+import a.sboev.ru.playlistmaker.databinding.ActivityAudioPlayerBinding
+import a.sboev.ru.playlistmaker.models.Track
+import a.sboev.ru.playlistmaker.utils.getDuration
+import a.sboev.ru.playlistmaker.utils.getYear
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -7,40 +12,24 @@ import android.os.Looper
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 
-import a.sboev.ru.playlistmaker.audioplayer.data.MyMediaPlayer
-import a.sboev.ru.playlistmaker.audioplayer.data.PlayerRepositoryImpl
-import a.sboev.ru.playlistmaker.audioplayer.domain.api.PlayerRepository
-import a.sboev.ru.playlistmaker.audioplayer.domain.impl.PlayerInterActorImpl
-import a.sboev.ru.playlistmaker.audioplayer.domain.models.TrackUrl
 
-import a.sboev.ru.playlistmaker.models.Track
-import a.sboev.ru.playlistmaker.utils.getDuration
-import a.sboev.ru.playlistmaker.utils.getYear
-import flat.sort.ru.playlistmaker.R
-import flat.sort.ru.playlistmaker.databinding.ActivityAudioPlayerBinding
+
 
 class AudioPlayerActivity : AppCompatActivity() {
 
+    private lateinit var viewModel: AudioPlayerViewModel
     private lateinit var binding: ActivityAudioPlayerBinding
-    private var playerState = STATE_DEFAULT
-    private val playerStateListener = object : PlayerRepository.StateListener {
-        override fun state(state: Int) {
-            playerState = state
-            if (playerState == STATE_PREPARED) {
-                binding.playButton.isEnabled = true
-                binding.playButton.setImageResource(R.drawable.ic_button_play)
-                binding.playbackDuration.text = getString(R.string._0_00)
-            }
-        }
-    }
-    private val playerInterActorImpl = PlayerInterActorImpl(PlayerRepositoryImpl(MyMediaPlayer(playerStateListener)))
+    private var playerState: PlayerState = PlayerState.Default
     private val playbackRunnable = object : Runnable {
         override fun run() {
-            if (playerState == STATE_PLAYING) {
-                binding.playbackDuration.text = playerInterActorImpl.getTrackCurrentPosition()
+            if (playerState is PlayerState.Playing) {
+                binding.playbackDuration.text = viewModel.getTrackCurrentPosition()
                 handler.postDelayed(this, TIMER_DELAY)
+            } else {
+                handler.removeCallbacks(this)
             }
         }
     }
@@ -51,6 +40,7 @@ class AudioPlayerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAudioPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         binding.toolbarAudioPlayer.setNavigationOnClickListener { finish() }
         val intent = intent
         val track = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -59,19 +49,20 @@ class AudioPlayerActivity : AppCompatActivity() {
             intent?.getParcelableExtra(BUNDLE_KEY)
         }
         Log.d(TAG, track.toString())
+        viewModel = ViewModelProvider(this, AudioPlayerViewModel.getViewModelProviderFactory(track))[AudioPlayerViewModel::class.java]
+        observe()
         initializeFields(track)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        playerState = STATE_DEFAULT
         handler.removeCallbacks(playbackRunnable)
-        playerInterActorImpl.release()
+        viewModel.releasePlayer()
     }
 
     override fun onPause() {
         super.onPause()
-        pausePlayer()
+        viewModel.pausePlayer()
     }
 
     private fun initializeFields(track: Track?) {
@@ -86,7 +77,10 @@ class AudioPlayerActivity : AppCompatActivity() {
             binding.collectionNameValue.visibility = View.VISIBLE
             binding.collectionNameValue.text = track?.collectionName
         }
-
+        binding.playButton.setOnClickListener {
+            Log.d(TAG, "Play button pressed")
+            viewModel.playbackControl()
+        }
         binding.yearValue.text = track?.getYear()
         binding.genreValue.text = track?.primaryGenreName
         binding.countryValue.text = track?.country
@@ -95,52 +89,45 @@ class AudioPlayerActivity : AppCompatActivity() {
             .placeholder(R.drawable.ic_placeholder)
             .into(binding.cover)
         binding.cover.clipToOutline = true
-        preparePlayer(track)
     }
 
-    private fun preparePlayer(track: Track?) {
-        val previewUrl = track?.previewUrl
-        if (previewUrl != null) {
-            playerInterActorImpl.prepare(TrackUrl(previewUrl))
-        }
-        binding.playButton.setOnClickListener {
-            playbackControl()
+    private fun observe() {
+        viewModel.observePlayerState().observe(this) { state ->
+            Log.d(TAG, "current state $state")
+            render(state)
+            playerState = state
         }
     }
 
+    private fun render(state: PlayerState) {
+        when (state) {
+            PlayerState.Prepared -> playerPrepared()
+            PlayerState.Playing -> playerPlaying()
+            PlayerState.Paused -> playerPaused()
+            PlayerState.Default -> binding.playButton.isEnabled = false
+        }
+    }
 
-    private fun startPlayer() {
-        playerInterActorImpl.play()
+    private fun playerPrepared() {
+        binding.playButton.isEnabled = true
+        binding.playButton.setImageResource(R.drawable.ic_button_play)
+        binding.playbackDuration.text = getString(R.string._0_00)
+        handler.removeCallbacks(playbackRunnable)
+    }
+
+    private fun playerPlaying() {
         binding.playButton.setImageResource(R.drawable.ic_pause_button)
         handler.postDelayed(playbackRunnable, TIMER_DELAY)
-        playerState = STATE_PLAYING
     }
 
-    private fun pausePlayer() {
-        playerInterActorImpl.pause()
+    private fun playerPaused() {
         binding.playButton.setImageResource(R.drawable.ic_button_play)
-        playerState = STATE_PAUSED
+        handler.removeCallbacks(playbackRunnable)
     }
-
-    private fun playbackControl() {
-        when(playerState) {
-            STATE_PLAYING -> {
-                pausePlayer()
-            }
-            STATE_PREPARED, STATE_PAUSED -> {
-                startPlayer()
-            }
-        }
-    }
-
 
     companion object {
         private val TAG = AudioPlayerActivity::class.simpleName
         const val BUNDLE_KEY = "track"
         private const val TIMER_DELAY = 500L
-        private const val STATE_DEFAULT = 0
-        private const val STATE_PREPARED = 1
-        private const val STATE_PLAYING = 2
-        private const val STATE_PAUSED = 3
     }
 }
