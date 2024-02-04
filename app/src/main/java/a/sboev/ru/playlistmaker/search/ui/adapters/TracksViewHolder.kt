@@ -1,4 +1,4 @@
-package a.sboev.ru.playlistmaker.search.presentation.ui.adapters
+package a.sboev.ru.playlistmaker.search.ui.adapters
 
 import a.sboev.ru.playlistmaker.R
 import android.view.View

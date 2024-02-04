@@ -10,6 +10,6 @@ interface PlayerRepository {
     fun release()
     fun getPosition(): String
     interface StateListener {
-        fun state(state: PlayerState)
+        fun state(state: Int)
     }
 }

@@ -1,4 +1,4 @@
-package a.sboev.ru.playlistmaker.audioplayer.presentation.ui
+package a.sboev.ru.playlistmaker.audioplayer.ui
 
 import a.sboev.ru.playlistmaker.R
 import a.sboev.ru.playlistmaker.audioplayer.presentation.AudioPlayerViewModel
@@ -9,8 +9,6 @@ import a.sboev.ru.playlistmaker.utils.getDuration
 import a.sboev.ru.playlistmaker.utils.getYear
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -24,19 +22,6 @@ class AudioPlayerActivity : AppCompatActivity() {
 
     private lateinit var viewModel: AudioPlayerViewModel
     private lateinit var binding: ActivityAudioPlayerBinding
-    private var playerState: PlayerState = PlayerState.Default
-    private val playbackRunnable = object : Runnable {
-        override fun run() {
-            if (playerState is PlayerState.Playing) {
-                binding.playbackDuration.text = viewModel.getTrackCurrentPosition()
-                handler.postDelayed(this, TIMER_DELAY)
-            } else {
-                handler.removeCallbacks(this)
-            }
-        }
-    }
-    private val handler = Handler(Looper.getMainLooper())
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +45,7 @@ class AudioPlayerActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        handler.removeCallbacks(playbackRunnable)
+        viewModel.removeHandlerCallback()
         viewModel.releasePlayer()
     }
 
@@ -96,10 +81,12 @@ class AudioPlayerActivity : AppCompatActivity() {
     }
 
     private fun observe() {
+        viewModel.observeTrackPosition().observe(this) {position ->
+            binding.playbackDuration.text = position
+        }
         viewModel.observePlayerState().observe(this) { state ->
             Log.d(TAG, "current state $state")
             render(state)
-            playerState = state
         }
     }
 
@@ -116,22 +103,20 @@ class AudioPlayerActivity : AppCompatActivity() {
         binding.playButton.isEnabled = true
         binding.playButton.setImageResource(R.drawable.ic_button_play)
         binding.playbackDuration.text = getString(R.string._0_00)
-        handler.removeCallbacks(playbackRunnable)
+        viewModel.removeHandlerCallback()
     }
 
     private fun playerPlaying() {
         binding.playButton.setImageResource(R.drawable.ic_pause_button)
-        handler.postDelayed(playbackRunnable, TIMER_DELAY)
     }
 
     private fun playerPaused() {
         binding.playButton.setImageResource(R.drawable.ic_button_play)
-        handler.removeCallbacks(playbackRunnable)
+        viewModel.removeHandlerCallback()
     }
 
     companion object {
         private val TAG = AudioPlayerActivity::class.simpleName
         const val BUNDLE_KEY = "track"
-        private const val TIMER_DELAY = 500L
     }
 }

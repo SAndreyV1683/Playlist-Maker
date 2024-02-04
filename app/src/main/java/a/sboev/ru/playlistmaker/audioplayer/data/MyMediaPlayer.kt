@@ -10,29 +10,29 @@ class MyMediaPlayer(
 ): Player {
 
     private val mediaPlayer = MediaPlayer()
-    private var state: PlayerState = PlayerState.Default
+    private var state = STATE_DEFAULT
     override fun preparePlayer(trackUrl: TrackUrlDto) {
         mediaPlayer.setDataSource(trackUrl.url)
         mediaPlayer.prepareAsync()
         mediaPlayer.setOnPreparedListener {
-            state = PlayerState.Prepared
+            state = STATE_PREPARED
             stateListener.state(state)
         }
         mediaPlayer.setOnCompletionListener {
-            state = PlayerState.Prepared
+            state = STATE_PREPARED
             stateListener.state(state)
         }
     }
 
     override fun startPlayer() {
         mediaPlayer.start()
-        state = PlayerState.Playing
+        state = STATE_PLAYING
         stateListener.state(state)
     }
 
     override fun pausePlayer() {
         mediaPlayer.pause()
-        state = PlayerState.Paused
+        state = STATE_PAUSED
         stateListener.state(state)
     }
 
@@ -41,5 +41,12 @@ class MyMediaPlayer(
     }
 
     override fun getPosition(): Int = mediaPlayer.currentPosition
+
+    companion object {
+        private const val STATE_DEFAULT = 0
+        private const val STATE_PREPARED = 1
+        private const val STATE_PLAYING = 2
+        private const val STATE_PAUSED = 3
+    }
 
 }

@@ -9,7 +9,7 @@ class RetrofitNetworkClient: NetworkClient {
 
     private val retrofitService = ITunesApi.retrofitService
     override fun doRequest(dto: Any): Response {
-        if (isConnected()) {
+        if (!isConnected()) {
             return Response().apply { resultCode = -1}
         }
         return if (dto is TrackSearchRequest) {

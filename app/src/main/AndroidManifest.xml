@@ -17,17 +17,17 @@
         android:theme="@style/Theme.PlaylistMaker"
         tools:targetApi="31">
         <activity
-            android:name="a.sboev.ru.playlistmaker.audioplayer.presentation.ui.AudioPlayerActivity"
+            android:name="a.sboev.ru.playlistmaker.audioplayer.ui.AudioPlayerActivity"
             android:exported="false" />
         <activity
             android:name="a.sboev.ru.playlistmaker.LibraryActivity"
             android:exported="false" />
         <activity
-            android:name="a.sboev.ru.playlistmaker.search.presentation.ui.SearchActivity"
+            android:name="a.sboev.ru.playlistmaker.search.ui.SearchActivity"
             android:exported="false"
             android:theme="@style/Theme.PlaylistMakerSearch" />
         <activity
-            android:name="a.sboev.ru.playlistmaker.SettingsActivity"
+            android:name="a.sboev.ru.playlistmaker.settings.ui.SettingsActivity"
             android:exported="false"
             android:theme="@style/Theme.PlaylistMakerSettings" />
         <activity
