@@ -1,7 +1,6 @@
 package a.sboev.ru.playlistmaker.search.presentation
 
-import a.sboev.ru.playlistmaker.creators.HistoryInteractorCreator
-import a.sboev.ru.playlistmaker.creators.TrackInteractorCreator
+import a.sboev.ru.playlistmaker.search.domain.api.HistoryInteractor
 import a.sboev.ru.playlistmaker.search.domain.api.TrackInteractor
 import a.sboev.ru.playlistmaker.search.domain.models.Track
 import a.sboev.ru.playlistmaker.search.ui.models.TracksState
@@ -15,18 +14,19 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import org.koin.java.KoinJavaComponent.inject
 
 class SearchViewModel(application: Application): AndroidViewModel(application) {
 
     private var lastSearchRequest: String = ""
     private val handler = Handler(Looper.getMainLooper())
     private val searchRunnable = Runnable { makeRequest(lastSearchRequest) }
-    private val trackInteractor = TrackInteractorCreator.provideTrackInteractor()
-    private val historyInteractor = HistoryInteractorCreator.provideHistoryInteractor()
+    private val trackInteractor: TrackInteractor by inject(TrackInteractor::class.java)
+    private val historyInteractor: HistoryInteractor by inject(HistoryInteractor::class.java)
     private val stateLiveData = MutableLiveData<TracksState>()
     fun observeState(): LiveData<TracksState> = stateLiveData
-    private val searchHistoryListLiveData = MutableLiveData<MutableList<Track>>()
-    fun observeHistoryList(): LiveData<MutableList<Track>> = searchHistoryListLiveData
+    private val searchHistoryListLiveData = MutableLiveData<MutableList<Track>?>()
+    fun observeHistoryList(): LiveData<MutableList<Track>?> = searchHistoryListLiveData
 
 
     fun searchDebounce(searchString: String) {

@@ -1,9 +1,8 @@
 package a.sboev.ru.playlistmaker.audioplayer.data
 
-import android.media.MediaPlayer
 import a.sboev.ru.playlistmaker.audioplayer.data.models.TrackUrlDto
 import a.sboev.ru.playlistmaker.audioplayer.domain.api.PlayerRepository
-import a.sboev.ru.playlistmaker.audioplayer.presentation.PlayerState
+import android.media.MediaPlayer
 
 class MyMediaPlayer(
     private val stateListener: PlayerRepository.StateListener
