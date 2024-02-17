@@ -9,9 +9,8 @@ import a.sboev.ru.playlistmaker.search.domain.models.Track
 import android.content.Context
 
 const val TRACKS_KEY = "tracks_key"
-class SearchHistoryHandler: History {
+class SearchHistoryHandler(private val sharedPreferences: SharedPreferences): History {
 
-    private val sharedPreferences: SharedPreferences = App.INSTANCE.sharedPreferences
     override fun read(): List<TrackDto> {
         val json = sharedPreferences.getString(TRACKS_KEY, null) ?: return mutableListOf()
         return Gson().fromJson(json, Array<TrackDto>::class.java).toMutableList()

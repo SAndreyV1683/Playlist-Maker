@@ -20,14 +20,12 @@ import org.koin.core.context.GlobalContext.startKoin
 import org.koin.java.KoinJavaComponent.inject
 
 
-class App: Application(){
+class App: Application() {
 
-    lateinit var sharedPreferences: SharedPreferences
     private val settingsInteractor: SettingsInteractor by inject(SettingsInteractor::class.java)
     override fun onCreate() {
         super.onCreate()
         INSTANCE = this
-        sharedPreferences = getSharedPreferences(PLAY_LIST_MAKER_SHARED_PREFS, MODE_PRIVATE)
         startKoin {
             androidContext(this@App)
             modules(
@@ -48,7 +46,6 @@ class App: Application(){
     }
 
     companion object {
-        const val PLAY_LIST_MAKER_SHARED_PREFS = "play_list_maker_shared_prefs"
         lateinit var INSTANCE: App
     }
 }

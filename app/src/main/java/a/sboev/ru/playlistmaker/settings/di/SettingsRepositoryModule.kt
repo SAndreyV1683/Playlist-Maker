@@ -11,7 +11,7 @@ import org.koin.dsl.module
 val settingsRepositoryModule = module {
 
     single<SettingsHandler> {
-        ThemeSettingsHandler()
+        ThemeSettingsHandler(get())
     }
 
     single<SettingsRepository> {
