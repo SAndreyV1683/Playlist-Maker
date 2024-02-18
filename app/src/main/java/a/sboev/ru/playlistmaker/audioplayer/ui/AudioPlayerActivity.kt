@@ -12,15 +12,17 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
-
-
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 
 class AudioPlayerActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: AudioPlayerViewModel
+    private lateinit var track: Track
+    private val viewModel: AudioPlayerViewModel by viewModel {
+        parametersOf(track)
+    }
     private lateinit var binding: ActivityAudioPlayerBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,10 +37,9 @@ class AudioPlayerActivity : AppCompatActivity() {
         } else {
             intent?.getParcelableExtra(BUNDLE_KEY)
         }
-        Log.d(TAG, track.toString())
-        viewModel = ViewModelProvider(this,
-            AudioPlayerViewModel.getViewModelProviderFactory(track)
-        )[AudioPlayerViewModel::class.java]
+        if (track != null) {
+            this.track = track
+        }
         observe()
         initializeFields(track)
     }

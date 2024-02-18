@@ -1,24 +1,22 @@
 package a.sboev.ru.playlistmaker.search.data.local
 
-import a.sboev.ru.playlistmaker.App
 import a.sboev.ru.playlistmaker.search.data.History
 import a.sboev.ru.playlistmaker.search.data.dto.TrackDto
 import android.content.SharedPreferences
 import com.google.gson.Gson
-import a.sboev.ru.playlistmaker.search.domain.models.Track
-import android.content.Context
+import org.koin.java.KoinJavaComponent.inject
 
-const val TRACKS_KEY = "tracks_key"
-class SearchHistoryHandler: History {
+private const val TRACKS_KEY = "tracks_key"
+class SearchHistoryHandler(private val sharedPreferences: SharedPreferences): History {
 
-    private val sharedPreferences: SharedPreferences = App.INSTANCE.sharedPreferences
+    private val gson: Gson by inject(Gson::class.java)
     override fun read(): List<TrackDto> {
         val json = sharedPreferences.getString(TRACKS_KEY, null) ?: return mutableListOf()
-        return Gson().fromJson(json, Array<TrackDto>::class.java).toMutableList()
+        return gson.fromJson(json, Array<TrackDto>::class.java).toMutableList()
     }
 
     override fun write(trackList: List<TrackDto>) {
-        val json = Gson().toJson(trackList)
+        val json = gson.toJson(trackList)
         sharedPreferences.edit()
             .putString(TRACKS_KEY, json)
             .apply()

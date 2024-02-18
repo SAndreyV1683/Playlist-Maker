@@ -1,29 +1,23 @@
 package a.sboev.ru.playlistmaker.audioplayer.presentation
 
-import a.sboev.ru.playlistmaker.audioplayer.data.MyMediaPlayer
+import a.sboev.ru.playlistmaker.audioplayer.domain.api.PlayerInterActor
 import a.sboev.ru.playlistmaker.audioplayer.domain.api.PlayerRepository
 import a.sboev.ru.playlistmaker.audioplayer.domain.models.TrackUrl
-import a.sboev.ru.playlistmaker.audioplayer.ui.AudioPlayerActivity
-import a.sboev.ru.playlistmaker.creators.PlayerInteractorCreator
 import a.sboev.ru.playlistmaker.search.domain.models.Track
-import android.app.Application
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
+import androidx.lifecycle.ViewModel
+import org.koin.core.parameter.parametersOf
+import org.koin.java.KoinJavaComponent.inject
 
 class AudioPlayerViewModel(
     track: Track?,
-    application: Application
-) : AndroidViewModel(application) {
+) : ViewModel() {
 
-    private var playerState = MutableLiveData<PlayerState>(PlayerState.Default)
+    private val playerState = MutableLiveData<PlayerState>(PlayerState.Default)
     private var trackPosition = MutableLiveData("0:00")
     fun observeTrackPosition(): LiveData<String> = trackPosition
     fun observePlayerState(): LiveData<PlayerState> = playerState
@@ -40,7 +34,9 @@ class AudioPlayerViewModel(
             currentPlayerState = s
         }
     }
-    private val playerInteractor = PlayerInteractorCreator.providePlayerInteractor(MyMediaPlayer(stateListener))
+    private val playerInteractor: PlayerInterActor by inject(PlayerInterActor::class.java) {
+        parametersOf(stateListener)
+    }
     init {
         preparePlayer(track)
     }
@@ -94,14 +90,6 @@ class AudioPlayerViewModel(
     companion object {
         val TAG = AudioPlayerViewModel::class.simpleName
         private const val TIMER_DELAY = 500L
-        fun getViewModelProviderFactory(track: Track?): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                AudioPlayerViewModel(
-                    track,
-                    this[APPLICATION_KEY] as Application
-                )
-            }
-        }
     }
 
     override fun onCleared() {

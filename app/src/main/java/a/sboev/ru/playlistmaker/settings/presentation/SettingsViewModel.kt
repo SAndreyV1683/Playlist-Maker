@@ -1,19 +1,16 @@
 package a.sboev.ru.playlistmaker.settings.presentation
 
-import a.sboev.ru.playlistmaker.App
-import a.sboev.ru.playlistmaker.creators.SharingInteractorCreator
 import a.sboev.ru.playlistmaker.settings.domain.ThemeSettings
+import a.sboev.ru.playlistmaker.settings.domain.api.SettingsInteractor
+import a.sboev.ru.playlistmaker.settings.domain.api.SharingInteractor
 import a.sboev.ru.playlistmaker.settings.domain.model.EmailData
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
+import androidx.lifecycle.ViewModel
+import org.koin.java.KoinJavaComponent.inject
 
-class SettingsViewModel(application: Application): AndroidViewModel(application) {
+class SettingsViewModel: ViewModel() {
 
-    private val settingsInteractor = App.INSTANCE.settingsInteractor
-    private val sharingInteractor = SharingInteractorCreator.provideSharingInteractor()
+    private val settingsInteractor: SettingsInteractor by inject(SettingsInteractor::class.java)
+    private val sharingInteractor: SharingInteractor by inject(SharingInteractor::class.java)
 
     fun getThemeSettings(): Boolean {
         return settingsInteractor.getThemeSettings().darkTheme
@@ -30,12 +27,5 @@ class SettingsViewModel(application: Application): AndroidViewModel(application)
     }
     fun openSupport(emailData: EmailData) {
         sharingInteractor.openSupport(emailData)
-    }
-    companion object {
-        fun getViewModelFactory(): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                SettingsViewModel(this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as Application)
-            }
-        }
     }
 }

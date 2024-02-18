@@ -24,9 +24,10 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 
 class SearchActivity : AppCompatActivity() {
@@ -50,16 +51,21 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var progressBar: ProgressBar
     private var isClickAllowed = true
     private val handler = Handler(Looper.getMainLooper())
-    lateinit var viewModel: SearchViewModel
+    val viewModel: SearchViewModel by viewModel {
+        parametersOf()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
-        viewModel = ViewModelProvider(this, SearchViewModel.getViewModelFactory())[SearchViewModel::class.java]
         viewModel.observeState().observe(this) { state -> render(state) }
         initViews()
         initListeners()
-        viewModel.observeHistoryList().observe(this) { list -> searchHistoryList = list }
+        viewModel.observeHistoryList().observe(this) { list ->
+            if (list != null) {
+                searchHistoryList = list
+            }
+        }
         viewModel.readSearchHistory()
         searchEditText.setText("")
         adapter = TrackAdapter(onItemClicked)
@@ -94,7 +100,8 @@ class SearchActivity : AppCompatActivity() {
     private fun initListeners() {
         onItemClicked = TrackAdapter.OnItemClickListener { track ->
             if (clickDebounce()) {
-                viewModel.writeSearchHistory(track)
+                if (!searchHistoryTitle.isVisible)
+                    viewModel.writeSearchHistory(track)
                 val intent = Intent(this, AudioPlayerActivity::class.java)
                 intent.putExtra(BUNDLE_KEY, track)
                 this.startActivity(intent)

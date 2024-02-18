@@ -5,9 +5,9 @@ import a.sboev.ru.playlistmaker.search.data.dto.Response
 import a.sboev.ru.playlistmaker.search.data.dto.TrackSearchRequest
 import a.sboev.ru.playlistmaker.utils.isConnected
 
-class RetrofitNetworkClient: NetworkClient {
+class RetrofitNetworkClient(imdbService: ITunesApiService): NetworkClient {
 
-    private val retrofitService = ITunesApi.retrofitService
+    private val retrofitService = imdbService
     override fun doRequest(dto: Any): Response {
         if (!isConnected()) {
             return Response().apply { resultCode = -1}
