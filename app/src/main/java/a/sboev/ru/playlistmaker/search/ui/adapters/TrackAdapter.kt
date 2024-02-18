@@ -1,17 +1,15 @@
 package a.sboev.ru.playlistmaker.search.ui.adapters
 
 import a.sboev.ru.playlistmaker.R
+import a.sboev.ru.playlistmaker.search.domain.models.Track
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import a.sboev.ru.playlistmaker.search.domain.models.Track
 
 
 class TrackAdapter(
     private val onItemClickListener: OnItemClickListener
 ): RecyclerView.Adapter<TracksViewHolder>()  {
-
-
     fun interface OnItemClickListener {
         fun onClick(track: Track)
     }
@@ -33,7 +31,5 @@ class TrackAdapter(
         holder.itemView.setOnClickListener {
             onItemClickListener.onClick(tracks[position])
         }
-
-
     }
 }

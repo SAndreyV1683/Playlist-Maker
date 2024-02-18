@@ -14,7 +14,6 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
@@ -25,7 +24,6 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -102,8 +100,8 @@ class SearchActivity : AppCompatActivity() {
     private fun initListeners() {
         onItemClicked = TrackAdapter.OnItemClickListener { track ->
             if (clickDebounce()) {
-                Log.d(SearchActivity::class.simpleName, "click allowed ${clickDebounce()}")
-                viewModel.writeSearchHistory(track)
+                if (!searchHistoryTitle.isVisible)
+                    viewModel.writeSearchHistory(track)
                 val intent = Intent(this, AudioPlayerActivity::class.java)
                 intent.putExtra(BUNDLE_KEY, track)
                 this.startActivity(intent)

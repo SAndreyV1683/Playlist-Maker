@@ -12,7 +12,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -20,7 +19,7 @@ import org.koin.core.parameter.parametersOf
 
 class AudioPlayerActivity : AppCompatActivity() {
 
-    lateinit var track: Track
+    private lateinit var track: Track
     private val viewModel: AudioPlayerViewModel by viewModel {
         parametersOf(track)
     }

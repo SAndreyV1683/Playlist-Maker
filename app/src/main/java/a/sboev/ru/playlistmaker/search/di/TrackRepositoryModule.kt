@@ -2,7 +2,6 @@ package a.sboev.ru.playlistmaker.search.di
 
 import a.sboev.ru.playlistmaker.search.data.NetworkClient
 import a.sboev.ru.playlistmaker.search.data.TrackRepositoryImpl
-import a.sboev.ru.playlistmaker.search.data.network.ITunesApi
 import a.sboev.ru.playlistmaker.search.data.network.ITunesApiService
 import a.sboev.ru.playlistmaker.search.data.network.RetrofitNetworkClient
 import a.sboev.ru.playlistmaker.search.domain.api.TrackInteractor
@@ -12,7 +11,7 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-const val baseUrl = "https://itunes.apple.com"
+private const val baseUrl = "https://itunes.apple.com"
 
 val trackRepositoryModule = module {
 
@@ -24,7 +23,7 @@ val trackRepositoryModule = module {
             .create(ITunesApiService::class.java)
     }
 
-    factory<NetworkClient> {
+    single<NetworkClient> {
         RetrofitNetworkClient(get())
     }
 
