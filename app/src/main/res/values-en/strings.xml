@@ -25,4 +25,8 @@
     <string name="genre">Genre</string>
     <string name="country">Country</string>
     <string name="_0_30">0:30</string>
+    <string name="media_library_title">MediaLibrary</string>
+    <string name="play_list_error_text">You haven\'t created\nmore than one playlist</string>
+    <string name="play_lists_button_text">New playlist</string>
+    <string name="featured_tracks_error_text">Your media library is empty</string>
 </resources>
