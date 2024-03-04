@@ -29,7 +29,7 @@
     <string name="_0_30">0:30</string>
     <string name="_0_00" translatable="false">0:00</string>
     <string name="media_library_title">Медиатека</string>
-    <string name="play_list_error_text">Вы не создали\nне одного плейлиста</string>
+    <string name="play_list_error_text">Вы не создали\nни одного плейлиста</string>
     <string name="play_lists_button_text">Новый плейлист</string>
     <string name="featured_tracks_error_text">Ваша медиатека пуста</string>
     <string name="tab_layout_featured_tracks_title">Избранные треки</string>
