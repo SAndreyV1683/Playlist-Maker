@@ -20,8 +20,8 @@ class LibraryActivity : AppCompatActivity() {
         binding.viewPager.adapter = LibraryViewPagerAdapter(supportFragmentManager, lifecycle)
         tabLayoutMediator = TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             when (position) {
-                0 -> tab.text = "Избранные треки"
-                1 -> tab.text = "Плейлисты"
+                0 -> tab.text = getString(R.string.tab_layout_featured_tracks_title)
+                1 -> tab.text = getString(R.string.tab_layout_playlists_title)
             }
         }
         tabLayoutMediator.attach()

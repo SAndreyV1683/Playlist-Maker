@@ -159,7 +159,6 @@
 
     <style name="audio_player_background_style">
         <item name="background">@color/white</item>
-        <item name="tint">@color/black</item>
     </style>
 
     <style name="audio_player_track_info_title_text_style">

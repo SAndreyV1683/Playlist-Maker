@@ -29,4 +29,6 @@
     <string name="play_list_error_text">You haven\'t created\nmore than one playlist</string>
     <string name="play_lists_button_text">New playlist</string>
     <string name="featured_tracks_error_text">Your media library is empty</string>
+    <string name="tab_layout_featured_tracks_title">Featured tracks</string>
+    <string name="tab_layout_playlists_title">Playlists</string>
 </resources>
