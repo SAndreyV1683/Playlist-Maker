@@ -39,8 +39,8 @@ class FeaturedTracksFragment: BindingFragment<FragmentFeaturedTracksBinding>() {
 
     private fun showContent() {
         binding.apply {
-            featuredTracksErrorTextView.isVisible = true
-            featuredTracksErrorImageView.isVisible = true
+            featuredTracksErrorTextView.isVisible = false
+            featuredTracksErrorImageView.isVisible = false
         }
     }
 

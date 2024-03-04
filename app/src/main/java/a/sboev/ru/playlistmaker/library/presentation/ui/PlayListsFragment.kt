@@ -36,6 +36,7 @@ class PlayListsFragment: BindingFragment<FragmentPlayListsBinding>() {
         binding.apply {
             playlistsErrorImageView.isVisible = true
             playlistsErrorTextView.isVisible = true
+            playlistsButton.isVisible = true
         }
     }
 
@@ -43,6 +44,7 @@ class PlayListsFragment: BindingFragment<FragmentPlayListsBinding>() {
         binding.apply {
             playlistsErrorImageView.isVisible = false
             playlistsErrorTextView.isVisible = false
+            playlistsButton.isVisible = false
         }
     }
 
