@@ -21,18 +21,6 @@
             android:exported="false"
             android:theme="@style/Theme.PlaylistMakerPlayer"/>
         <activity
-            android:name="a.sboev.ru.playlistmaker.library.presentation.ui.LibraryActivity"
-            android:exported="false"
-            android:theme="@style/Theme.PlaylistMakerLibrary"/>
-        <activity
-            android:name="a.sboev.ru.playlistmaker.search.ui.SearchActivity"
-            android:exported="false"
-            android:theme="@style/Theme.PlaylistMakerSearch" />
-        <activity
-            android:name="a.sboev.ru.playlistmaker.settings.ui.SettingsActivity"
-            android:exported="false"
-            android:theme="@style/Theme.PlaylistMakerSettings" />
-        <activity
             android:name="a.sboev.ru.playlistmaker.MainActivity"
             android:exported="true">
             <intent-filter>
