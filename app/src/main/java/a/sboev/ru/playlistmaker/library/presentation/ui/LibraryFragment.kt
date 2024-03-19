@@ -21,10 +21,7 @@ class LibraryFragment: BindingFragment<FragmentLibraryBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.libraryToolbar.setNavigationOnClickListener {
-            parentFragmentManager.popBackStack()
-        }
-        binding.viewPager.adapter = LibraryViewPagerAdapter(parentFragmentManager, lifecycle)
+        binding.viewPager.adapter = LibraryViewPagerAdapter(childFragmentManager, lifecycle)
         tabLayoutMediator = TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             when (position) {
                 0 -> tab.text = getString(R.string.tab_layout_featured_tracks_title)

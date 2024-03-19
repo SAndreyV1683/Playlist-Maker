@@ -38,12 +38,6 @@ class SettingsFragment: BindingFragment<FragmentSettingsBinding>() {
             viewModel.updateTheme(checked)
         }
 
-
-        binding.arrowBack.setOnClickListener {
-            parentFragmentManager.popBackStack()
-        }
-
-
         binding.shareButton.setOnClickListener {
             viewModel.shareApp(getString(R.string.extra_text_for_send))
         }

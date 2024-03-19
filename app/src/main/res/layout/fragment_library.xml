@@ -7,13 +7,12 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    tools:context=".library.presentation.ui.LibraryActivity">
+    tools:context="a.sboev.ru.playlistmaker.library.presentation.ui.LibraryFragment">
 
     <androidx.appcompat.widget.Toolbar
         style="@style/LibraryScreenBackgroundStyle"
         android:id="@+id/library_toolbar"
         app:title="@string/media_library_title"
-        app:navigationIcon="@drawable/ic_arrow_back"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

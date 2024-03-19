@@ -14,18 +14,17 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.PlaylistMaker"
+        android:theme="@style/Theme.PlaylistMakerTheme"
         tools:targetApi="31">
         <activity
             android:name="a.sboev.ru.playlistmaker.audioplayer.ui.AudioPlayerActivity"
-            android:exported="false"
-            android:theme="@style/Theme.PlaylistMakerPlayer"/>
+            android:exported="false"/>
         <activity
             android:name="a.sboev.ru.playlistmaker.MainActivity"
+            android:windowSoftInputMode="adjustNothing"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

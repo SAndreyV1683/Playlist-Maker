@@ -88,9 +88,7 @@ class SearchFragment: BindingFragment<FragmentSearchBinding>() {
                 this.startActivity(intent)
             }
         }
-        binding.arrowBack.setOnClickListener {
-            parentFragmentManager.popBackStack()
-        }
+
         binding.refreshButton.setOnClickListener {
             binding.progressBar.isVisible = true
             viewModel.searchDebounce(editTextStr)
