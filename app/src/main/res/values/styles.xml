@@ -214,6 +214,15 @@
         <item name="navigationIcon">@drawable/ic_arrow_back</item>
     </style>
 
+    <style name="bottom_navigation_view_itemActiveIndicatorStyle" parent="Widget.MaterialComponents.BottomNavigationView"/>
+    <style name="bottom_navigation_view_style" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="android:background">@color/white</item>
+        <item name="itemIconTint">@drawable/navigation_view_colored</item>
+        <item name="itemTextColor">@drawable/navigation_view_colored</item>
+    </style>
+
+
+
 
 
 </resources>
