@@ -1,34 +1,24 @@
 package a.sboev.ru.playlistmaker
 
-import a.sboev.ru.playlistmaker.library.presentation.ui.LibraryActivity
-import a.sboev.ru.playlistmaker.search.ui.SearchActivity
-import a.sboev.ru.playlistmaker.settings.ui.SettingsActivity
-import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.commit
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val searchButton = findViewById<Button>(R.id.search_btn)
-        val libraryButton = findViewById<Button>(R.id.library_btn)
-        val settingButton = findViewById<Button>(R.id.settings_btn)
-        val searchBtnClickListener = View.OnClickListener {
-            val searchIntent = Intent(this@MainActivity, SearchActivity::class.java)
-            startActivity(searchIntent)
-        }
-        searchButton.setOnClickListener(searchBtnClickListener)
-        libraryButton.setOnClickListener {
-            val libraryIntent = Intent(this@MainActivity, LibraryActivity::class.java)
-            startActivity(libraryIntent)
-        }
-        settingButton.setOnClickListener {
-            val settingsIntent = Intent(this@MainActivity, SettingsActivity::class.java)
-            startActivity(settingsIntent)
-        }
+
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.container_view) as NavHostFragment
+        val navController = navHostFragment.navController
+
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        bottomNavigationView.setupWithNavController(navController)
+
     }
 }

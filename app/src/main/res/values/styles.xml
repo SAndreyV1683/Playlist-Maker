@@ -158,7 +158,7 @@
     </style>
 
     <style name="audio_player_background_style">
-        <item name="background">@color/white</item>
+        <item name="android:background">@color/white</item>
     </style>
 
     <style name="audio_player_track_info_title_text_style">
@@ -213,6 +213,15 @@
     <style name="audio_player_toolbar_style">
         <item name="navigationIcon">@drawable/ic_arrow_back</item>
     </style>
+
+    <style name="bottom_navigation_view_itemActiveIndicatorStyle" parent="Widget.MaterialComponents.BottomNavigationView"/>
+    <style name="bottom_navigation_view_style" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="android:background">@color/white</item>
+        <item name="itemIconTint">@drawable/navigation_view_colored</item>
+        <item name="itemTextColor">@drawable/navigation_view_colored</item>
+    </style>
+
+
 
 
 

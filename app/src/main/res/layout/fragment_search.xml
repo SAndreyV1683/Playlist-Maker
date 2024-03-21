@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".search.ui.SearchActivity"
+    tools:context="a.sboev.ru.playlistmaker.search.ui.SearchFragment"
     android:orientation="vertical">
 
     <LinearLayout
@@ -13,13 +13,6 @@
         android:paddingEnd="@dimen/four_dp"
         android:paddingStart="@dimen/four_dp"
         android:orientation="horizontal">
-
-        <ImageView style="@style/SettingsScreenBackgroundStyle"
-            android:id="@+id/arrow_back"
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"
-            android:layout_margin="@dimen/small_padding"
-            android:src="@drawable/ic_arrow_back"/>
 
         <TextView style="@style/SettingsScreenTitleTextStyle"
             android:layout_width="wrap_content"
