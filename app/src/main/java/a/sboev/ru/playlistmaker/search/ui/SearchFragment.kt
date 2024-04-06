@@ -1,5 +1,6 @@
 package a.sboev.ru.playlistmaker.search.ui
 
+import a.sboev.ru.playlistmaker.MainActivity
 import a.sboev.ru.playlistmaker.R
 import a.sboev.ru.playlistmaker.audioplayer.ui.AudioPlayerActivity
 import a.sboev.ru.playlistmaker.databinding.FragmentSearchBinding
@@ -8,11 +9,10 @@ import a.sboev.ru.playlistmaker.search.domain.models.Track
 import a.sboev.ru.playlistmaker.search.presentation.SearchViewModel
 import a.sboev.ru.playlistmaker.search.ui.adapters.TrackAdapter
 import a.sboev.ru.playlistmaker.search.ui.models.TracksState
+import a.sboev.ru.playlistmaker.utils.debounce
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -20,6 +20,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -33,12 +34,10 @@ class SearchFragment: BindingFragment<FragmentSearchBinding>() {
     private var searchHistoryList = mutableListOf<Track>()
     private lateinit var onItemClicked: TrackAdapter.OnItemClickListener
     private lateinit var adapter: TrackAdapter
-
-    private var isClickAllowed = true
-    private val handler = Handler(Looper.getMainLooper())
     val viewModel: SearchViewModel by viewModel {
         parametersOf()
     }
+    private lateinit var onItemClickDebounce: (Track) -> Unit
     override fun createBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
@@ -48,6 +47,13 @@ class SearchFragment: BindingFragment<FragmentSearchBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        onItemClickDebounce = debounce(DEBOUNCE_DELAY, viewLifecycleOwner.lifecycleScope, false) { track ->
+            if (!binding.searchHistoryTitle.isVisible)
+                viewModel.writeSearchHistory(track)
+            val intent = Intent(requireContext(), AudioPlayerActivity::class.java)
+            intent.putExtra(AudioPlayerActivity.BUNDLE_KEY, track)
+            this.startActivity(intent)
+        }
         editTextStr = savedInstanceState?.getString(SAVED_STRING_KEY, "").orEmpty()
         binding.searchEditText.setText(editTextStr)
         viewModel.observeState().observe(viewLifecycleOwner) { state -> render(state) }
@@ -67,26 +73,10 @@ class SearchFragment: BindingFragment<FragmentSearchBinding>() {
 
     }
 
-    private fun clickDebounce(): Boolean {
-        val current = isClickAllowed
-        if (isClickAllowed) {
-            isClickAllowed = false
-            handler.postDelayed({ isClickAllowed = true }, DEBOUNCE_DELAY)
-        }
-        return current
-    }
-
-
 
     private fun initListeners() {
         onItemClicked = TrackAdapter.OnItemClickListener { track ->
-            if (clickDebounce()) {
-                if (!binding.searchHistoryTitle.isVisible)
-                    viewModel.writeSearchHistory(track)
-                val intent = Intent(requireContext(), AudioPlayerActivity::class.java)
-                intent.putExtra(AudioPlayerActivity.BUNDLE_KEY, track)
-                this.startActivity(intent)
-            }
+            onItemClickDebounce(track)
         }
 
         binding.refreshButton.setOnClickListener {
@@ -213,6 +203,6 @@ class SearchFragment: BindingFragment<FragmentSearchBinding>() {
 
     companion object {
         private const val SAVED_STRING_KEY = "SAVED_STRING_KEY"
-        private const val DEBOUNCE_DELAY = 1000L
+        private const val DEBOUNCE_DELAY = 300L
     }
 }

@@ -4,6 +4,7 @@ import a.sboev.ru.playlistmaker.search.domain.api.HistoryInteractor
 import a.sboev.ru.playlistmaker.search.domain.api.TrackInteractor
 import a.sboev.ru.playlistmaker.search.domain.models.Track
 import a.sboev.ru.playlistmaker.search.ui.models.TracksState
+import a.sboev.ru.playlistmaker.utils.debounce
 import android.app.Application
 import android.os.Handler
 import android.os.Looper
@@ -12,6 +13,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
+import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import org.koin.java.KoinJavaComponent.inject
@@ -19,20 +21,21 @@ import org.koin.java.KoinJavaComponent.inject
 class SearchViewModel(application: Application): AndroidViewModel(application) {
 
     private var lastSearchRequest: String = ""
-    private val handler = Handler(Looper.getMainLooper())
-    private val searchRunnable = Runnable { makeRequest(lastSearchRequest) }
     private val trackInteractor: TrackInteractor by inject(TrackInteractor::class.java)
     private val historyInteractor: HistoryInteractor by inject(HistoryInteractor::class.java)
     private val stateLiveData = MutableLiveData<TracksState>()
     fun observeState(): LiveData<TracksState> = stateLiveData
     private val searchHistoryListLiveData = MutableLiveData<MutableList<Track>?>()
     fun observeHistoryList(): LiveData<MutableList<Track>?> = searchHistoryListLiveData
-
+    private val onSearchDebounce = debounce<String>(SEARCH_DEBOUNCE_DELAY, viewModelScope, true) { searchString ->
+        makeRequest(searchString)
+    }
 
     fun searchDebounce(searchString: String) {
+        if (lastSearchRequest == searchString)
+            return
         lastSearchRequest = searchString
-        handler.removeCallbacks(searchRunnable)
-        handler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
+        onSearchDebounce(lastSearchRequest)
     }
 
     private fun makeRequest(newSearchString: String) {
@@ -95,18 +98,8 @@ class SearchViewModel(application: Application): AndroidViewModel(application) {
         stateLiveData.postValue(state)
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        handler.removeCallbacks(searchRunnable)
-    }
-
     companion object {
         const val SEARCH_DEBOUNCE_DELAY = 2000L
         const val SEARCH_HISTORY_LIMIT = 10
-        fun getViewModelFactory(): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                SearchViewModel(this[APPLICATION_KEY] as Application)
-            }
-        }
     }
 }

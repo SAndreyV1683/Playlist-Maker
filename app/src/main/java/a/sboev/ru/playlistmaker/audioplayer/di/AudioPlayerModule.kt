@@ -11,18 +11,16 @@ import org.koin.dsl.module
 
 val audioPlayerModule = module {
 
-    val params = parametersOf()
-
     factory<Player> {
-        MyMediaPlayer(params.get())
+        MyMediaPlayer()
     }
 
     factory<PlayerRepository> {
         PlayerRepositoryImpl(get())
     }
 
-    factory<PlayerInterActor> { p ->
-        params.insert(0, p.get())
+    factory<PlayerInterActor> {
         PlayerInterActorImpl(get())
     }
+
 }

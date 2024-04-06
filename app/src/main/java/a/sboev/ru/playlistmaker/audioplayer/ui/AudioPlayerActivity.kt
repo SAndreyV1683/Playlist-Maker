@@ -2,7 +2,7 @@ package a.sboev.ru.playlistmaker.audioplayer.ui
 
 import a.sboev.ru.playlistmaker.R
 import a.sboev.ru.playlistmaker.audioplayer.presentation.AudioPlayerViewModel
-import a.sboev.ru.playlistmaker.audioplayer.presentation.PlayerState
+import a.sboev.ru.playlistmaker.audioplayer.presentation.PlayerStateUi
 import a.sboev.ru.playlistmaker.databinding.ActivityAudioPlayerBinding
 import a.sboev.ru.playlistmaker.search.domain.models.Track
 import a.sboev.ru.playlistmaker.utils.getDuration
@@ -46,7 +46,6 @@ class AudioPlayerActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        viewModel.removeHandlerCallback()
         viewModel.releasePlayer()
     }
 
@@ -91,12 +90,12 @@ class AudioPlayerActivity : AppCompatActivity() {
         }
     }
 
-    private fun render(state: PlayerState) {
+    private fun render(state: PlayerStateUi) {
         when (state) {
-            PlayerState.Prepared -> playerPrepared()
-            PlayerState.Playing -> playerPlaying()
-            PlayerState.Paused -> playerPaused()
-            PlayerState.Default -> binding.playButton.isEnabled = false
+            PlayerStateUi.Prepared -> playerPrepared()
+            PlayerStateUi.Playing -> playerPlaying()
+            PlayerStateUi.Paused -> playerPaused()
+            PlayerStateUi.Default -> binding.playButton.isEnabled = false
         }
     }
 
@@ -104,7 +103,6 @@ class AudioPlayerActivity : AppCompatActivity() {
         binding.playButton.isEnabled = true
         binding.playButton.setImageResource(R.drawable.ic_button_play)
         binding.playbackDuration.text = getString(R.string._0_00)
-        viewModel.removeHandlerCallback()
     }
 
     private fun playerPlaying() {
@@ -113,7 +111,6 @@ class AudioPlayerActivity : AppCompatActivity() {
 
     private fun playerPaused() {
         binding.playButton.setImageResource(R.drawable.ic_button_play)
-        viewModel.removeHandlerCallback()
     }
 
     companion object {
