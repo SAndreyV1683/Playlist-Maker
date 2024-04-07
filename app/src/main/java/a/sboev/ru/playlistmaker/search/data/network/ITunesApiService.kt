@@ -1,7 +1,6 @@
 package a.sboev.ru.playlistmaker.search.data.network
 
 import a.sboev.ru.playlistmaker.search.data.dto.TrackResponse
-import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
@@ -15,7 +14,7 @@ val retrofit: Retrofit = Retrofit.Builder()
 
 interface ITunesApiService {
     @GET("/search?entity=song")
-    fun search(@Query("term") text: String): Call<TrackResponse>
+    suspend fun search(@Query("term") text: String): TrackResponse
 }
 
 object ITunesApi {

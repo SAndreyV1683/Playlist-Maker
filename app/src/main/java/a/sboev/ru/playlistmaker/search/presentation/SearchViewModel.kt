@@ -6,16 +6,11 @@ import a.sboev.ru.playlistmaker.search.domain.models.Track
 import a.sboev.ru.playlistmaker.search.ui.models.TracksState
 import a.sboev.ru.playlistmaker.utils.debounce
 import android.app.Application
-import android.os.Handler
-import android.os.Looper
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
+import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent.inject
 
 class SearchViewModel(application: Application): AndroidViewModel(application) {
@@ -41,33 +36,37 @@ class SearchViewModel(application: Application): AndroidViewModel(application) {
     private fun makeRequest(newSearchString: String) {
         if (newSearchString.isNotEmpty()) {
             renderState(TracksState.Loading)
-            trackInteractor.searchTracks(
-                newSearchString, object : TrackInteractor.TracksConsumer {
-                    override fun consume(foundTracks: List<Track>?, errorMessage: String?) {
-                        val tracks = mutableListOf<Track>()
-                        if (foundTracks != null)
-                            tracks.addAll(foundTracks)
 
-                        when {
-                            errorMessage != null -> {
-                                renderState(
-                                    TracksState.Error(errorMessage)
-                                )
-                            }
-                            tracks.isEmpty() -> {
-                                renderState(
-                                    TracksState.Empty("")
-                                )
-                            }
-                            else -> {
-                                renderState(
-                                    TracksState.Content(tracks)
-                                )
-                            }
-                        }
-                    }
+            viewModelScope.launch {
+                trackInteractor.searchTracks(newSearchString).collect { pair ->
+                    processResult(pair.first, pair.second)
                 }
-            )
+            }
+
+        }
+    }
+
+    private fun processResult(foundTracks: List<Track>?, errorMessage: String?) {
+        val tracks = mutableListOf<Track>()
+        if (foundTracks != null)
+            tracks.addAll(foundTracks)
+
+        when {
+            errorMessage != null -> {
+                renderState(
+                    TracksState.Error(errorMessage)
+                )
+            }
+            tracks.isEmpty() -> {
+                renderState(
+                    TracksState.Empty("")
+                )
+            }
+            else -> {
+                renderState(
+                    TracksState.Content(tracks)
+                )
+            }
         }
     }
 

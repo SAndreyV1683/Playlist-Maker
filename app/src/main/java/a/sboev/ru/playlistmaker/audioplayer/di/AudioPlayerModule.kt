@@ -6,7 +6,6 @@ import a.sboev.ru.playlistmaker.audioplayer.data.PlayerRepositoryImpl
 import a.sboev.ru.playlistmaker.audioplayer.domain.api.PlayerInterActor
 import a.sboev.ru.playlistmaker.audioplayer.domain.api.PlayerRepository
 import a.sboev.ru.playlistmaker.audioplayer.domain.impl.PlayerInterActorImpl
-import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
 
 val audioPlayerModule = module {
