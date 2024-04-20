@@ -1,8 +1,9 @@
-package a.sboev.ru.playlistmaker.library.presentation.ui
+package a.sboev.ru.playlistmaker.library.ui.featuredtracks
 
 import a.sboev.ru.playlistmaker.databinding.FragmentFeaturedTracksBinding
-import a.sboev.ru.playlistmaker.library.presentation.FeaturedTracksViewModel
+import a.sboev.ru.playlistmaker.library.presentation.viewmodels.FeaturedTracksViewModel
 import a.sboev.ru.playlistmaker.library.presentation.LibState
+import a.sboev.ru.playlistmaker.library.ui.BindingFragment
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -22,25 +23,31 @@ class FeaturedTracksFragment: BindingFragment<FragmentFeaturedTracksBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.fillData()
         viewModel.observeState().observe(viewLifecycleOwner) { state ->
             when (state) {
-                is LibState.Error -> showErrorMessage()
+                is LibState.Loading -> showLoading()
+                is LibState.Empty -> showErrorMessage()
                 is LibState.Content -> showContent()
             }
         }
     }
 
+    private fun showLoading() {
+        binding.apply {
+            placeHolder.isVisible = false
+        }
+    }
+
     private fun showErrorMessage() {
         binding.apply {
-            featuredTracksErrorTextView.isVisible = true
-            featuredTracksErrorImageView.isVisible = true
+            placeHolder.isVisible = true
         }
     }
 
     private fun showContent() {
         binding.apply {
-            featuredTracksErrorTextView.isVisible = false
-            featuredTracksErrorImageView.isVisible = false
+            placeHolder.isVisible = false
         }
     }
 

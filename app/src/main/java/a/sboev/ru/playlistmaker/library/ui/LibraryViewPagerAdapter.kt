@@ -1,5 +1,7 @@
-package a.sboev.ru.playlistmaker.library.presentation.ui
+package a.sboev.ru.playlistmaker.library.ui
 
+import a.sboev.ru.playlistmaker.library.ui.featuredtracks.FeaturedTracksFragment
+import a.sboev.ru.playlistmaker.library.ui.playlist.PlayListsFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle

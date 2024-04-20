@@ -1,9 +1,10 @@
-package a.sboev.ru.playlistmaker.library.presentation.ui
+package a.sboev.ru.playlistmaker.library.ui.playlist
 
 
 import a.sboev.ru.playlistmaker.databinding.FragmentPlayListsBinding
 import a.sboev.ru.playlistmaker.library.presentation.LibState
-import a.sboev.ru.playlistmaker.library.presentation.PlayListsViewModel
+import a.sboev.ru.playlistmaker.library.ui.BindingFragment
+import a.sboev.ru.playlistmaker.library.presentation.viewmodels.PlayListsViewModel
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -26,7 +27,8 @@ class PlayListsFragment: BindingFragment<FragmentPlayListsBinding>() {
         super.onViewCreated(view, savedInstanceState)
         viewModel.observeState().observe(viewLifecycleOwner) { state ->
             when (state) {
-                is LibState.Error -> showErrorMessage()
+                is LibState.Loading -> {}
+                is LibState.Empty -> showErrorMessage()
                 is LibState.Content -> showContent()
             }
         }

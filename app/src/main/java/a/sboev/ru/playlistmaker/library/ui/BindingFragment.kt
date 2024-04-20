@@ -1,4 +1,4 @@
-package a.sboev.ru.playlistmaker.library.presentation.ui
+package a.sboev.ru.playlistmaker.library.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater

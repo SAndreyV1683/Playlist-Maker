@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/libraryFragment"
-        android:name="a.sboev.ru.playlistmaker.library.presentation.ui.LibraryFragment"
+        android:name="a.sboev.ru.playlistmaker.library.ui.LibraryFragment"
         android:label="LibraryFragment" />
     <fragment
         android:id="@+id/searchFragment"
