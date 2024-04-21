@@ -5,12 +5,14 @@ import a.sboev.ru.playlistmaker.search.data.dto.TrackSearchRequest
 import a.sboev.ru.playlistmaker.search.domain.api.TrackRepository
 import a.sboev.ru.playlistmaker.search.domain.models.Track
 import a.sboev.ru.playlistmaker.utils.Resource
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 class TrackRepositoryImpl(private val networkClient: NetworkClient): TrackRepository {
-    override fun searchTrack(expression: String): Resource<List<Track>> {
+    override fun searchTrack(expression: String): Flow<Resource<List<Track>>> = flow {
         val response = networkClient.doRequest(TrackSearchRequest(expression))
-        return when (response.resultCode) {
-            -1 -> Resource.Error("Check network connection")
+        when (response.resultCode) {
+            -1 -> emit(Resource.Error("Check network connection"))
             200 -> {
                 val trackResponse = (response as TrackResponse).results.map {
                     Track(
@@ -26,9 +28,9 @@ class TrackRepositoryImpl(private val networkClient: NetworkClient): TrackReposi
                         country = it.country
                     )
                 }
-                Resource.Success(trackResponse)
+                emit(Resource.Success(trackResponse))
             }
-            else -> { Resource.Error("Server error") }
+            else -> { emit(Resource.Error("Server error")) }
         }
     }
 }

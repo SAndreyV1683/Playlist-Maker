@@ -12,9 +12,18 @@
     <androidx.appcompat.widget.Toolbar
         style="@style/LibraryScreenBackgroundStyle"
         android:id="@+id/library_toolbar"
-        app:title="@string/media_library_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content">
+
+        <TextView style="@style/SettingsScreenTitleTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="@dimen/medium_padding"
+            android:layout_marginBottom="@dimen/medium_padding"
+            android:text="@string/media_library_title" />
+
+    </androidx.appcompat.widget.Toolbar>
 
     <com.google.android.material.tabs.TabLayout
         style="@style/LibraryScreenTabLayoutStyle"
