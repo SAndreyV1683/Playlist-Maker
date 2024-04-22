@@ -14,7 +14,8 @@ data class Track(
     val collectionName: String?,
     val releaseDate: String?,
     val primaryGenreName: String?,
-    val country: String?
+    val country: String?,
+    var timeToAddToFavorites: Long
 ): Parcelable {
 
     val artworkUrl512
@@ -29,7 +30,8 @@ data class Track(
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
-        parcel.readString()
+        parcel.readString(),
+        parcel.readLong(),
     )
 
     override fun describeContents(): Int {
@@ -47,6 +49,7 @@ data class Track(
         dest.writeString(releaseDate)
         dest.writeString(primaryGenreName)
         dest.writeString(country)
+        dest.writeLong(timeToAddToFavorites)
     }
 
     companion object CREATOR : Parcelable.Creator<Track> {

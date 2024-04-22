@@ -1,24 +1,9 @@
 package a.sboev.ru.playlistmaker.library.data.converter
 
 import a.sboev.ru.playlistmaker.library.data.db.entity.TrackEntity
-import a.sboev.ru.playlistmaker.search.data.dto.TrackDto
 import a.sboev.ru.playlistmaker.search.domain.models.Track
 
 class TrackDbConverter {
-    fun map(trackDto: TrackDto): TrackEntity {
-        return TrackEntity(
-            trackId = trackDto.trackId,
-            trackName = trackDto.trackName,
-            artistName = trackDto.artistName,
-            trackTimeMillis = trackDto.trackTimeMillis,
-            artworkUrl100 = trackDto.artworkUrl100,
-            previewUrl = trackDto.previewUrl,
-            collectionName = trackDto.collectionName,
-            releaseDate = trackDto.releaseDate,
-            primaryGenreName = trackDto.primaryGenreName,
-            country = trackDto.country
-        )
-    }
 
     fun map(trackEntity: TrackEntity): Track {
         return Track(
@@ -31,7 +16,8 @@ class TrackDbConverter {
             collectionName = trackEntity.collectionName,
             releaseDate = trackEntity.releaseDate,
             primaryGenreName = trackEntity.primaryGenreName,
-            country = trackEntity.country
+            country = trackEntity.country,
+            timeToAddToFavorites = trackEntity.timeToAddToFavorites
         )
     }
 
@@ -46,7 +32,8 @@ class TrackDbConverter {
             collectionName = track.collectionName,
             releaseDate = track.releaseDate,
             primaryGenreName = track.primaryGenreName,
-            country = track.country
+            country = track.country,
+            timeToAddToFavorites = track.timeToAddToFavorites
         )
     }
 

@@ -18,7 +18,8 @@ class HistoryRepositoryImpl(private val historyHandler: History): HistoryReposit
                 collectionName = it.collectionName,
                 releaseDate = it.releaseDate,
                 primaryGenreName = it.primaryGenreName,
-                country = it.country
+                country = it.country,
+                timeToAddToFavorites = it.timeToAddToFavorites
             )
         }
     }
@@ -35,7 +36,8 @@ class HistoryRepositoryImpl(private val historyHandler: History): HistoryReposit
                 collectionName = it.collectionName,
                 releaseDate = it.releaseDate,
                 primaryGenreName = it.primaryGenreName,
-                country = it.country
+                country = it.country,
+                timeToAddToFavorites = it.timeToAddToFavorites
             )
         }
         historyHandler.write(trackDtoList)

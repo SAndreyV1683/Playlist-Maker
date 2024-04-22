@@ -46,7 +46,7 @@ class AudioPlayerActivity : AppCompatActivity() {
                 viewModel.addTrackToFavorites(track)
             }
         }
-        viewModel.checkTackIsOnFav()
+        viewModel.checkTackIsOnFavorites()
         viewModel.observeFavButtonState().observe(this) { isSelected ->
             binding.favButton.isSelected = isSelected
         }

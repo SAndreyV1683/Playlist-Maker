@@ -53,16 +53,18 @@ class AudioPlayerViewModel(
     fun addTrackToFavorites(track: Track) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                if(favButtonSelectState.value == false)
+                if(favButtonSelectState.value == false) {
+                    track.timeToAddToFavorites = System.currentTimeMillis()
                     databaseInteractor.insertTrack(track)
-                else
+                } else {
                     databaseInteractor.deleteTrack(track)
-                checkTackIsOnFav()
+                }
+                checkTackIsOnFavorites()
             }
         }
     }
 
-    fun checkTackIsOnFav() {
+    fun checkTackIsOnFavorites() {
         viewModelScope.launch {
             databaseInteractor.getTracksIdList().collect { list ->
                 favButtonSelectState.value = list.contains(track?.trackId)
