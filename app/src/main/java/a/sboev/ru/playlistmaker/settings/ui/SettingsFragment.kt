@@ -3,7 +3,7 @@ package a.sboev.ru.playlistmaker.settings.ui
 import a.sboev.ru.playlistmaker.App
 import a.sboev.ru.playlistmaker.R
 import a.sboev.ru.playlistmaker.databinding.FragmentSettingsBinding
-import a.sboev.ru.playlistmaker.library.presentation.ui.BindingFragment
+import a.sboev.ru.playlistmaker.library.ui.BindingFragment
 import a.sboev.ru.playlistmaker.settings.domain.model.EmailData
 import a.sboev.ru.playlistmaker.settings.presentation.SettingsViewModel
 import android.content.res.Configuration

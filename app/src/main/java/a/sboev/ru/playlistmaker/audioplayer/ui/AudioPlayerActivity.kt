@@ -29,7 +29,6 @@ class AudioPlayerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAudioPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         binding.toolbarAudioPlayer.setNavigationOnClickListener { finish() }
         val intent = intent
         val track = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -42,6 +41,15 @@ class AudioPlayerActivity : AppCompatActivity() {
         }
         observe()
         initializeFields(track)
+        binding.favButton.setOnClickListener {
+            track?.let {
+                viewModel.addTrackToFavorites(track)
+            }
+        }
+        viewModel.checkTackIsOnFavorites()
+        viewModel.observeFavButtonState().observe(this) { isSelected ->
+            binding.favButton.isSelected = isSelected
+        }
     }
 
     override fun onDestroy() {

@@ -4,7 +4,7 @@ import a.sboev.ru.playlistmaker.MainActivity
 import a.sboev.ru.playlistmaker.R
 import a.sboev.ru.playlistmaker.audioplayer.ui.AudioPlayerActivity
 import a.sboev.ru.playlistmaker.databinding.FragmentSearchBinding
-import a.sboev.ru.playlistmaker.library.presentation.ui.BindingFragment
+import a.sboev.ru.playlistmaker.library.ui.BindingFragment
 import a.sboev.ru.playlistmaker.search.domain.models.Track
 import a.sboev.ru.playlistmaker.search.presentation.SearchViewModel
 import a.sboev.ru.playlistmaker.search.ui.adapters.TrackAdapter

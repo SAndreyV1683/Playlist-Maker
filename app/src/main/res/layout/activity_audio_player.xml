@@ -8,14 +8,14 @@
     tools:context=".audioplayer.ui.AudioPlayerActivity">
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/leftBorder"
+        android:id="@+id/left_border"
         android:orientation="vertical"
         app:layout_constraintGuide_begin="@dimen/_24dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/rightBorder"
+        android:id="@+id/right_border"
         android:orientation="vertical"
         app:layout_constraintGuide_end="@dimen/_24dp"
         android:layout_width="wrap_content"
@@ -37,9 +37,9 @@
         android:layout_height="0dp"
         android:scaleType="centerCrop"
         android:background="@drawable/round_outline"
-        app:layout_constraintEnd_toStartOf="@id/rightBorder"
+        app:layout_constraintEnd_toStartOf="@id/right_border"
         app:layout_constraintVertical_chainStyle="spread_inside"
-        app:layout_constraintStart_toEndOf="@id/leftBorder"
+        app:layout_constraintStart_toEndOf="@id/left_border"
         app:layout_constraintTop_toBottomOf="@id/toolbar_audio_player"
         app:layout_constraintBottom_toTopOf="@id/track_name"
         app:srcCompat="@drawable/ic_placeholder" />
@@ -51,9 +51,9 @@
         android:textAlignment="textStart"
         android:textSize="22sp"
         app:layout_constraintBottom_toTopOf="@id/artist_name"
-        app:layout_constraintEnd_toStartOf="@id/rightBorder"
+        app:layout_constraintEnd_toStartOf="@id/right_border"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@id/leftBorder"
+        app:layout_constraintStart_toEndOf="@id/left_border"
         app:layout_constraintTop_toBottomOf="@id/cover"
         tools:text="Yesterday (Remastered 2009)" />
 
@@ -63,9 +63,9 @@
         android:textAlignment="textStart"
         android:layout_marginTop="@dimen/_12dp"
         android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@id/rightBorder"
+        app:layout_constraintEnd_toStartOf="@id/right_border"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@id/leftBorder"
+        app:layout_constraintStart_toEndOf="@id/left_border"
         app:layout_constraintTop_toBottomOf="@id/track_name"
         app:layout_constraintBottom_toTopOf="@id/play_button"
         tools:text="The Beatles" />
@@ -75,7 +75,7 @@
         android:id="@+id/add_button"
         android:background="@drawable/audio_player_buttons_background"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
-        app:layout_constraintStart_toEndOf="@id/leftBorder"
+        app:layout_constraintStart_toEndOf="@id/left_border"
         app:layout_constraintTop_toTopOf="@id/play_button"
         app:layout_constraintEnd_toStartOf="@id/play_button"
         app:layout_constraintBottom_toBottomOf="@id/play_button"/>
@@ -96,15 +96,15 @@
         app:layout_constraintStart_toEndOf="@id/play_button"
         app:layout_constraintTop_toTopOf="@id/play_button"
         app:layout_constraintBottom_toBottomOf="@id/play_button"
-        app:layout_constraintEnd_toStartOf="@id/rightBorder"/>
+        app:layout_constraintEnd_toStartOf="@id/right_border"/>
 
     <TextView
         style="@style/audio_player_playback_duration_text_style"
         android:id="@+id/playback_duration"
         android:layout_marginTop="@dimen/four_dp"
         android:text="@string/_0_00"
-        app:layout_constraintStart_toEndOf="@id/leftBorder"
-        app:layout_constraintEnd_toStartOf="@id/rightBorder"
+        app:layout_constraintStart_toEndOf="@id/left_border"
+        app:layout_constraintEnd_toStartOf="@id/right_border"
         app:layout_constraintTop_toBottomOf="@id/play_button"/>
 
     <TextView

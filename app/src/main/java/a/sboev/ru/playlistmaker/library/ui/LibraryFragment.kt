@@ -1,4 +1,4 @@
-package a.sboev.ru.playlistmaker.library.presentation.ui
+package a.sboev.ru.playlistmaker.library.ui
 
 import a.sboev.ru.playlistmaker.R
 import a.sboev.ru.playlistmaker.databinding.FragmentLibraryBinding

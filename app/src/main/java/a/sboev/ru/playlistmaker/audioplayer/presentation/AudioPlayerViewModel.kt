@@ -3,23 +3,29 @@ package a.sboev.ru.playlistmaker.audioplayer.presentation
 import a.sboev.ru.playlistmaker.audioplayer.domain.api.PlayerInterActor
 import a.sboev.ru.playlistmaker.audioplayer.domain.models.PlayerState
 import a.sboev.ru.playlistmaker.audioplayer.domain.models.TrackUrl
+import a.sboev.ru.playlistmaker.library.domain.api.DatabaseInteractor
 import a.sboev.ru.playlistmaker.search.domain.models.Track
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.koin.java.KoinJavaComponent.inject
 
 class AudioPlayerViewModel(
-    track: Track?,
+    private val track: Track?,
+    private val databaseInteractor: DatabaseInteractor
 ) : ViewModel() {
 
     private val playerStateUi = MutableLiveData<PlayerStateUi>(PlayerStateUi.Default)
     private var trackPosition = MutableLiveData("0:00")
+    private val favButtonSelectState = MutableLiveData(false)
     fun observeTrackPosition(): LiveData<String> = trackPosition
     fun observePlayerState(): LiveData<PlayerStateUi> = playerStateUi
+    fun observeFavButtonState(): LiveData<Boolean> = favButtonSelectState
 
     private val playerInteractor: PlayerInterActor by inject(PlayerInterActor::class.java)
 
@@ -43,6 +49,29 @@ class AudioPlayerViewModel(
         }
         preparePlayer(track)
     }
+
+    fun addTrackToFavorites(track: Track) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                if(favButtonSelectState.value == false) {
+                    track.timeToAddToFavorites = System.currentTimeMillis()
+                    databaseInteractor.insertTrack(track)
+                } else {
+                    databaseInteractor.deleteTrack(track)
+                }
+                checkTackIsOnFavorites()
+            }
+        }
+    }
+
+    fun checkTackIsOnFavorites() {
+        viewModelScope.launch {
+            databaseInteractor.getTracksIdList().collect { list ->
+                favButtonSelectState.value = list.contains(track?.trackId)
+            }
+        }
+    }
+
 
     private fun preparePlayer(track: Track?) {
         val previewUrl = track?.previewUrl

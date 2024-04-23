@@ -25,7 +25,8 @@ class TrackRepositoryImpl(private val networkClient: NetworkClient): TrackReposi
                         collectionName = it.collectionName,
                         releaseDate = it.releaseDate,
                         primaryGenreName = it.primaryGenreName,
-                        country = it.country
+                        country = it.country,
+                        timeToAddToFavorites = it.timeToAddToFavorites
                     )
                 }
                 emit(Resource.Success(trackResponse))
