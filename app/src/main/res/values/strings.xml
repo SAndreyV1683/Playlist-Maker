@@ -34,4 +34,8 @@
     <string name="featured_tracks_error_text">Ваша медиатека пуста</string>
     <string name="tab_layout_featured_tracks_title">Избранные треки</string>
     <string name="tab_layout_playlists_title">Плейлисты</string>
+    <string name="new_playlist_title_text">Новый плейлист</string>
+    <string name="name_edittext_tint">Название*</string>
+    <string name="description_edittext_tint">Описание</string>
+    <string name="create_button_text">Создать</string>
 </resources>

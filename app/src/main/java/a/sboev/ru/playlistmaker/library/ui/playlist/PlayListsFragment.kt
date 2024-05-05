@@ -1,15 +1,18 @@
 package a.sboev.ru.playlistmaker.library.ui.playlist
 
 
+import a.sboev.ru.playlistmaker.R
 import a.sboev.ru.playlistmaker.databinding.FragmentPlayListsBinding
 import a.sboev.ru.playlistmaker.library.presentation.LibState
 import a.sboev.ru.playlistmaker.library.ui.BindingFragment
 import a.sboev.ru.playlistmaker.library.presentation.viewmodels.PlayListsViewModel
+import a.sboev.ru.playlistmaker.library.ui.newplaylist.NewPlaylistFragment
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.navigation.fragment.findNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -31,6 +34,9 @@ class PlayListsFragment: BindingFragment<FragmentPlayListsBinding>() {
                 is LibState.Empty -> showErrorMessage()
                 is LibState.Content -> showContent()
             }
+        }
+        binding.playlistsButton.setOnClickListener {
+             findNavController().navigate(R.id.action_libraryFragment_to_newPlaylistFragment)
         }
     }
 

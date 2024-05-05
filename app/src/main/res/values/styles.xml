@@ -15,6 +15,12 @@
         <item name="tint">@color/black</item>
     </style>
 
+    <style name="NewPlaylistScreenBackgroundStyle">
+        <item name="android:background">@color/white</item>
+        <item name="tint">@color/black</item>
+        <item name="android:navigationIcon">@drawable/ic_arrow_back</item>
+    </style>
+
     <style name="LibraryScreenTabLayoutStyle">
         <item name="android:background">@color/white</item>
         <item name="tabTextColor">@color/black</item>
@@ -215,10 +221,26 @@
     </style>
 
     <style name="bottom_navigation_view_itemActiveIndicatorStyle" parent="Widget.MaterialComponents.BottomNavigationView"/>
+
+
     <style name="bottom_navigation_view_style" parent="Widget.MaterialComponents.BottomNavigationView">
         <item name="android:background">@color/white</item>
         <item name="itemIconTint">@drawable/navigation_view_colored</item>
         <item name="itemTextColor">@drawable/navigation_view_colored</item>
+    </style>
+
+    <style name="new_playlist_edittext_style">
+        <item name="android:background">@drawable/edittext_default_state</item>
+        <item name="android:textColorHint">@color/black</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:inputType">text</item>
+        <item name="android:paddingStart">@dimen/medium_padding</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+    </style>
+
+    <style name="new_playlist_edittext_title_style">
+        <item name="android:textColor">@color/blue</item>
+        <item name="android:background">@color/white</item>
     </style>
 
 
