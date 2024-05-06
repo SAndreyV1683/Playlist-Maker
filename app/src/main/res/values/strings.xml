@@ -38,4 +38,8 @@
     <string name="name_edittext_tint">Название*</string>
     <string name="description_edittext_tint">Описание</string>
     <string name="create_button_text">Создать</string>
+    <string name="new_playlist_dialog_title">Завершить создание плейлиста?</string>
+    <string name="dialog_positive_button_text">Да</string>
+    <string name="dialog_negative_button_text">Нет</string>
+    <string name="playlist_created_message">Плейлист %1$s создан</string>
 </resources>
