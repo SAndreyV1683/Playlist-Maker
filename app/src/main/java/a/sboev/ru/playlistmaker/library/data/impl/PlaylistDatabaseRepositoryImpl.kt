@@ -4,6 +4,10 @@ import a.sboev.ru.playlistmaker.library.data.converter.PlaylistDbConverter
 import a.sboev.ru.playlistmaker.library.data.db.AppDatabase
 import a.sboev.ru.playlistmaker.library.domain.models.Playlist
 import a.sboev.ru.playlistmaker.library.domain.api.PlaylistDatabaseRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.withContext
 
 class PlaylistDatabaseRepositoryImpl(
     private val appDatabase: AppDatabase,
@@ -13,8 +17,8 @@ class PlaylistDatabaseRepositoryImpl(
         appDatabase.playlistDao().insertPlaylist(playlistDbConverter.map(playlist))
     }
 
-    override suspend fun getPlaylists(): List<Playlist> {
+    override suspend fun getPlaylists(): Flow<List<Playlist>> = flow {
         val entityList = appDatabase.playlistDao().getPlaylists()
-        return entityList.map { playlistDbConverter.map(it) }
+        emit(entityList.map { playlistDbConverter.map(it) })
     }
 }

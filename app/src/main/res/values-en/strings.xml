@@ -39,4 +39,8 @@
     <string name="dialog_positive_button_text">Yes</string>
     <string name="dialog_negative_button_text">No</string>
     <string name="playlist_created_message">Playlist %1$s created</string>
+    <string name="playlist_one_track_count">1 track</string>
+    <string name="playlist_less_than_5_tracks_count">%1$s tracks</string>
+    <string name="playlist_tracks_count">%1$s tracks</string>
+    <string name="add_to_playlist">Add to playlist</string>
 </resources>

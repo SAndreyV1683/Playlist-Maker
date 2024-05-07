@@ -5,7 +5,7 @@ import a.sboev.ru.playlistmaker.library.domain.api.FilesRepository
 import android.net.Uri
 
 class FilesInteractorImpl(private val filesRepository: FilesRepository): FilesInteractor {
-    override suspend fun saveImage(uri: Uri, name: String) {
-        filesRepository.saveImage(uri, name)
+    override suspend fun saveImage(uri: Uri, name: String): Uri {
+        return filesRepository.saveImage(uri, name)
     }
 }

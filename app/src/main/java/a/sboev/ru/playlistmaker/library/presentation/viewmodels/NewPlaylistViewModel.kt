@@ -21,22 +21,19 @@ class NewPlaylistViewModel(
     ) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
+                val newFileUri: String = if (playlistImageUri.isNotEmpty()) {
+                    filesInteractor.saveImage(Uri.parse(playlistImageUri), playlistName).toString()
+                }
+                else ""
+
                 playlistDatabaseInteractor.insertPlaylist(Playlist(
                     id = null,
                     name = playlistName,
                     description = playlistDescription,
-                    uri = playlistImageUri,
+                    uri = newFileUri,
                     tracksIdList = emptyList(),
                     tracksCount = 0
                 ))
-            }
-        }
-    }
-
-    fun saveImageToPrivateStorage(uri: Uri, name: String) {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                filesInteractor.saveImage(uri, name)
             }
         }
     }

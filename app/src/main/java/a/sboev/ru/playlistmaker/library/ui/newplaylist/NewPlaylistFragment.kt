@@ -92,7 +92,7 @@ class NewPlaylistFragment: BindingFragment<FragmentNewPlaylistBinding>() {
         }
         binding.createButton.setOnClickListener {
             playlistViewModel.createNewPlayList(playlistName, playlistDescription, playlistImageUri)
-            playlistViewModel.saveImageToPrivateStorage(Uri.parse(playlistImageUri), playlistName)
+
             Toast.makeText(requireContext(), getString(R.string.playlist_created_message, playlistName), Toast.LENGTH_SHORT).show()
             playlistName = ""
             playlistDescription = ""

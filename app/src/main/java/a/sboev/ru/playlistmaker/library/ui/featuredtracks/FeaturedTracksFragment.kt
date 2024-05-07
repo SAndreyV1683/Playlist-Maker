@@ -47,7 +47,7 @@ class FeaturedTracksFragment: BindingFragment<FragmentFeaturedTracksBinding>() {
             when (state) {
                 is LibState.Loading -> showLoading()
                 is LibState.Empty -> showErrorMessage()
-                is LibState.Content -> showContent(state.tracks)
+                is LibState.Content<*> -> showContent(state.list)
             }
         }
     }
@@ -75,12 +75,12 @@ class FeaturedTracksFragment: BindingFragment<FragmentFeaturedTracksBinding>() {
         }
     }
 
-    private fun showContent(tracks: List<Track>) {
+    private fun showContent(tracks: List<*>) {
         binding.apply {
             featuredTracksRv.isVisible = true
             progressBarFeatured.isVisible = false
             placeHolder.isVisible = false
-            adapter.tracks = tracks.toMutableList()
+            adapter.tracks = tracks as MutableList<Track>
             adapter.refresh()
         }
     }

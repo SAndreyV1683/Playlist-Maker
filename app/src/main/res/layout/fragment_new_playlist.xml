@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     style="@style/LibraryScreenBackgroundStyle"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -22,20 +21,28 @@
             android:text="@string/new_playlist_title_text" />
     </Toolbar>
 
-    <ImageView
-        android:id="@+id/playlist_cover"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginHorizontal="@dimen/_24dp"
-        android:background="@drawable/playlist_cover_background"
-        android:scaleType="centerInside"
-        android:src="@drawable/ic_add_photo"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/image_card"
+        android:layout_width="@dimen/_0dp"
+        android:layout_height="@dimen/_0dp"
+        app:cardElevation="@dimen/_0dp"
+        app:cardCornerRadius="@dimen/_8dp"
         android:layout_marginTop="@dimen/_26dp"
+        android:layout_marginHorizontal="@dimen/_24dp"
         app:layout_constraintVertical_chainStyle="spread_inside"
         app:layout_constraintTop_toBottomOf="@id/new_playlist_toolbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/name_edittext"/>
+        app:layout_constraintBottom_toTopOf="@id/name_edittext">
+
+        <ImageView
+            android:id="@+id/playlist_cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/playlist_cover_background"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_add_photo"/>
+    </androidx.cardview.widget.CardView>
 
 
     <EditText
@@ -48,7 +55,7 @@
         android:hint="@string/name_edittext_tint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/playlist_cover"
+        app:layout_constraintTop_toBottomOf="@id/image_card"
         app:layout_constraintBottom_toTopOf="@id/description_edittext"/>
 
     <TextView

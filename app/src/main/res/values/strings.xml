@@ -42,4 +42,8 @@
     <string name="dialog_positive_button_text">Да</string>
     <string name="dialog_negative_button_text">Нет</string>
     <string name="playlist_created_message">Плейлист %1$s создан</string>
+    <string name="playlist_one_track_count">1 трек</string>
+    <string name="playlist_less_than_5_tracks_count">%1$s трека</string>
+    <string name="playlist_tracks_count">%1$s tracks</string>
+    <string name="add_to_playlist">Add to playlist</string>
 </resources>
