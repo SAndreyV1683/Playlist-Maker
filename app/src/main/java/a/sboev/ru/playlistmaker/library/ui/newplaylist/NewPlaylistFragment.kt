@@ -1,6 +1,7 @@
 package a.sboev.ru.playlistmaker.library.ui.newplaylist
 
 import a.sboev.ru.playlistmaker.R
+import a.sboev.ru.playlistmaker.audioplayer.ui.AudioPlayerActivity
 import a.sboev.ru.playlistmaker.databinding.FragmentNewPlaylistBinding
 import a.sboev.ru.playlistmaker.library.presentation.viewmodels.NewPlaylistViewModel
 import a.sboev.ru.playlistmaker.library.ui.BindingFragment
@@ -92,11 +93,13 @@ class NewPlaylistFragment: BindingFragment<FragmentNewPlaylistBinding>() {
         }
         binding.createButton.setOnClickListener {
             playlistViewModel.createNewPlayList(playlistName, playlistDescription, playlistImageUri)
-
             Toast.makeText(requireContext(), getString(R.string.playlist_created_message, playlistName), Toast.LENGTH_SHORT).show()
-            playlistName = ""
-            playlistDescription = ""
-            playlistImageUri = ""
+            if (requireActivity() is AudioPlayerActivity) {
+                removeFragment()
+                (requireActivity() as AudioPlayerActivity).viewModel.updatePlaylists()
+            } else {
+                findNavController().popBackStack()
+            }
         }
         binding.newPlaylistToolbar.setNavigationOnClickListener {
             showDialog()
@@ -110,6 +113,25 @@ class NewPlaylistFragment: BindingFragment<FragmentNewPlaylistBinding>() {
     }
 
     private fun showDialog() {
+        if (requireActivity() is AudioPlayerActivity) {
+            if (playlistName.isNotEmpty() || playlistDescription.isNotEmpty() || playlistImageUri.isNotEmpty()) {
+                MaterialAlertDialogBuilder(requireContext(), R.style.alert_dialog_style)
+                    .setMessage(getString(R.string.new_playlist_dialog_title))
+                    .setPositiveButton(getString(R.string.dialog_positive_button_text)) { _, _ ->
+                        removeFragment()
+                    }
+                    .setNegativeButton(getString(R.string.dialog_negative_button_text)) { _, _ ->
+
+                    }
+                    .setBackground(AppCompatResources.getDrawable(requireContext(), R.drawable.dialog_background))
+                    .show()
+            } else {
+                removeFragment()
+                (requireActivity() as AudioPlayerActivity).viewModel.updatePlaylists()
+            }
+            return
+        }
+
         if (playlistName.isNotEmpty() || playlistDescription.isNotEmpty() || playlistImageUri.isNotEmpty()) {
             MaterialAlertDialogBuilder(requireContext(), R.style.alert_dialog_style)
                 .setMessage(getString(R.string.new_playlist_dialog_title))
@@ -123,6 +145,14 @@ class NewPlaylistFragment: BindingFragment<FragmentNewPlaylistBinding>() {
                 .show()
         } else {
             findNavController().popBackStack()
+        }
+    }
+
+    private fun removeFragment() {
+        val fragment = parentFragmentManager.fragments[0]
+        parentFragmentManager.beginTransaction().apply {
+            remove(fragment)
+            commit()
         }
     }
 

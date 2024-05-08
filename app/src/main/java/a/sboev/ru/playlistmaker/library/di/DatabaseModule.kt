@@ -27,7 +27,7 @@ val databaseModule = module {
     }
 
     single <PlaylistDatabaseRepository> {
-        PlaylistDatabaseRepositoryImpl(get(), get())
+        PlaylistDatabaseRepositoryImpl(get(), get(), get())
     }
 
     single <PlaylistDatabaseInteractor> {

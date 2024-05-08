@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="@dimen/four_dp"
+    android:layout_marginBottom="@dimen/medium_padding"
     android:layout_gravity="center"
     xmlns:tools="http://schemas.android.com/tools">
 

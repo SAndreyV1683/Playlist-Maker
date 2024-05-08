@@ -4,6 +4,7 @@ import a.sboev.ru.playlistmaker.App
 import a.sboev.ru.playlistmaker.R
 import a.sboev.ru.playlistmaker.databinding.PlaylistItemHorizontalBinding
 import a.sboev.ru.playlistmaker.library.domain.models.Playlist
+import a.sboev.ru.playlistmaker.search.domain.models.Track
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -11,8 +12,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 
-class PlaylistItemHorizontalAdapter : RecyclerView.Adapter<PlaylistItemHorizontalAdapter.PlaylistItemHorizontalViewHolder>() {
+class PlaylistItemHorizontalAdapter(
+    private val onItemClickListener: OnItemClickListener
+) : RecyclerView.Adapter<PlaylistItemHorizontalAdapter.PlaylistItemHorizontalViewHolder>() {
     var playlists = mutableListOf<Playlist>()
+
+    fun interface OnItemClickListener {
+        fun onClick(playlist: Playlist)
+    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -44,6 +51,9 @@ class PlaylistItemHorizontalAdapter : RecyclerView.Adapter<PlaylistItemHorizonta
                     .placeholder(R.drawable.ic_placeholder)
                     .transform(RoundedCorners(PlaylistItemAdapter.ROUNDING_RADIUS))
                     .into(binding.playlistCoverIv)
+            }
+            this.itemView.setOnClickListener {
+                onItemClickListener.onClick(playlists[position])
             }
         }
     }

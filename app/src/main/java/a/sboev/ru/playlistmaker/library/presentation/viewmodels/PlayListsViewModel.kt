@@ -3,7 +3,6 @@ package a.sboev.ru.playlistmaker.library.presentation.viewmodels
 import a.sboev.ru.playlistmaker.library.domain.api.PlaylistDatabaseInteractor
 import a.sboev.ru.playlistmaker.library.domain.models.Playlist
 import a.sboev.ru.playlistmaker.library.presentation.LibState
-import a.sboev.ru.playlistmaker.search.domain.models.Track
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
