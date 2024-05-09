@@ -116,7 +116,8 @@ class NewPlaylistFragment: BindingFragment<FragmentNewPlaylistBinding>() {
         if (requireActivity() is AudioPlayerActivity) {
             if (playlistName.isNotEmpty() || playlistDescription.isNotEmpty() || playlistImageUri.isNotEmpty()) {
                 MaterialAlertDialogBuilder(requireContext(), R.style.alert_dialog_style)
-                    .setMessage(getString(R.string.new_playlist_dialog_title))
+                    .setTitle(getString(R.string.new_playlist_dialog_title))
+                    .setMessage(R.string.new_playlist_dialog_message)
                     .setPositiveButton(getString(R.string.dialog_positive_button_text)) { _, _ ->
                         removeFragment()
                     }
@@ -134,7 +135,8 @@ class NewPlaylistFragment: BindingFragment<FragmentNewPlaylistBinding>() {
 
         if (playlistName.isNotEmpty() || playlistDescription.isNotEmpty() || playlistImageUri.isNotEmpty()) {
             MaterialAlertDialogBuilder(requireContext(), R.style.alert_dialog_style)
-                .setMessage(getString(R.string.new_playlist_dialog_title))
+                .setTitle(getString(R.string.new_playlist_dialog_title))
+                .setMessage(R.string.new_playlist_dialog_message)
                 .setPositiveButton(getString(R.string.dialog_positive_button_text)) { _, _ ->
                     findNavController().popBackStack()
                 }

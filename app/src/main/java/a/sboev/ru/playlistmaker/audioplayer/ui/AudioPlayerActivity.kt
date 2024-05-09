@@ -34,10 +34,16 @@ class AudioPlayerActivity : AppCompatActivity() {
     }
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
     private lateinit var binding: ActivityAudioPlayerBinding
-    private val onItemClickListener = PlaylistItemHorizontalAdapter.OnItemClickListener {
-        if (it.id != null) {
-            viewModel.insertTrackToPlaylist(it.id, track)
-            Toast.makeText(this, "", Toast.LENGTH_SHORT).show()
+    private val onItemClickListener = PlaylistItemHorizontalAdapter.OnItemClickListener { playlist ->
+        if (playlist.id != null) {
+            val trackIdsList = playlist.tracksIdList
+            if (trackIdsList.contains(track.trackId)) {
+                Toast.makeText(this, getString(R.string.already_been_added_to_the_playlist, track.trackName), Toast.LENGTH_SHORT).show()
+            } else {
+                viewModel.insertTrackToPlaylist(playlist.id, track)
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                Toast.makeText(this, getString(R.string.track_added_to_playlist_text, track.trackName), Toast.LENGTH_SHORT).show()
+            }
         }
     }
     private val adapter = PlaylistItemHorizontalAdapter(onItemClickListener)

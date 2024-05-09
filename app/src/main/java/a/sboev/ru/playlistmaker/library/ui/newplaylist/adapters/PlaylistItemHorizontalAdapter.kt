@@ -38,7 +38,7 @@ class PlaylistItemHorizontalAdapter(
             with(playlists[position]) {
                 binding.playlistNameTv.text = this.name
                 if (this.tracksCount == 0)
-                    binding.playlistTracksCount.text = App.INSTANCE.getString(R.string.playlist_tracks_count, this.tracksCount.toString())
+                    binding.playlistTracksCount.text = holder.itemView.context.getString(R.string.playlist_tracks_count, this.tracksCount.toString())
                 else if (this.tracksCount == 1)
                     binding.playlistTracksCount.text = holder.itemView.context.getText(R.string.playlist_one_track_count)
                 else if (this.tracksCount < 5)
