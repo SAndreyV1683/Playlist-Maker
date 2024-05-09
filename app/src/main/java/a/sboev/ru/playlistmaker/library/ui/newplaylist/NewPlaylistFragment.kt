@@ -7,6 +7,8 @@ import a.sboev.ru.playlistmaker.library.presentation.viewmodels.NewPlaylistViewM
 import a.sboev.ru.playlistmaker.library.ui.BindingFragment
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -98,7 +100,7 @@ class NewPlaylistFragment: BindingFragment<FragmentNewPlaylistBinding>() {
                 removeFragment()
                 (requireActivity() as AudioPlayerActivity).viewModel.updatePlaylists()
             } else {
-                findNavController().popBackStack()
+                Handler(Looper.getMainLooper()).postDelayed({findNavController().popBackStack()}, 200L)
             }
         }
         binding.newPlaylistToolbar.setNavigationOnClickListener {
