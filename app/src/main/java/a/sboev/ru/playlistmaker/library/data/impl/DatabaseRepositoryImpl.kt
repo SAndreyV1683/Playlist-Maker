@@ -2,6 +2,7 @@ package a.sboev.ru.playlistmaker.library.data.impl
 
 import a.sboev.ru.playlistmaker.library.data.converter.TrackDbConverter
 import a.sboev.ru.playlistmaker.library.data.db.AppDatabase
+import a.sboev.ru.playlistmaker.library.data.db.entity.PlaylistsTrackEntity
 import a.sboev.ru.playlistmaker.library.domain.api.DatabaseRepository
 import a.sboev.ru.playlistmaker.search.domain.models.Track
 import kotlinx.coroutines.flow.Flow

@@ -31,4 +31,19 @@
     <string name="featured_tracks_error_text">Your media library is empty</string>
     <string name="tab_layout_featured_tracks_title">Featured tracks</string>
     <string name="tab_layout_playlists_title">Playlists</string>
+    <string name="new_playlist_title_text">New playlist</string>
+    <string name="name_edittext_tint">Name*</string>
+    <string name="description_edittext_tint">Description</string>
+    <string name="create_button_text">Create</string>
+    <string name="new_playlist_dialog_title">Finish creating a playlist?</string>
+    <string name="new_playlist_dialog_message">All unsaved data will be lost</string>
+    <string name="dialog_positive_button_text">Yes</string>
+    <string name="dialog_negative_button_text">No</string>
+    <string name="playlist_created_message">Playlist %1$s created</string>
+    <string name="playlist_one_track_count">1 track</string>
+    <string name="playlist_less_than_5_tracks_count">%1$s tracks</string>
+    <string name="playlist_tracks_count">%1$s tracks</string>
+    <string name="add_to_playlist">Add to playlist</string>
+    <string name="track_added_to_playlist_text">Добавлено в плейлист %1$s</string>
+    <string name="already_been_added_to_the_playlist">Трек уже добавлен в плейлист %1$s</string>
 </resources>

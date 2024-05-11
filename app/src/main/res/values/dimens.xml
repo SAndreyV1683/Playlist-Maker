@@ -19,4 +19,12 @@
     <dimen name="_48dp">48dp</dimen>
     <dimen name="_46dp">46dp</dimen>
     <dimen name="_106dp">106dp</dimen>
+    <dimen name="_26dp">26dp</dimen>
+    <dimen name="_312dp">312dp</dimen>
+    <dimen name="_32dp">32dp</dimen>
+    <dimen name="_17dp">17dp</dimen>
+    <dimen name="_12sp">12sp</dimen>
+    <dimen name="_8dp">8dp</dimen>
+    <dimen name="_0dp">0dp</dimen>
+    <dimen name="_19sp">19sp</dimen>
 </resources>

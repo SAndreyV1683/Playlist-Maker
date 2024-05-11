@@ -3,6 +3,7 @@ package a.sboev.ru.playlistmaker
 import a.sboev.ru.playlistmaker.audioplayer.di.audioPlayerModule
 import a.sboev.ru.playlistmaker.di.viewModelModule
 import a.sboev.ru.playlistmaker.library.di.databaseModule
+import a.sboev.ru.playlistmaker.library.di.filesModule
 import a.sboev.ru.playlistmaker.search.di.historyRepositoryModule
 import a.sboev.ru.playlistmaker.search.di.trackRepositoryModule
 import a.sboev.ru.playlistmaker.settings.di.settingsRepositoryModule
@@ -32,7 +33,8 @@ class App: Application() {
                 trackRepositoryModule,
                 settingsRepositoryModule,
                 sharingInteractorModule,
-                databaseModule
+                databaseModule,
+                filesModule
             )
         }
         val isDark = settingsInteractor.getThemeSettings().darkTheme

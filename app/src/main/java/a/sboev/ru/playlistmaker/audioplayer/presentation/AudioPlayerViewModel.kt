@@ -4,6 +4,9 @@ import a.sboev.ru.playlistmaker.audioplayer.domain.api.PlayerInterActor
 import a.sboev.ru.playlistmaker.audioplayer.domain.models.PlayerState
 import a.sboev.ru.playlistmaker.audioplayer.domain.models.TrackUrl
 import a.sboev.ru.playlistmaker.library.domain.api.DatabaseInteractor
+import a.sboev.ru.playlistmaker.library.domain.api.PlaylistDatabaseInteractor
+import a.sboev.ru.playlistmaker.library.domain.models.Playlist
+import a.sboev.ru.playlistmaker.library.presentation.LibState
 import a.sboev.ru.playlistmaker.search.domain.models.Track
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -17,7 +20,8 @@ import org.koin.java.KoinJavaComponent.inject
 
 class AudioPlayerViewModel(
     private val track: Track?,
-    private val databaseInteractor: DatabaseInteractor
+    private val databaseInteractor: DatabaseInteractor,
+    private val playlistDatabaseInteractor: PlaylistDatabaseInteractor
 ) : ViewModel() {
 
     private val playerStateUi = MutableLiveData<PlayerStateUi>(PlayerStateUi.Default)
@@ -28,6 +32,9 @@ class AudioPlayerViewModel(
     fun observeFavButtonState(): LiveData<Boolean> = favButtonSelectState
 
     private val playerInteractor: PlayerInterActor by inject(PlayerInterActor::class.java)
+
+    private val stateLiveData = MutableLiveData<LibState>(LibState.Empty)
+    fun observeState(): LiveData<LibState> = stateLiveData
 
     init {
         viewModelScope.launch {
@@ -47,7 +54,29 @@ class AudioPlayerViewModel(
                 playerStateUi.postValue(playerState)
             }
         }
+
         preparePlayer(track)
+    }
+
+    fun updatePlaylists() {
+        viewModelScope.launch {
+            playlistDatabaseInteractor.getPlaylists().collect { list ->
+                processResult(list)
+            }
+        }
+    }
+
+    fun insertTrackToPlaylist(playlistId:Long, track: Track) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                playlistDatabaseInteractor.insertTrackToPlayList(playlistId, track)
+                playlistDatabaseInteractor.getPlaylists().collect { list ->
+                    withContext(Dispatchers.Main) {
+                        processResult(list)
+                    }
+                }
+            }
+        }
     }
 
     fun addTrackToFavorites(track: Track) {
@@ -102,9 +131,18 @@ class AudioPlayerViewModel(
         }
     }
 
+    private fun processResult(playlists: List<Playlist>) {
+        if (playlists.isEmpty()) {
+            stateLiveData.value = LibState.Empty
+        } else {
+            stateLiveData.value = LibState.Content(playlists)
+        }
+    }
+
     companion object {
         val TAG = AudioPlayerViewModel::class.simpleName
     }
+
 
     override fun onCleared() {
         playerInteractor.release()

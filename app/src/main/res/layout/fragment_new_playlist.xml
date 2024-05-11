@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/LibraryScreenBackgroundStyle"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Toolbar
+        android:id="@+id/new_playlist_toolbar"
+        style="@style/NewPlaylistScreenBackgroundStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            style="@style/LibraryScreenTitleTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/new_playlist_title_text" />
+    </Toolbar>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/image_card"
+        android:layout_width="@dimen/_0dp"
+        android:layout_height="@dimen/_0dp"
+        app:cardElevation="@dimen/_0dp"
+        app:cardCornerRadius="@dimen/_8dp"
+        android:layout_marginTop="@dimen/_26dp"
+        android:layout_marginHorizontal="@dimen/_24dp"
+        app:layout_constraintVertical_chainStyle="spread_inside"
+        app:layout_constraintTop_toBottomOf="@id/new_playlist_toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/name_edittext">
+
+        <ImageView
+            android:id="@+id/playlist_cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/playlist_cover_background"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_add_photo"/>
+    </androidx.cardview.widget.CardView>
+
+
+    <EditText
+        android:id="@+id/name_edittext"
+        style="@style/new_playlist_edittext_style"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_56dp"
+        android:layout_marginHorizontal="@dimen/_17dp"
+        android:layout_marginTop="@dimen/_32dp"
+        android:hint="@string/name_edittext_tint"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/image_card"
+        app:layout_constraintBottom_toTopOf="@id/description_edittext"/>
+
+    <TextView
+        android:id="@+id/name_edittext_title"
+        style="@style/new_playlist_edittext_title_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/medium_padding"
+        android:padding="@dimen/four_dp"
+        android:text="@string/name_edittext_tint"
+        android:textSize="@dimen/_12sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@id/name_edittext"
+        app:layout_constraintStart_toStartOf="@id/name_edittext"
+        app:layout_constraintTop_toTopOf="@id/name_edittext" />
+
+    <EditText
+        android:id="@+id/description_edittext"
+        style="@style/new_playlist_edittext_style"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_56dp"
+        android:layout_marginHorizontal="@dimen/_17dp"
+        android:layout_marginTop="@dimen/_17dp"
+        android:hint="@string/description_edittext_tint"
+        app:layout_constraintBottom_toTopOf="@+id/create_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/name_edittext"
+        android:layout_marginBottom="170dp"/>
+
+    <TextView
+        android:id="@+id/description_edittext_title"
+        style="@style/new_playlist_edittext_title_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/medium_padding"
+        android:padding="@dimen/four_dp"
+        android:text="@string/description_edittext_tint"
+        android:textSize="@dimen/_12sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@id/description_edittext"
+        app:layout_constraintStart_toStartOf="@id/description_edittext"
+        app:layout_constraintTop_toTopOf="@id/description_edittext" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/create_button"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginHorizontal="@dimen/_17dp"
+        android:layout_marginBottom="@dimen/_32dp"
+        android:background="@drawable/create_button_background"
+        android:enabled="false"
+        android:fontFamily="@font/ys_display_medium"
+        android:foreground="?attr/selectableItemBackground"
+        android:gravity="center"
+        android:text="@string/create_button_text"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

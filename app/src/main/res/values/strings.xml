@@ -34,4 +34,19 @@
     <string name="featured_tracks_error_text">Ваша медиатека пуста</string>
     <string name="tab_layout_featured_tracks_title">Избранные треки</string>
     <string name="tab_layout_playlists_title">Плейлисты</string>
+    <string name="new_playlist_title_text">Новый плейлист</string>
+    <string name="name_edittext_tint">Название*</string>
+    <string name="description_edittext_tint">Описание</string>
+    <string name="create_button_text">Создать</string>
+    <string name="new_playlist_dialog_title">Завершить создание плейлиста?</string>
+    <string name="new_playlist_dialog_message">Все несохраненные данные будут потеряны</string>
+    <string name="dialog_positive_button_text">Да</string>
+    <string name="dialog_negative_button_text">Нет</string>
+    <string name="playlist_created_message">Плейлист %1$s создан</string>
+    <string name="playlist_one_track_count">1 трек</string>
+    <string name="playlist_less_than_5_tracks_count">%1$s трека</string>
+    <string name="playlist_tracks_count">%1$s tracks</string>
+    <string name="add_to_playlist">Add to playlist</string>
+    <string name="track_added_to_playlist_text">Added to playlist %1$s</string>
+    <string name="already_been_added_to_the_playlist">The track has already been added to the playlist %1$s</string>
 </resources>
