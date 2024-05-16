@@ -18,4 +18,12 @@ class PlaylistDatabaseInteractorImpl(
     override suspend fun insertTrackToPlayList(playlistId: Long, track: Track) {
         playlistDatabaseRepository.insertTrackToPlaylist(playlistId, track)
     }
+
+    override suspend fun getPlaylistById(playlistId: Long): Playlist {
+        return playlistDatabaseRepository.getPlaylistById(playlistId)
+    }
+
+    override suspend fun getPlaylistTracks(tracksIdList: List<Long>): Flow<List<Track>> {
+        return playlistDatabaseRepository.getPlaylistTracks(tracksIdList)
+    }
 }

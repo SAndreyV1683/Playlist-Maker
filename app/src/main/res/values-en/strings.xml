@@ -46,5 +46,7 @@
     <string name="add_to_playlist">Add to playlist</string>
     <string name="track_added_to_playlist_text">Added to playlist %1$s</string>
     <string name="already_been_added_to_the_playlist">The track has already been added to the playlist %1$s</string>
-    <string name="tracks_duration_and_count">%1$s minutes \u0095 %2$s tracks</string>
+    <string name="tracks_duration">"%1$s minutes \u00B7 "</string>
+    <string name="one_minute_tacks_duration">"%1$s minute \u00B7 "</string>
+    <string name="less_than_5_minutes_tacks_duration">"%1$s minutes \u00B7 "</string>
 </resources>

@@ -11,7 +11,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 
-class PlaylistItemAdapter: RecyclerView.Adapter<PlaylistItemViewHolder>() {
+class PlaylistItemAdapter(
+    private val clickListener: PlaylistItemAdapter.ItemClickListener
+): RecyclerView.Adapter<PlaylistItemViewHolder>() {
+
+    interface ItemClickListener {
+        fun onClick(playList: Playlist)
+    }
 
     var playlists = mutableListOf<Playlist>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlaylistItemViewHolder {
@@ -27,6 +33,9 @@ class PlaylistItemAdapter: RecyclerView.Adapter<PlaylistItemViewHolder>() {
         with(holder) {
             with(playlists[position]) {
                 binding.playlistNameTv.text = this.name
+                holder.itemView.setOnClickListener {
+                    clickListener.onClick(this)
+                }
                 if (this.tracksCount == 0)
                     binding.playlistTracksCount.text = App.INSTANCE.getString(R.string.playlist_tracks_count, this.tracksCount.toString())
                 else if (this.tracksCount == 1)

@@ -2,14 +2,12 @@ package a.sboev.ru.playlistmaker.library.data.impl
 
 import a.sboev.ru.playlistmaker.library.data.converter.PlaylistDbConverter
 import a.sboev.ru.playlistmaker.library.data.db.AppDatabase
-import a.sboev.ru.playlistmaker.library.domain.models.Playlist
 import a.sboev.ru.playlistmaker.library.domain.api.PlaylistDatabaseRepository
+import a.sboev.ru.playlistmaker.library.domain.models.Playlist
 import a.sboev.ru.playlistmaker.search.domain.models.Track
 import com.google.gson.Gson
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.launch
 
 class PlaylistDatabaseRepositoryImpl(
     private val appDatabase: AppDatabase,
@@ -35,4 +33,20 @@ class PlaylistDatabaseRepositoryImpl(
         playlistEntity.tracksIdList = trackListJson
         appDatabase.playlistDao().updatePlaylistEntity(playlistEntity)
     }
+
+    override suspend fun getPlaylistById(playlistId: Long): Playlist {
+        val playlistEntity = appDatabase.playlistDao().getPlaylistById(playlistId)
+        return playlistDbConverter.map(playlistEntity)
+    }
+
+    override suspend fun getPlaylistTracks(tracksIdList: List<Long>): Flow<List<Track>> = flow {
+        val playlistTracks = appDatabase.playlistDao().getTracksFromPlaylistTable()
+        val tracksList = mutableListOf<Track>()
+        tracksIdList.forEach { id ->
+            val track = playlistTracks.first { it.trackId == id }
+            tracksList.add(playlistDbConverter.map(track))
+        }
+        emit(tracksList)
+    }
+
 }
