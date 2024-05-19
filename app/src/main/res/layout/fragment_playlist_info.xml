@@ -115,7 +115,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        app:behavior_hideable="true"
+        app:behavior_hideable="false"
         app:behavior_peekHeight="280dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
@@ -134,6 +134,114 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:listitem="@layout/track_item"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/bottom_sheet_background_style"
+        android:id="@+id/menu_bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:behavior_hideable="true"
+        app:behavior_peekHeight="280dp"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+        <View
+            android:layout_width="50dp"
+            android:layout_height="4dp"
+            android:layout_marginTop="@dimen/_8dp"
+            android:background="@drawable/bottom_sheet_rectangle"
+            android:layout_gravity="center_horizontal"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_13dp"
+            android:layout_marginTop="@dimen/_12dp">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/menu_bottom_sheet_card_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardElevation="@dimen/_0dp"
+                app:cardCornerRadius="2dp"
+                android:layout_marginVertical="@dimen/_8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/menu_bottom_sheet_playlist_cover"
+                    android:layout_width="@dimen/_45dp"
+                    android:layout_height="@dimen/_45dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_placeholder"/>
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                style="@style/track_item_track_text_style"
+                android:id="@+id/menu_bottom_sheet_playlist_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                tools:text="Best songs 2021"
+                android:layout_marginStart="@dimen/_8dp"
+                app:layout_constraintBottom_toTopOf="@id/menu_bottom_sheet_playlist_tracks_count"
+                app:layout_constraintStart_toEndOf="@id/menu_bottom_sheet_card_view"
+                app:layout_constraintTop_toTopOf="@+id/menu_bottom_sheet_card_view" />
+
+            <TextView
+                style="@style/track_item_singer_text_style"
+                android:id="@+id/menu_bottom_sheet_playlist_tracks_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                tools:text="98 tracks"
+                android:layout_marginStart="@dimen/_8dp"
+                app:layout_constraintStart_toEndOf="@id/menu_bottom_sheet_card_view"
+                app:layout_constraintTop_toBottomOf="@+id/menu_bottom_sheet_playlist_name"
+                app:layout_constraintBottom_toBottomOf="@id/menu_bottom_sheet_card_view"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            style="@style/track_item_track_text_style"
+            android:id="@+id/menu_bottom_sheet_share_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@string/share"
+            android:layout_marginVertical="21dp"
+            android:layout_marginHorizontal="@dimen/_13dp"/>
+
+        <TextView
+            style="@style/track_item_track_text_style"
+            android:id="@+id/menu_bottom_sheet_edit_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@string/edit_info"
+            android:layout_marginVertical="21dp"
+            android:layout_marginHorizontal="@dimen/_13dp"/>
+
+        <TextView
+            style="@style/track_item_track_text_style"
+            android:id="@+id/menu_bottom_sheet_delete_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@string/delete_playlist"
+            android:layout_marginVertical="21dp"
+            android:layout_marginHorizontal="@dimen/_13dp"/>
+
+
 
     </LinearLayout>
 

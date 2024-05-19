@@ -1,6 +1,5 @@
 package a.sboev.ru.playlistmaker.search.ui
 
-import a.sboev.ru.playlistmaker.MainActivity
 import a.sboev.ru.playlistmaker.R
 import a.sboev.ru.playlistmaker.audioplayer.ui.AudioPlayerActivity
 import a.sboev.ru.playlistmaker.databinding.FragmentSearchBinding
@@ -75,8 +74,13 @@ class SearchFragment: BindingFragment<FragmentSearchBinding>() {
 
 
     private fun initListeners() {
-        onItemClicked = TrackAdapter.OnItemClickListener { track ->
-            onItemClickDebounce(track)
+        onItemClicked = object : TrackAdapter.OnItemClickListener {
+
+            override fun onLongClick(track: Track) {}
+
+            override fun onClick(track: Track) {
+                onItemClickDebounce(track)
+            }
         }
 
         binding.refreshButton.setOnClickListener {

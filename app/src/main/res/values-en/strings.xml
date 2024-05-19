@@ -49,4 +49,8 @@
     <string name="tracks_duration">"%1$s minutes \u00B7 "</string>
     <string name="one_minute_tacks_duration">"%1$s minute \u00B7 "</string>
     <string name="less_than_5_minutes_tacks_duration">"%1$s minutes \u00B7 "</string>
+    <string name="track_delete_dialog_message">Want to delete a track?</string>
+    <string name="edit_info">Edit info</string>
+    <string name="delete_playlist">Delete playlist</string>
+    <string name="share">Share</string>
 </resources>

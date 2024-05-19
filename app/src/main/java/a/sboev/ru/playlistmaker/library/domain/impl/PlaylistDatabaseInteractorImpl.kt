@@ -26,4 +26,12 @@ class PlaylistDatabaseInteractorImpl(
     override suspend fun getPlaylistTracks(tracksIdList: List<Long>): Flow<List<Track>> {
         return playlistDatabaseRepository.getPlaylistTracks(tracksIdList)
     }
+
+    override suspend fun deleteTrackFromPlaylist(track: Track, playlist: Playlist) {
+        playlistDatabaseRepository.deleteTrackFromPlaylist(track, playlist)
+    }
+
+    override suspend fun deletePlayListEntity(playlist: Playlist): Flow<Boolean> {
+        return playlistDatabaseRepository.deletePlayListEntity(playlist)
+    }
 }

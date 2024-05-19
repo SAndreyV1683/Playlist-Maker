@@ -52,4 +52,8 @@
     <string name="tracks_duration">%1$s минут \u00B7 </string>
     <string name="one_minute_tacks_duration">"%1$s минута \u00B7 "</string>
     <string name="less_than_5_minutes_tacks_duration">"%1$s минуты \u00B7 "</string>
+    <string name="track_delete_dialog_message">Хотите удалить трек?</string>
+    <string name="edit_info">Редактировать информацию</string>
+    <string name="delete_playlist">Удалить плейлист</string>
+    <string name="share">Поделиться</string>
 </resources>

@@ -5,6 +5,7 @@ import a.sboev.ru.playlistmaker.library.domain.models.Playlist
 import a.sboev.ru.playlistmaker.library.presentation.LibState
 import a.sboev.ru.playlistmaker.library.ui.playlistinfo.models.PlaylistInfo
 import a.sboev.ru.playlistmaker.search.domain.models.Track
+import a.sboev.ru.playlistmaker.settings.domain.api.SharingInteractor
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -18,22 +19,22 @@ import java.util.Locale
 
 class PlaylistInfoViewModel(
     private val playlistId: Long,
-    private val playlistDatabaseInteractor: PlaylistDatabaseInteractor
+    private val playlistDatabaseInteractor: PlaylistDatabaseInteractor,
+    private val sharingInteractor: SharingInteractor
 ): ViewModel() {
 
     private val infoState = MutableLiveData<PlaylistInfo>(null)
     fun observeInfoState(): LiveData<PlaylistInfo> = infoState
     private val tracksState = MutableLiveData<LibState>(LibState.Empty)
     fun observeTracksState(): LiveData<LibState> = tracksState
+    lateinit var playlist: Playlist
+    lateinit var tracks: List<Track>
 
     fun getPlaylistTracks() {
         viewModelScope.launch {
-            val playlist = withContext(Dispatchers.IO) {
-                playlistDatabaseInteractor.getPlaylistById(playlistId)
-            }
+            playlist = playlistDatabaseInteractor.getPlaylistById(playlistId)
             val tracksIdList = playlist.tracksIdList
             playlistDatabaseInteractor.getPlaylistTracks(tracksIdList).collect { tracksList ->
-                Log.d("PlaylistInfoViewModel", "tracks $tracksList")
                 val duration = tracksList.sumOf { it.trackTimeMillis }
                 infoState.value = PlaylistInfo(
                     playlist.name,
@@ -42,11 +43,18 @@ class PlaylistInfoViewModel(
                     SimpleDateFormat("mm", Locale.getDefault()).format(duration).toString(),
                     playlist.tracksCount
                 )
+                tracks = tracksList
+                processTracks(tracksList)
             }
         }
     }
 
-
+    fun deleteTrackFromPlayList(track: Track) {
+        viewModelScope.launch {
+            playlistDatabaseInteractor.deleteTrackFromPlaylist(track, playlist)
+            getPlaylistTracks()
+        }
+    }
 
     private fun processTracks(tracks: List<Track>) {
         if (tracks.isEmpty()) {
@@ -54,6 +62,10 @@ class PlaylistInfoViewModel(
         } else {
             tracksState.value = LibState.Content(tracks)
         }
+    }
+
+    fun sharePlaylist(shareString: String) {
+        sharingInteractor.shareApp(shareString)
     }
 
 }
