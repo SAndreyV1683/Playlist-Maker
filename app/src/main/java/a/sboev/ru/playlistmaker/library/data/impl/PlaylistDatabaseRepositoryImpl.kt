@@ -74,6 +74,13 @@ class PlaylistDatabaseRepositoryImpl(
         emit(true)
     }
 
+    override suspend fun updatePlayListEntity(playlist: Playlist): Flow<Boolean> = flow {
+        withContext(Dispatchers.IO) {
+            appDatabase.playlistDao().updatePlaylistEntity(playlistDbConverter.map(playlist))
+        }
+        emit(true)
+    }
+
     private suspend fun hasTrackInPlayLists(track: Track): Boolean {
         var hasTrack = false
         val playlists = appDatabase.playlistDao().getPlaylists()

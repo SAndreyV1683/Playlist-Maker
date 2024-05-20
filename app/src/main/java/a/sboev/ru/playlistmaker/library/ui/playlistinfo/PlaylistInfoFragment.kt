@@ -1,21 +1,27 @@
 package a.sboev.ru.playlistmaker.library.ui.playlistinfo
 
+
 import a.sboev.ru.playlistmaker.R
 import a.sboev.ru.playlistmaker.audioplayer.ui.AudioPlayerActivity
 import a.sboev.ru.playlistmaker.databinding.FragmentPlaylistInfoBinding
+import a.sboev.ru.playlistmaker.library.domain.models.Playlist
 import a.sboev.ru.playlistmaker.library.presentation.LibState
 import a.sboev.ru.playlistmaker.library.presentation.viewmodels.PlaylistInfoViewModel
 import a.sboev.ru.playlistmaker.library.ui.BindingFragment
+import a.sboev.ru.playlistmaker.library.ui.editplaylist.EditPlaylistFragment
 import a.sboev.ru.playlistmaker.library.ui.playlistinfo.models.PlaylistInfo
 import a.sboev.ru.playlistmaker.search.domain.models.Track
 import a.sboev.ru.playlistmaker.search.ui.adapters.TrackAdapter
 import a.sboev.ru.playlistmaker.utils.debounce
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
@@ -45,10 +51,15 @@ class PlaylistInfoFragment: BindingFragment<FragmentPlaylistInfoBinding>() {
         override fun onClick(track: Track) {
             onItemClickDebounce(track)
         }
-
     }
     private val adapter = TrackAdapter(onClickListener)
     private lateinit var menuBottomSheetBehavior: BottomSheetBehavior<LinearLayout>
+
+    private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean->
+        if (isGranted) {
+            viewModel.getPlaylistTracks()
+        }
+    }
 
     override fun createBinding(
         inflater: LayoutInflater,
@@ -72,7 +83,15 @@ class PlaylistInfoFragment: BindingFragment<FragmentPlaylistInfoBinding>() {
         binding.bottomSheetRv.adapter = adapter
         viewModel.getPlaylistTracks()
         viewModel.observeInfoState().observe(viewLifecycleOwner) { playlistInfo ->
-            playlistInfo?.let { renderInfo(it) }
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.Q) {
+                playlistInfo?.let { renderInfo(it) }
+            } else {
+                if (requireContext().checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                    playlistInfo?.let { renderInfo(it) }
+                } else {
+                    requestPermissionLauncher.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                }
+            }
         }
         viewModel.observeTracksState().observe(viewLifecycleOwner) {
             when (it) {
@@ -83,6 +102,10 @@ class PlaylistInfoFragment: BindingFragment<FragmentPlaylistInfoBinding>() {
                     showContent(list)
                 }
             }
+        }
+        viewModel.observeDeletionState().observe(viewLifecycleOwner) {
+            if (it != null)
+                findNavController().popBackStack()
         }
         binding.shareButton.setOnClickListener {
             viewModel.sharePlaylist(formShareString())
@@ -95,6 +118,13 @@ class PlaylistInfoFragment: BindingFragment<FragmentPlaylistInfoBinding>() {
         }
         binding.menuBottomSheetShareTv.setOnClickListener {
             viewModel.sharePlaylist(formShareString())
+        }
+        binding.menuBottomSheetDeleteTv.setOnClickListener {
+            showDialog(viewModel.playlist)
+        }
+        binding.menuBottomSheetEditTv.setOnClickListener {
+            findNavController().navigate(R.id.action_playlistInfoFragment_to_editPlaylistFragment,
+                viewModel.playlist.id?.let { it1 -> EditPlaylistFragment.createArgs(it1) })
         }
     }
 
@@ -118,11 +148,16 @@ class PlaylistInfoFragment: BindingFragment<FragmentPlaylistInfoBinding>() {
             durationAndCount += tracksCount
 
             playlistTracksCountAndDuration.text = durationAndCount
+
             Glide.with(requireContext())
                 .load(playlistInfo.uri)
                 .placeholder(R.drawable.ic_placeholder)
                 .into(playlistCoverIv)
-            menuBottomSheetPlaylistCover.setImageURI(playlistInfo.uri.toUri())
+            if (playlistInfo.uri.isEmpty())
+                menuBottomSheetPlaylistCover.setImageDrawable(requireContext().getDrawable(R.drawable.ic_placeholder))
+            else
+                menuBottomSheetPlaylistCover.setImageURI(playlistInfo.uri.toUri())
+
             menuBottomSheetPlaylistTracksCount.text = tracksCount
             menuBottomSheetPlaylistName.text = playlistInfo.name
         }
@@ -140,17 +175,21 @@ class PlaylistInfoFragment: BindingFragment<FragmentPlaylistInfoBinding>() {
         binding.bottomSheetRv.isVisible = false
     }
 
-    private fun showDialog(track: Track) {
-        MaterialAlertDialogBuilder(requireContext(), R.style.alert_dialog_style)
-            .setMessage(R.string.track_delete_dialog_message)
-            .setPositiveButton(getString(R.string.dialog_positive_button_text)) { _, _ ->
-                viewModel.deleteTrackFromPlayList(track)
-            }
-            .setNegativeButton(getString(R.string.dialog_negative_button_text)) { _, _ ->
-
-            }
-            .setBackground(AppCompatResources.getDrawable(requireContext(), R.drawable.dialog_background))
-            .show()
+    private fun showDialog(obj: Any) {
+        val builder = MaterialAlertDialogBuilder(requireContext(), R.style.alert_dialog_style)
+        builder.setNegativeButton(getString(R.string.dialog_negative_button_text)) { _, _ ->  }
+        .setBackground(AppCompatResources.getDrawable(requireContext(), R.drawable.dialog_background))
+        when (obj) {
+            is Track -> builder.setMessage(R.string.track_delete_dialog_message)
+                .setPositiveButton(getString(R.string.dialog_positive_button_text)) { _, _ ->
+                    viewModel.deleteTrackFromPlayList(obj)
+                }
+            is Playlist -> builder.setMessage(getString(R.string.playlist_delete_dialog_message, obj.name))
+                .setPositiveButton(getString(R.string.dialog_positive_button_text)) { _, _ ->
+                    viewModel.deletePlaylist()
+                }
+        }
+        builder.show()
     }
 
     private fun formShareString(): String {

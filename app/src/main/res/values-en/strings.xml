@@ -53,4 +53,7 @@
     <string name="edit_info">Edit info</string>
     <string name="delete_playlist">Delete playlist</string>
     <string name="share">Share</string>
+    <string name="playlist_delete_dialog_message">Do you want to delete a playlist \"%1$s\"?</string>
+    <string name="edit_fragment_title_text">Edit</string>
+    <string name="edit_fragment_save_button_text">Save</string>
 </resources>

@@ -34,6 +34,14 @@
     <fragment
         android:id="@+id/playlistInfoFragment"
         android:name="a.sboev.ru.playlistmaker.library.ui.playlistinfo.PlaylistInfoFragment"
-        android:label="PlaylistInfoFragment" />
+        android:label="PlaylistInfoFragment" >
+        <action
+            android:id="@+id/action_playlistInfoFragment_to_editPlaylistFragment"
+            app:destination="@id/editPlaylistFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editPlaylistFragment"
+        android:name="a.sboev.ru.playlistmaker.library.ui.editplaylist.EditPlaylistFragment"
+        android:label="EditPlaylistFragment" />
 
 </navigation>

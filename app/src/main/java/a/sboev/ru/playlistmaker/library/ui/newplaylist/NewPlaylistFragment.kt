@@ -5,7 +5,6 @@ import a.sboev.ru.playlistmaker.audioplayer.ui.AudioPlayerActivity
 import a.sboev.ru.playlistmaker.databinding.FragmentNewPlaylistBinding
 import a.sboev.ru.playlistmaker.library.presentation.viewmodels.NewPlaylistViewModel
 import a.sboev.ru.playlistmaker.library.ui.BindingFragment
-import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -25,14 +24,14 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class NewPlaylistFragment: BindingFragment<FragmentNewPlaylistBinding>() {
+open class NewPlaylistFragment: BindingFragment<FragmentNewPlaylistBinding>() {
 
     private lateinit var nameTextWatcher: TextWatcher
     private lateinit var descriptionTextWatcher: TextWatcher
-    private val playlistViewModel by viewModel<NewPlaylistViewModel>()
-    private var playlistName = ""
-    private var playlistDescription = ""
-    private var playlistImageUri = ""
+    protected val playlistViewModel by viewModel<NewPlaylistViewModel>()
+    protected var playlistName = ""
+    protected var playlistDescription = ""
+    protected var playlistImageUri = ""
     private val pickImage = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
         if (uri != null) {
             playlistImageUri = uri.toString()
@@ -52,7 +51,7 @@ class NewPlaylistFragment: BindingFragment<FragmentNewPlaylistBinding>() {
         initListeners()
     }
 
-    private fun initListeners() {
+    protected fun initListeners() {
         nameTextWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
 

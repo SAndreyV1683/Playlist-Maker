@@ -13,4 +13,5 @@ interface PlaylistDatabaseInteractor {
     suspend fun getPlaylistTracks(tracksIdList:List<Long>): Flow<List<Track>>
     suspend fun deleteTrackFromPlaylist(track: Track, playlist: Playlist)
     suspend fun deletePlayListEntity(playlist: Playlist): Flow<Boolean>
+    suspend fun updatePlayListEntity(playlist: Playlist): Flow<Boolean>
 }

@@ -6,14 +6,11 @@ import a.sboev.ru.playlistmaker.library.presentation.LibState
 import a.sboev.ru.playlistmaker.library.ui.playlistinfo.models.PlaylistInfo
 import a.sboev.ru.playlistmaker.search.domain.models.Track
 import a.sboev.ru.playlistmaker.settings.domain.api.SharingInteractor
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -23,6 +20,8 @@ class PlaylistInfoViewModel(
     private val sharingInteractor: SharingInteractor
 ): ViewModel() {
 
+    private val playlistDeletionState = MutableLiveData<Boolean>(null)
+    fun observeDeletionState(): LiveData<Boolean> = playlistDeletionState
     private val infoState = MutableLiveData<PlaylistInfo>(null)
     fun observeInfoState(): LiveData<PlaylistInfo> = infoState
     private val tracksState = MutableLiveData<LibState>(LibState.Empty)
@@ -45,6 +44,14 @@ class PlaylistInfoViewModel(
                 )
                 tracks = tracksList
                 processTracks(tracksList)
+            }
+        }
+    }
+
+    fun deletePlaylist() {
+        viewModelScope.launch {
+            playlistDatabaseInteractor.deletePlayListEntity(playlist).collect {
+                playlistDeletionState.value = it
             }
         }
     }

@@ -34,4 +34,8 @@ class PlaylistDatabaseInteractorImpl(
     override suspend fun deletePlayListEntity(playlist: Playlist): Flow<Boolean> {
         return playlistDatabaseRepository.deletePlayListEntity(playlist)
     }
+
+    override suspend fun updatePlayListEntity(playlist: Playlist): Flow<Boolean> {
+        return playlistDatabaseRepository.updatePlayListEntity(playlist)
+    }
 }
