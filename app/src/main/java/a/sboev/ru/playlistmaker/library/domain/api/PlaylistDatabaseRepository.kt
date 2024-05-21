@@ -5,7 +5,7 @@ import a.sboev.ru.playlistmaker.search.domain.models.Track
 import kotlinx.coroutines.flow.Flow
 
 interface PlaylistDatabaseRepository {
-    suspend fun insertPlaylist(playlist: Playlist)
+    suspend fun insertPlaylist(playlist: Playlist): Flow<Boolean>
     suspend fun getPlaylists(): Flow<List<Playlist>>
     suspend fun insertTrackToPlaylist(playlistId: Long, track: Track)
     suspend fun getPlaylistById(playlistId: Long): Playlist

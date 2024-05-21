@@ -16,8 +16,11 @@ class PlaylistDatabaseRepositoryImpl(
     private val playlistDbConverter: PlaylistDbConverter,
     private val gson: Gson
 ): PlaylistDatabaseRepository {
-    override suspend fun insertPlaylist(playlist: Playlist) {
-        appDatabase.playlistDao().insertPlaylist(playlistDbConverter.map(playlist))
+    override suspend fun insertPlaylist(playlist: Playlist): Flow<Boolean> = flow {
+        withContext(Dispatchers.IO) {
+            appDatabase.playlistDao().insertPlaylist(playlistDbConverter.map(playlist))
+        }
+        emit(true)
     }
 
     override suspend fun getPlaylists(): Flow<List<Playlist>> = flow {

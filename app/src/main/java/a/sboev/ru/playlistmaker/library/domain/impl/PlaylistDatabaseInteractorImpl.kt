@@ -9,8 +9,8 @@ import kotlinx.coroutines.flow.Flow
 class PlaylistDatabaseInteractorImpl(
     private val playlistDatabaseRepository: PlaylistDatabaseRepository
 ): PlaylistDatabaseInteractor {
-    override suspend fun insertPlaylist(playlist: Playlist) {
-        playlistDatabaseRepository.insertPlaylist(playlist)
+    override suspend fun insertPlaylist(playlist: Playlist): Flow<Boolean> {
+        return playlistDatabaseRepository.insertPlaylist(playlist)
     }
     override suspend fun getPlaylists(): Flow<List<Playlist>> {
         return playlistDatabaseRepository.getPlaylists()

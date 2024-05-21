@@ -120,6 +120,7 @@ class PlaylistInfoFragment: BindingFragment<FragmentPlaylistInfoBinding>() {
             viewModel.sharePlaylist(formShareString())
         }
         binding.menuBottomSheetDeleteTv.setOnClickListener {
+            menuBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
             showDialog(viewModel.playlist)
         }
         binding.menuBottomSheetEditTv.setOnClickListener {
@@ -154,7 +155,7 @@ class PlaylistInfoFragment: BindingFragment<FragmentPlaylistInfoBinding>() {
                 .placeholder(R.drawable.ic_placeholder)
                 .into(playlistCoverIv)
             if (playlistInfo.uri.isEmpty())
-                menuBottomSheetPlaylistCover.setImageDrawable(requireContext().getDrawable(R.drawable.ic_placeholder))
+                menuBottomSheetPlaylistCover.setImageDrawable(AppCompatResources.getDrawable(requireContext(), R.drawable.ic_placeholder))
             else
                 menuBottomSheetPlaylistCover.setImageURI(playlistInfo.uri.toUri())
 

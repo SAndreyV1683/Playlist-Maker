@@ -58,11 +58,13 @@ class PlayListsFragment: BindingFragment<FragmentPlayListsBinding>() {
     }
 
     private fun showErrorMessage() {
+        adapter.playlists.clear()
+        adapter.refresh()
         binding.apply {
             playlistsErrorImageView.isVisible = true
             playlistsErrorTextView.isVisible = true
             playlistsButton.isVisible = true
-            playlistsRv.isVisible = true
+            playlistsRv.isVisible = false
         }
     }
 

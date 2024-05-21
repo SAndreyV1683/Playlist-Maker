@@ -49,6 +49,16 @@ open class NewPlaylistFragment: BindingFragment<FragmentNewPlaylistBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initListeners()
+        playlistViewModel.observePlaylistInsertState().observe(viewLifecycleOwner) {
+            if (it != null) {
+                if (requireActivity() is AudioPlayerActivity) {
+                    removeFragment()
+                    (requireActivity() as AudioPlayerActivity).viewModel.updatePlaylists()
+                } else {
+                    findNavController().popBackStack()
+                }
+            }
+        }
     }
 
     protected fun initListeners() {
@@ -95,12 +105,6 @@ open class NewPlaylistFragment: BindingFragment<FragmentNewPlaylistBinding>() {
         binding.createButton.setOnClickListener {
             playlistViewModel.createNewPlayList(playlistName, playlistDescription, playlistImageUri)
             Toast.makeText(requireContext(), getString(R.string.playlist_created_message, playlistName), Toast.LENGTH_SHORT).show()
-            if (requireActivity() is AudioPlayerActivity) {
-                removeFragment()
-                (requireActivity() as AudioPlayerActivity).viewModel.updatePlaylists()
-            } else {
-                Handler(Looper.getMainLooper()).postDelayed({findNavController().popBackStack()}, 200L)
-            }
         }
         binding.newPlaylistToolbar.setNavigationOnClickListener {
             showDialog()

@@ -11,6 +11,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -24,6 +25,9 @@ class NewPlaylistViewModel(
 
     private val playlistUpdateState = MutableLiveData<Boolean>(null)
     fun observePlaylistUpdateState(): LiveData<Boolean> = playlistUpdateState
+    private val playlistInsertState = MutableLiveData<Boolean>(null)
+    fun observePlaylistInsertState(): LiveData<Boolean> = playlistInsertState
+
 
     fun createNewPlayList(
         playlistName: String,
@@ -31,20 +35,22 @@ class NewPlaylistViewModel(
         playlistImageUri: String
     ) {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                val newFileUri: String = if (playlistImageUri.isNotEmpty()) {
+            val newFileUri = async {
+                if (playlistImageUri.isNotEmpty()) {
                     filesInteractor.saveImage(Uri.parse(playlistImageUri), playlistName).toString()
-                }
-                else ""
-
-                playlistDatabaseInteractor.insertPlaylist(Playlist(
+                } else ""
+            }
+            playlistDatabaseInteractor.insertPlaylist(
+                Playlist(
                     id = null,
                     name = playlistName,
                     description = playlistDescription,
-                    uri = newFileUri,
+                    uri = newFileUri.await(),
                     tracksIdList = emptyList(),
                     tracksCount = 0
-                ))
+                )
+            ).collect {
+                playlistInsertState.value = it
             }
         }
     }
