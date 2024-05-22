@@ -55,7 +55,7 @@ class PlaylistDatabaseRepositoryImpl(
             val track = playlistTracks.first { it.trackId == id }
             tracksList.add(playlistDbConverter.map(track))
         }
-        emit(tracksList)
+        emit(tracksList.asReversed())
     }
 
     override suspend fun deleteTrackFromPlaylist(track: Track, playlist: Playlist) {
@@ -72,6 +72,9 @@ class PlaylistDatabaseRepositoryImpl(
 
     override suspend fun deletePlayListEntity(playlist: Playlist): Flow<Boolean> = flow {
         withContext(Dispatchers.IO) {
+            playlist.tracksIdList.forEach {
+                appDatabase.playlistDao().deleteTrackById(it)
+            }
             appDatabase.playlistDao().deletePlayListEntity(playlistDbConverter.map(playlist))
         }
         emit(true)

@@ -43,7 +43,7 @@ class PlaylistDbConverter(private val gson: Gson) {
             releaseDate = track.releaseDate,
             primaryGenreName = track.primaryGenreName,
             country = track.country,
-            timeToAddToFavorites = track.timeToAddToFavorites
+            trackInsertedTime = track.timeToAddToFavorites
         )
     }
 
@@ -59,7 +59,7 @@ class PlaylistDbConverter(private val gson: Gson) {
             releaseDate = playlistsTrackEntity.releaseDate,
             primaryGenreName = playlistsTrackEntity.primaryGenreName,
             country = playlistsTrackEntity.country,
-            timeToAddToFavorites = playlistsTrackEntity.timeToAddToFavorites
+            timeToAddToFavorites = playlistsTrackEntity.trackInsertedTime
         )
     }
 }

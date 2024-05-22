@@ -13,14 +13,17 @@ import a.sboev.ru.playlistmaker.library.ui.playlistinfo.models.PlaylistInfo
 import a.sboev.ru.playlistmaker.search.domain.models.Track
 import a.sboev.ru.playlistmaker.search.ui.adapters.TrackAdapter
 import a.sboev.ru.playlistmaker.utils.debounce
+import a.sboev.ru.playlistmaker.utils.getDuration
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.net.toUri
@@ -108,7 +111,7 @@ class PlaylistInfoFragment: BindingFragment<FragmentPlaylistInfoBinding>() {
                 findNavController().popBackStack()
         }
         binding.shareButton.setOnClickListener {
-            viewModel.sharePlaylist(formShareString())
+            processShare()
         }
         menuBottomSheetBehavior = BottomSheetBehavior.from(binding.menuBottomSheet).apply {
             state = BottomSheetBehavior.STATE_HIDDEN
@@ -117,7 +120,8 @@ class PlaylistInfoFragment: BindingFragment<FragmentPlaylistInfoBinding>() {
             menuBottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         }
         binding.menuBottomSheetShareTv.setOnClickListener {
-            viewModel.sharePlaylist(formShareString())
+            processShare()
+            menuBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         }
         binding.menuBottomSheetDeleteTv.setOnClickListener {
             menuBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
@@ -140,7 +144,7 @@ class PlaylistInfoFragment: BindingFragment<FragmentPlaylistInfoBinding>() {
                 2,3,4 -> getString(R.string.less_than_5_minutes_tacks_duration, playlistInfo.tracksDuration)
                 else -> getString(R.string.tracks_duration, playlistInfo.tracksDuration)
             }
-            val tracksCount = when (playlistInfo.tracksCount) {
+            val tracksCount = " " + when (playlistInfo.tracksCount) {
                 0,5 -> getString(R.string.playlist_tracks_count, playlistInfo.tracksCount.toString())
                 1 -> getString(R.string.playlist_one_track_count)
                 2,3,4 -> getString(R.string.playlist_less_than_5_tracks_count, playlistInfo.tracksCount.toString())
@@ -164,16 +168,23 @@ class PlaylistInfoFragment: BindingFragment<FragmentPlaylistInfoBinding>() {
         }
     }
 
-    private fun showContent(playlists: List<Track>) {
-        adapter.tracks = playlists.toMutableList()
+    private fun showContent(tracks: List<Track>) {
+        adapter.tracks = tracks.toMutableList()
         adapter.refresh()
         binding.apply {
-            bottomSheetRv.isVisible = true
+            if (tracks.isEmpty()) {
+                emptyListMessage.isVisible = true
+                bottomSheetRv.isVisible = false
+            } else {
+                emptyListMessage.isVisible = false
+                bottomSheetRv.isVisible = true
+            }
         }
     }
 
     private fun hideContent() {
         binding.bottomSheetRv.isVisible = false
+        binding.emptyListMessage.isVisible = true
     }
 
     private fun showDialog(obj: Any) {
@@ -193,6 +204,15 @@ class PlaylistInfoFragment: BindingFragment<FragmentPlaylistInfoBinding>() {
         builder.show()
     }
 
+    private fun processShare() {
+        if (viewModel.tracks.isEmpty()) {
+            Toast.makeText(requireContext(),
+                getString(R.string.playlist_share_error_text), Toast.LENGTH_SHORT).show()
+        } else {
+            viewModel.sharePlaylist(formShareString())
+        }
+    }
+
     private fun formShareString(): String {
         var shareString = "${viewModel.playlist.name}\n" +
                 "${viewModel.playlist.description}\n" +
@@ -204,9 +224,10 @@ class PlaylistInfoFragment: BindingFragment<FragmentPlaylistInfoBinding>() {
         var tracksString = ""
         val tracksList = viewModel.tracks
         tracksList.forEachIndexed { index, track ->
-            tracksString += "${index + 1}. ${track.artistName} - ${track.trackName}\n"
+            tracksString += "${index + 1}. ${track.artistName} - ${track.trackName} ${track.getDuration()}\n"
         }
         shareString += tracksString
+        Log.d("PlaylistInfoFragment", "\n$shareString")
         return shareString
     }
 

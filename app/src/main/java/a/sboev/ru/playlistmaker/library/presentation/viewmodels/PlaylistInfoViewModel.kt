@@ -39,7 +39,7 @@ class PlaylistInfoViewModel(
                     playlist.name,
                     playlist.description,
                     playlist.uri,
-                    SimpleDateFormat("mm", Locale.getDefault()).format(duration).toString(),
+                    SimpleDateFormat("mm", Locale.getDefault()).format(duration).toString().toInt().toString(),
                     playlist.tracksCount
                 )
                 tracks = tracksList

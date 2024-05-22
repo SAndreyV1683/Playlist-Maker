@@ -56,4 +56,6 @@
     <string name="playlist_delete_dialog_message">Do you want to delete a playlist \"%1$s\"?</string>
     <string name="edit_fragment_title_text">Edit</string>
     <string name="edit_fragment_save_button_text">Save</string>
+    <string name="empty_list_message_text">There are no tracks in this playlist.</string>
+    <string name="playlist_share_error_text">There is no track list to share.</string>
 </resources>

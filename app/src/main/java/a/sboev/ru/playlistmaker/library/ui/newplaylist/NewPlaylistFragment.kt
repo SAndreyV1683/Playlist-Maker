@@ -6,8 +6,6 @@ import a.sboev.ru.playlistmaker.databinding.FragmentNewPlaylistBinding
 import a.sboev.ru.playlistmaker.library.presentation.viewmodels.NewPlaylistViewModel
 import a.sboev.ru.playlistmaker.library.ui.BindingFragment
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -118,38 +116,26 @@ open class NewPlaylistFragment: BindingFragment<FragmentNewPlaylistBinding>() {
     }
 
     private fun showDialog() {
+        val dialogBuilder = MaterialAlertDialogBuilder(requireContext(), R.style.alert_dialog_style)
+            .setTitle(getString(R.string.new_playlist_dialog_title))
+            .setMessage(R.string.new_playlist_dialog_message)
+            .setNegativeButton(getString(R.string.dialog_negative_button_text)) { _, _ -> }
+            .setBackground(AppCompatResources.getDrawable(requireContext(), R.drawable.dialog_background))
         if (requireActivity() is AudioPlayerActivity) {
             if (playlistName.isNotEmpty() || playlistDescription.isNotEmpty() || playlistImageUri.isNotEmpty()) {
-                MaterialAlertDialogBuilder(requireContext(), R.style.alert_dialog_style)
-                    .setTitle(getString(R.string.new_playlist_dialog_title))
-                    .setMessage(R.string.new_playlist_dialog_message)
-                    .setPositiveButton(getString(R.string.dialog_positive_button_text)) { _, _ ->
-                        removeFragment()
-                    }
-                    .setNegativeButton(getString(R.string.dialog_negative_button_text)) { _, _ ->
-
-                    }
-                    .setBackground(AppCompatResources.getDrawable(requireContext(), R.drawable.dialog_background))
-                    .show()
+                dialogBuilder.setPositiveButton(getString(R.string.dialog_positive_button_text)) { _, _ ->
+                    removeFragment()
+                }.show()
             } else {
                 removeFragment()
                 (requireActivity() as AudioPlayerActivity).viewModel.updatePlaylists()
             }
             return
         }
-
         if (playlistName.isNotEmpty() || playlistDescription.isNotEmpty() || playlistImageUri.isNotEmpty()) {
-            MaterialAlertDialogBuilder(requireContext(), R.style.alert_dialog_style)
-                .setTitle(getString(R.string.new_playlist_dialog_title))
-                .setMessage(R.string.new_playlist_dialog_message)
-                .setPositiveButton(getString(R.string.dialog_positive_button_text)) { _, _ ->
-                    findNavController().popBackStack()
-                }
-                .setNegativeButton(getString(R.string.dialog_negative_button_text)) { _, _ ->
-
-                }
-                .setBackground(AppCompatResources.getDrawable(requireContext(), R.drawable.dialog_background))
-                .show()
+            dialogBuilder.setPositiveButton(getString(R.string.dialog_positive_button_text)) { _, _ ->
+                findNavController().popBackStack()
+            }.show()
         } else {
             findNavController().popBackStack()
         }
