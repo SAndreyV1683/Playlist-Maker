@@ -19,6 +19,18 @@ class PlaylistDbConverter(private val gson: Gson) {
         )
     }
 
+    fun map(playListEntity: PlayListEntity): Playlist {
+        val trackList = gson.fromJson(playListEntity.tracksIdList, Array<Long>::class.java).toMutableList()
+        return Playlist(
+            id = playListEntity.id,
+            name = playListEntity.name,
+            description = playListEntity.description,
+            uri = playListEntity.uri,
+            tracksIdList = trackList,
+            tracksCount = playListEntity.tracksCount
+        )
+    }
+
     fun map(track: Track): PlaylistsTrackEntity {
         return PlaylistsTrackEntity(
             trackId = track.trackId,
@@ -31,19 +43,23 @@ class PlaylistDbConverter(private val gson: Gson) {
             releaseDate = track.releaseDate,
             primaryGenreName = track.primaryGenreName,
             country = track.country,
-            timeToAddToFavorites = track.timeToAddToFavorites
+            trackInsertedTime = track.timeToAddToFavorites
         )
     }
 
-    fun map(playListEntity: PlayListEntity): Playlist {
-        val trackList = gson.fromJson(playListEntity.tracksIdList, Array<Long>::class.java).toMutableList()
-        return Playlist(
-            id = playListEntity.id,
-            name = playListEntity.name,
-            description = playListEntity.description,
-            uri = playListEntity.uri,
-            tracksIdList = trackList,
-            tracksCount = playListEntity.tracksCount
+    fun map(playlistsTrackEntity: PlaylistsTrackEntity): Track {
+        return Track(
+            trackId = playlistsTrackEntity.trackId,
+            trackName = playlistsTrackEntity.trackName,
+            artistName = playlistsTrackEntity.artistName,
+            trackTimeMillis = playlistsTrackEntity.trackTimeMillis,
+            artworkUrl100 = playlistsTrackEntity.artworkUrl100,
+            previewUrl = playlistsTrackEntity.previewUrl,
+            collectionName = playlistsTrackEntity.collectionName,
+            releaseDate = playlistsTrackEntity.releaseDate,
+            primaryGenreName = playlistsTrackEntity.primaryGenreName,
+            country = playlistsTrackEntity.country,
+            timeToAddToFavorites = playlistsTrackEntity.trackInsertedTime
         )
     }
 }

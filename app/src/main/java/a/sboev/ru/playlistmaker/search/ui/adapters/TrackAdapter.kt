@@ -10,7 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 class TrackAdapter(
     private val onItemClickListener: OnItemClickListener
 ): RecyclerView.Adapter<TracksViewHolder>()  {
-    fun interface OnItemClickListener {
+    interface OnItemClickListener {
+        fun onLongClick(track: Track)
         fun onClick(track: Track)
     }
 
@@ -30,6 +31,10 @@ class TrackAdapter(
         holder.bind(tracks[position])
         holder.itemView.setOnClickListener {
             onItemClickListener.onClick(tracks[position])
+        }
+        holder.itemView.setOnLongClickListener {
+            onItemClickListener.onLongClick(tracks[position])
+            true
         }
     }
 }

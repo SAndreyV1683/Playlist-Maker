@@ -11,6 +11,9 @@
         <action
             android:id="@+id/action_libraryFragment_to_newPlaylistFragment"
             app:destination="@id/newPlaylistFragment" />
+        <action
+            android:id="@+id/action_libraryFragment_to_playlistInfoFragment"
+            app:destination="@id/playlistInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -28,5 +31,17 @@
         android:id="@+id/playListsFragment"
         android:name="a.sboev.ru.playlistmaker.library.ui.playlist.PlayListsFragment"
         android:label="PlayListsFragment" />
+    <fragment
+        android:id="@+id/playlistInfoFragment"
+        android:name="a.sboev.ru.playlistmaker.library.ui.playlistinfo.PlaylistInfoFragment"
+        android:label="PlaylistInfoFragment" >
+        <action
+            android:id="@+id/action_playlistInfoFragment_to_editPlaylistFragment"
+            app:destination="@id/editPlaylistFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editPlaylistFragment"
+        android:name="a.sboev.ru.playlistmaker.library.ui.editplaylist.EditPlaylistFragment"
+        android:label="EditPlaylistFragment" />
 
 </navigation>

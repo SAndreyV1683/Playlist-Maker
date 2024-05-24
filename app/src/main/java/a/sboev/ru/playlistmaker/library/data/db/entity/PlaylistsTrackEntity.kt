@@ -17,5 +17,5 @@ data class PlaylistsTrackEntity(
     val releaseDate: String?,
     val primaryGenreName: String?,
     val country: String?,
-    val timeToAddToFavorites: Long
+    val trackInsertedTime: Long
 )

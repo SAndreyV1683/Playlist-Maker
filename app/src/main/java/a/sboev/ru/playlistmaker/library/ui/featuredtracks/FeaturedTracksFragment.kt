@@ -23,8 +23,13 @@ class FeaturedTracksFragment: BindingFragment<FragmentFeaturedTracksBinding>() {
     private val viewModel by viewModel<FeaturedTracksViewModel>()
     private lateinit var onItemClickDebounce: (Track) -> Unit
     private lateinit var adapter: TrackAdapter
-    private var onItemClicked = TrackAdapter.OnItemClickListener { track ->
-        onItemClickDebounce(track)
+    private var onItemClicked = object : TrackAdapter.OnItemClickListener {
+
+        override fun onLongClick(track: Track) {}
+
+        override fun onClick(track: Track) {
+            onItemClickDebounce(track)
+        }
     }
     override fun createBinding(
         inflater: LayoutInflater,
